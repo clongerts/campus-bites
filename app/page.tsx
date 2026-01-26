@@ -62,7 +62,7 @@ const CampusBitesHome = () => {
       </nav>
 
       <header className="py-12 px-8 max-w-6xl mx-auto text-center">
-        <h2 className="text-5xl font-extrabold mb-4 text-[#003A70]">Eagle Eats.</h2>
+        <h2 className="text-5xl font-extrabold mb-4 text-[#003A70]">Campus Bites</h2>
         <p className="text-gray-500 text-lg">Your guide to food in and around the Hill.</p>
       </header>
 
