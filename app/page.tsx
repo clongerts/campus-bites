@@ -18,6 +18,7 @@ const CampusBitesHome = () => {
     
     // Inside Campus
     { id: 8, name: "JSEC: Overload", loc: "Gonzaga", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"] },
+    { id: 8, name: "JSEC: Overload", loc: "JSEC", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"] },
     
     // Katipunan Proper
     { id: 9, name: "Ate Rica's Bacsilog", loc: "Agno/Katipunan", rating: 95, price: "₱", hours: "7:00 AM - 9:00 PM", tags: ["Katipunan", "Budget"] },
