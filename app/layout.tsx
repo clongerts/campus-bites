@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Campus Bites",
-  description: "Foods around the ADMU Campus",
+  description: "The best food guide for Ateneans",
 };
 
 export default function RootLayout({
