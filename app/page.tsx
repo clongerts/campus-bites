@@ -6,28 +6,162 @@ const CampusBitesHome = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStall, setSelectedStall] = useState<any>(null);
-  // Added state for the Search Modal
+  // NEW STATES FOR ADVANCED FILTERING
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [priceFilter, setPriceFilter] = useState("All");
 
   const stalls = [
-    { id: 1, name: "BOK Korean Fried Chicken", loc: "Regis 2/F", rating: 94, price: "₱₱", hours: "10:00 AM - 2:30 AM", tags: ["Regis", "Katipunan"], menu: ["Soy Garlic Chicken", "Snow Cheese Chicken", "Yangnyeom Fries"] },
-    { id: 2, name: "Yummy Tokyo", loc: "Regis 3/F", rating: 91, price: "₱₱", hours: "10:00 AM - 8:00 PM", tags: ["Regis", "Budget"], menu: ["Spicy Miso Ramen", "California Roll", "Pork Katsudon"] },
-    { id: 3, name: "Paotsin", loc: "Regis 3/F", rating: 96, price: "₱", hours: "9:00 AM - 9:00 PM", tags: ["Regis", "Budget"], menu: ["Sharks Fin Rice", "Pork Dumplings", "Laksa"] },
-    { id: 4, name: "Kanzen Sushi Roll", loc: "Regis 2/F", rating: 93, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Katipunan"], menu: ["California Maki", "Spicy Tuna Roll", "Salmon Sashimi"] },
-    { id: 5, name: "Subway", loc: "Regis 3/F", rating: 88, price: "₱₱", hours: "8:00 AM - 10:00 PM", tags: ["Regis", "Study Spots"], menu: ["B.M.T. Sandwich", "Subway Club", "Chocolate Chip Cookie"] },
-    { id: 6, name: "Cookies by the Bucket", loc: "Regis 3/F", rating: 97, price: "₱", hours: "10:00 AM - 8:00 PM", tags: ["Regis", "Budget"], menu: ["Classic Chocolate Chip", "Dark Chocolate", "Oatmeal Raisin"] },
-    { id: 7, name: "Chicken NamNam", loc: "Regis 3/F", rating: 90, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Katipunan"], menu: ["Sweet & Spicy Chicken", "Fried Rice", "Coleslaw"] },
-    { id: 8, name: "JSEC: Overload", loc: "JSEC", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], menu: ["Angus Beef Tapa", "Breakfast Bowl", "Iced Coffee"] },
-    { id: 9, name: "Ate Rica's Bacsilog", loc: "Agno/Katipunan", rating: 95, price: "₱", hours: "7:00 AM - 9:00 PM", tags: ["Katipunan", "Budget"], menu: ["Bacon Bacsilog", "Tapa Bacsilog", "Hotdog Bacsilog"] },
-    { id: 10, name: "Gino's Brick Oven", loc: "Regis Center", rating: 92, price: "₱₱₱", hours: "11:00 AM - 9:30 PM", tags: ["Regis", "Date Spot"], menu: ["Bacon Pizza", "SMEGG Pizza", "Buffalo Wings"] },
+    { 
+      id: 1, 
+      name: "BOK Korean Fried Chicken", 
+      loc: "Regis 2/F", 
+      rating: 94, 
+      price: "₱₱", 
+      hours: "10:00 AM - 2:30 AM", 
+      tags: ["Regis", "Katipunan", "Korean"],
+      menu: [
+        { name: "Soy Garlic Chicken", price: 185 },
+        { name: "Snow Cheese Chicken", price: 195 },
+        { name: "Yangnyeom Fries", price: 95 }
+      ] 
+    },
+    { 
+      id: 2, 
+      name: "Yummy Tokyo", 
+      loc: "Regis 3/F", 
+      rating: 91, 
+      price: "₱₱", 
+      hours: "10:00 AM - 8:00 PM", 
+      tags: ["Regis", "Budget", "Japanese"], 
+      menu: [
+        { name: "Spicy Miso Ramen", price: 249 },
+        { name: "California Roll", price: 180 },
+        { name: "Pork Katsudon", price: 210 }
+      ] 
+    },
+    { 
+      id: 3, 
+      name: "Paotsin", 
+      loc: "Regis 3/F", 
+      rating: 96, 
+      price: "₱", 
+      hours: "9:00 AM - 9:00 PM", 
+      tags: ["Regis", "Budget", "Chinese"], 
+      menu: [
+        { name: "Sharks Fin Rice", price: 85 },
+        { name: "Pork Dumplings", price: 65 },
+        { name: "Laksa", price: 110 }
+      ] 
+    },
+    { 
+      id: 4, 
+      name: "Kanzen Sushi Roll", 
+      loc: "Regis 2/F", 
+      rating: 93, 
+      price: "₱₱", 
+      hours: "10:00 AM - 9:00 PM", 
+      tags: ["Regis", "Katipunan", "Japanese"], 
+      menu: [
+        { name: "California Maki", price: 175 },
+        { name: "Spicy Tuna Roll", price: 190 },
+        { name: "Salmon Sashimi", price: 250 }
+      ] 
+    },
+    { 
+      id: 5, 
+      name: "Subway", 
+      loc: "Regis 3/F", 
+      rating: 88, 
+      price: "₱₱", 
+      hours: "8:00 AM - 10:00 PM", 
+      tags: ["Regis", "Study Spots", "Healthy"], 
+      menu: [
+        { name: "B.M.T. Sandwich", price: 235 },
+        { name: "Subway Club", price: 255 },
+        { name: "Chocolate Chip Cookie", price: 45 }
+      ] 
+    },
+    { 
+      id: 6, 
+      name: "Cookies by the Bucket", 
+      loc: "Regis 3/F", 
+      rating: 97, 
+      price: "₱", 
+      hours: "10:00 AM - 8:00 PM", 
+      tags: ["Regis", "Budget", "Dessert"], 
+      menu: [
+        { name: "Classic Chocolate Chip", price: 150 },
+        { name: "Dark Chocolate", price: 160 },
+        { name: "Oatmeal Raisin", price: 155 }
+      ] 
+    },
+    { 
+      id: 7, 
+      name: "Chicken NamNam", 
+      loc: "Regis 3/F", 
+      rating: 90, 
+      price: "₱₱", 
+      hours: "10:00 AM - 9:00 PM", 
+      tags: ["Regis", "Katipunan", "Filipino"], 
+      menu: [
+        { name: "Sweet & Spicy Chicken", price: 180 },
+        { name: "Fried Rice", price: 45 },
+        { name: "Coleslaw", price: 40 }
+      ] 
+    },
+    { 
+      id: 8, 
+      name: "JSEC: Overload", 
+      loc: "JSEC", 
+      rating: 98, 
+      price: "₱₱", 
+      hours: "8:00 AM - 5:00 PM", 
+      tags: ["Inside Campus", "JSEC", "Breakfast"], 
+      menu: [
+        { name: "Angus Beef Tapa", price: 220 },
+        { name: "Breakfast Bowl", price: 190 },
+        { name: "Iced Coffee", price: 120 }
+      ] 
+    },
+    { 
+      id: 9, 
+      name: "Ate Rica's Bacsilog", 
+      loc: "Agno/Katipunan", 
+      rating: 95, 
+      price: "₱", 
+      hours: "7:00 AM - 9:00 PM", 
+      tags: ["Katipunan", "Budget", "Filipino"], 
+      menu: [
+        { name: "Bacon Bacsilog", price: 99 },
+        { name: "Tapa Bacsilog", price: 105 },
+        { name: "Hotdog Bacsilog", price: 89 }
+      ] 
+    },
+    { 
+      id: 10, 
+      name: "Gino's Brick Oven", 
+      loc: "Regis Center", 
+      rating: 92, 
+      price: "₱₱₱", 
+      hours: "11:00 AM - 9:30 PM", 
+      tags: ["Regis", "Date Spot", "Italian"], 
+      menu: [
+        { name: "Bacon Pizza", price: 485 },
+        { name: "SMEGG Pizza", price: 520 },
+        { name: "Buffalo Wings", price: 340 }
+      ] 
+    },
   ];
 
-  const filterOptions = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC", "Budget", "Study Spots"];
+  const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC"];
+  const categories = ["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino"];
+  const pricePoints = ["All", "₱", "₱₱", "₱₱₱"];
 
   const filteredStalls = stalls.filter(stall => {
     const matchesFilter = activeFilter === "All" || stall.tags.includes(activeFilter);
+    const matchesPrice = priceFilter === "All" || stall.price === priceFilter;
     const matchesSearch = stall.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
+    return matchesFilter && matchesSearch && matchesPrice;
   });
 
   return (
@@ -41,7 +175,7 @@ const CampusBitesHome = () => {
             className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          {/* Added Search/Filter Icon Button */}
+          {/* SEARCH FILTER TOGGLE */}
           <button 
             onClick={() => setIsSearchModalOpen(true)}
             className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition text-[#003A70]"
@@ -61,8 +195,9 @@ const CampusBitesHome = () => {
         <p className="text-gray-500 text-lg">Your guide to food in and around the Hill.</p>
       </header>
 
+      {/* HORIZONTAL QUICK FILTERS */}
       <div className="flex gap-3 justify-center mb-12 px-8 overflow-x-auto no-scrollbar">
-        {filterOptions.map((filter) => (
+        {locations.map((filter) => (
           <button 
             key={filter} 
             onClick={() => setActiveFilter(filter)}
@@ -97,7 +232,7 @@ const CampusBitesHome = () => {
                 <h4 className="text-lg font-bold group-hover:text-[#003A70] transition mb-1">{stall.name}</h4>
                 <div className="flex justify-between text-xs text-gray-500 mb-3 font-medium">
                   <span>{stall.loc}</span>
-                  <span className="text-green-700">{stall.price}</span>
+                  <span className="text-green-700 font-bold">{stall.price}</span>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-2 flex items-center gap-2 mb-4 border border-gray-100">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></div>
@@ -141,10 +276,13 @@ const CampusBitesHome = () => {
             <div className="border-t border-gray-100 pt-6">
               <h3 className="font-extrabold text-[#003A70] uppercase tracking-tighter text-lg mb-4">On the Menu</h3>
               <ul className="space-y-3">
-                {selectedStall.menu.map((item: string, index: number) => (
-                  <li key={index} className="flex items-center gap-3 text-gray-700 font-medium bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#FFD700]"></div>
-                    {item}
+                {selectedStall.menu.map((item: any, index: number) => (
+                  <li key={index} className="flex items-center justify-between text-gray-700 font-medium bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#FFD700]"></div>
+                      {item.name}
+                    </div>
+                    <span className="text-xs font-bold text-[#003A70]">₱{item.price}</span>
                   </li>
                 ))}
               </ul>
@@ -156,21 +294,22 @@ const CampusBitesHome = () => {
         </div>
       )}
 
-      {/* --- ADDED SEARCH FILTER MODAL --- */}
+      {/* --- SEGREGATED SEARCH FILTER MODAL --- */}
       {isSearchModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-[110]">
-          <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300">
+          <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300 overflow-y-auto max-h-[90vh]">
             <button onClick={() => setIsSearchModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-gray-900 text-xl font-bold">✕</button>
             <h2 className="text-3xl font-black mb-8 text-gray-900 tracking-tight">Filter Stalls</h2>
             
+            {/* SEGREGATED SECTION: LOCATION */}
             <div className="mb-8">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block">Location Tag</label>
+              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Location</label>
               <div className="flex flex-wrap gap-2">
-                {filterOptions.map(opt => (
+                {locations.map(opt => (
                   <button 
                     key={opt} 
                     onClick={() => setActiveFilter(opt)} 
-                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all ${activeFilter === opt ? "bg-[#003A70] text-white border-[#003A70] shadow-lg shadow-blue-900/20" : "border-gray-100 text-gray-500 hover:border-gray-300"}`}
+                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all ${activeFilter === opt ? "bg-[#003A70] text-white border-[#003A70]" : "border-gray-100 text-gray-500"}`}
                   >
                     {opt}
                   </button>
@@ -178,7 +317,39 @@ const CampusBitesHome = () => {
               </div>
             </div>
 
-            <button onClick={() => setIsSearchModalOpen(false)} className="w-full py-5 bg-[#003A70] text-white rounded-2xl font-black text-sm hover:bg-blue-800 shadow-xl shadow-blue-900/20 transition-all">Apply Filters</button>
+            {/* SEGREGATED SECTION: CATEGORY */}
+            <div className="mb-8">
+              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Category</label>
+              <div className="flex flex-wrap gap-2">
+                {categories.map(opt => (
+                  <button 
+                    key={opt} 
+                    onClick={() => setActiveFilter(opt)} 
+                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all ${activeFilter === opt ? "bg-[#003A70] text-white border-[#003A70]" : "border-gray-100 text-gray-500"}`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* SEGREGATED SECTION: PRICE POINT */}
+            <div className="mb-8">
+              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Price Range</label>
+              <div className="flex flex-wrap gap-2">
+                {pricePoints.map(opt => (
+                  <button 
+                    key={opt} 
+                    onClick={() => setPriceFilter(opt)} 
+                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all ${priceFilter === opt ? "bg-green-700 text-white border-green-700" : "border-gray-100 text-gray-500"}`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={() => setIsSearchModalOpen(false)} className="w-full py-5 bg-[#003A70] text-white rounded-2xl font-black text-sm hover:bg-blue-800 transition-all">Apply Filters</button>
           </div>
         </div>
       )}
