@@ -6,108 +6,20 @@ const CampusBitesHome = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStall, setSelectedStall] = useState<any>(null);
+  // Added state for the Search Modal
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const stalls = [
-    { 
-      id: 1, 
-      name: "BOK Korean Fried Chicken", 
-      loc: "Regis 2/F", 
-      rating: 94, 
-      price: "₱₱", 
-      hours: "10:00 AM - 2:30 AM", 
-      tags: ["Regis", "Katipunan"],
-      menu: ["Soy Garlic Chicken", "Snow Cheese Chicken", "Yangnyeom Fries"] 
-    },
-    { 
-      id: 2, 
-      name: "Yummy Tokyo", 
-      loc: "Regis 3/F", 
-      rating: 91, 
-      price: "₱₱", 
-      hours: "10:00 AM - 8:00 PM", 
-      tags: ["Regis", "Budget"], 
-      menu: ["Spicy Miso Ramen", "California Roll", "Pork Katsudon"] 
-    },
-    { 
-      id: 3, 
-      name: "Paotsin", 
-      loc: "Regis 3/F", 
-      rating: 96, 
-      price: "₱", 
-      hours: "9:00 AM - 9:00 PM", 
-      tags: ["Regis", "Budget"], 
-      menu: ["Sharks Fin Rice", "Pork Dumplings", "Laksa"] 
-    },
-    { 
-      id: 4, 
-      name: "Kanzen Sushi Roll", 
-      loc: "Regis 2/F", 
-      rating: 93, 
-      price: "₱₱", 
-      hours: "10:00 AM - 9:00 PM", 
-      tags: ["Regis", "Katipunan"], 
-      menu: ["California Maki", "Spicy Tuna Roll", "Salmon Sashimi"] 
-    },
-    { 
-      id: 5, 
-      name: "Subway", 
-      loc: "Regis 3/F", 
-      rating: 88, 
-      price: "₱₱", 
-      hours: "8:00 AM - 10:00 PM", 
-      tags: ["Regis", "Study Spots"], 
-      menu: ["B.M.T. Sandwich", "Subway Club", "Chocolate Chip Cookie"] 
-    },
-    { 
-      id: 6, 
-      name: "Cookies by the Bucket", 
-      loc: "Regis 3/F", 
-      rating: 97, 
-      price: "₱", 
-      hours: "10:00 AM - 8:00 PM", 
-      tags: ["Regis", "Budget"], 
-      menu: ["Classic Chocolate Chip", "Dark Chocolate", "Oatmeal Raisin"] 
-    },
-    { 
-      id: 7, 
-      name: "Chicken NamNam", 
-      loc: "Regis 3/F", 
-      rating: 90, 
-      price: "₱₱", 
-      hours: "10:00 AM - 9:00 PM", 
-      tags: ["Regis", "Katipunan"], 
-      menu: ["Sweet & Spicy Chicken", "Fried Rice", "Coleslaw"] 
-    },
-    { 
-      id: 8, 
-      name: "JSEC: Overload", 
-      loc: "JSEC", 
-      rating: 98, 
-      price: "₱₱", 
-      hours: "8:00 AM - 5:00 PM", 
-      tags: ["Inside Campus", "JSEC"], 
-      menu: ["Angus Beef Tapa", "Breakfast Bowl", "Iced Coffee"] 
-    },
-    { 
-      id: 9, 
-      name: "Ate Rica's Bacsilog", 
-      loc: "Agno/Katipunan", 
-      rating: 95, 
-      price: "₱", 
-      hours: "7:00 AM - 9:00 PM", 
-      tags: ["Katipunan", "Budget"], 
-      menu: ["Bacon Bacsilog", "Tapa Bacsilog", "Hotdog Bacsilog"] 
-    },
-    { 
-      id: 10, 
-      name: "Gino's Brick Oven", 
-      loc: "Regis Center", 
-      rating: 92, 
-      price: "₱₱₱", 
-      hours: "11:00 AM - 9:30 PM", 
-      tags: ["Regis", "Date Spot"], 
-      menu: ["Bacon Pizza", "SMEGG Pizza", "Buffalo Wings"] 
-    },
+    { id: 1, name: "BOK Korean Fried Chicken", loc: "Regis 2/F", rating: 94, price: "₱₱", hours: "10:00 AM - 2:30 AM", tags: ["Regis", "Katipunan"], menu: ["Soy Garlic Chicken", "Snow Cheese Chicken", "Yangnyeom Fries"] },
+    { id: 2, name: "Yummy Tokyo", loc: "Regis 3/F", rating: 91, price: "₱₱", hours: "10:00 AM - 8:00 PM", tags: ["Regis", "Budget"], menu: ["Spicy Miso Ramen", "California Roll", "Pork Katsudon"] },
+    { id: 3, name: "Paotsin", loc: "Regis 3/F", rating: 96, price: "₱", hours: "9:00 AM - 9:00 PM", tags: ["Regis", "Budget"], menu: ["Sharks Fin Rice", "Pork Dumplings", "Laksa"] },
+    { id: 4, name: "Kanzen Sushi Roll", loc: "Regis 2/F", rating: 93, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Katipunan"], menu: ["California Maki", "Spicy Tuna Roll", "Salmon Sashimi"] },
+    { id: 5, name: "Subway", loc: "Regis 3/F", rating: 88, price: "₱₱", hours: "8:00 AM - 10:00 PM", tags: ["Regis", "Study Spots"], menu: ["B.M.T. Sandwich", "Subway Club", "Chocolate Chip Cookie"] },
+    { id: 6, name: "Cookies by the Bucket", loc: "Regis 3/F", rating: 97, price: "₱", hours: "10:00 AM - 8:00 PM", tags: ["Regis", "Budget"], menu: ["Classic Chocolate Chip", "Dark Chocolate", "Oatmeal Raisin"] },
+    { id: 7, name: "Chicken NamNam", loc: "Regis 3/F", rating: 90, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Katipunan"], menu: ["Sweet & Spicy Chicken", "Fried Rice", "Coleslaw"] },
+    { id: 8, name: "JSEC: Overload", loc: "JSEC", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], menu: ["Angus Beef Tapa", "Breakfast Bowl", "Iced Coffee"] },
+    { id: 9, name: "Ate Rica's Bacsilog", loc: "Agno/Katipunan", rating: 95, price: "₱", hours: "7:00 AM - 9:00 PM", tags: ["Katipunan", "Budget"], menu: ["Bacon Bacsilog", "Tapa Bacsilog", "Hotdog Bacsilog"] },
+    { id: 10, name: "Gino's Brick Oven", loc: "Regis Center", rating: 92, price: "₱₱₱", hours: "11:00 AM - 9:30 PM", tags: ["Regis", "Date Spot"], menu: ["Bacon Pizza", "SMEGG Pizza", "Buffalo Wings"] },
   ];
 
   const filterOptions = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC", "Budget", "Study Spots"];
@@ -129,6 +41,15 @@ const CampusBitesHome = () => {
             className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          {/* Added Search/Filter Icon Button */}
+          <button 
+            onClick={() => setIsSearchModalOpen(true)}
+            className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition text-[#003A70]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </button>
           <button className="bg-[#003A70] text-white px-5 py-2 rounded-full font-medium hover:bg-blue-800 transition text-sm">
             Login
           </button>
@@ -231,6 +152,33 @@ const CampusBitesHome = () => {
             <button onClick={() => setSelectedStall(null)} className="w-full mt-8 bg-[#003A70] text-white py-4 rounded-2xl font-bold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20">
               Back to Stalls
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* --- ADDED SEARCH FILTER MODAL --- */}
+      {isSearchModalOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-[110]">
+          <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300">
+            <button onClick={() => setIsSearchModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-gray-900 text-xl font-bold">✕</button>
+            <h2 className="text-3xl font-black mb-8 text-gray-900 tracking-tight">Filter Stalls</h2>
+            
+            <div className="mb-8">
+              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block">Location Tag</label>
+              <div className="flex flex-wrap gap-2">
+                {filterOptions.map(opt => (
+                  <button 
+                    key={opt} 
+                    onClick={() => setActiveFilter(opt)} 
+                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all ${activeFilter === opt ? "bg-[#003A70] text-white border-[#003A70] shadow-lg shadow-blue-900/20" : "border-gray-100 text-gray-500 hover:border-gray-300"}`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={() => setIsSearchModalOpen(false)} className="w-full py-5 bg-[#003A70] text-white rounded-2xl font-black text-sm hover:bg-blue-800 shadow-xl shadow-blue-900/20 transition-all">Apply Filters</button>
           </div>
         </div>
       )}
