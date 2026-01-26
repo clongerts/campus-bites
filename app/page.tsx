@@ -6,7 +6,6 @@ const CampusBitesHome = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStall, setSelectedStall] = useState<any>(null);
-  // NEW STATES FOR ADVANCED FILTERING
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState("All");
 
@@ -175,7 +174,6 @@ const CampusBitesHome = () => {
             className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          {/* SEARCH FILTER TOGGLE */}
           <button 
             onClick={() => setIsSearchModalOpen(true)}
             className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition text-[#003A70]"
@@ -195,7 +193,6 @@ const CampusBitesHome = () => {
         <p className="text-gray-500 text-lg">Your guide to food in and around the Hill.</p>
       </header>
 
-      {/* HORIZONTAL QUICK FILTERS */}
       <div className="flex gap-3 justify-center mb-12 px-8 overflow-x-auto no-scrollbar">
         {locations.map((filter) => (
           <button 
@@ -253,7 +250,6 @@ const CampusBitesHome = () => {
         </div>
       </main>
 
-      {/* --- MENU POPUP MODAL --- */}
       {selectedStall && (
         <div className="fixed inset-0 bg-[#003A70]/40 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
           <div className="bg-white rounded-3xl p-8 max-w-md w-full relative shadow-2xl animate-in fade-in zoom-in duration-200">
@@ -293,15 +289,13 @@ const CampusBitesHome = () => {
           </div>
         </div>
       )}
-
-      {/* --- SEGREGATED SEARCH FILTER MODAL --- */}
+     
       {isSearchModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-[110]">
           <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300 overflow-y-auto max-h-[90vh]">
             <button onClick={() => setIsSearchModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-gray-900 text-xl font-bold">✕</button>
             <h2 className="text-3xl font-black mb-8 text-gray-900 tracking-tight">Filter Stalls</h2>
             
-            {/* SEGREGATED SECTION: LOCATION */}
             <div className="mb-8">
               <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Location</label>
               <div className="flex flex-wrap gap-2">
@@ -317,7 +311,6 @@ const CampusBitesHome = () => {
               </div>
             </div>
 
-            {/* SEGREGATED SECTION: CATEGORY */}
             <div className="mb-8">
               <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Category</label>
               <div className="flex flex-wrap gap-2">
@@ -333,7 +326,6 @@ const CampusBitesHome = () => {
               </div>
             </div>
 
-            {/* SEGREGATED SECTION: PRICE POINT */}
             <div className="mb-8">
               <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-left">Price Range</label>
               <div className="flex flex-wrap gap-2">
