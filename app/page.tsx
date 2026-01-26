@@ -164,7 +164,7 @@ const CampusBitesHome = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div className="min-h-screen bg-white text-gray-900 font-geist-mono">
       <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-50">
         <h1 className="text-2xl font-bold text-[#003A70] tracking-tight">Campus Bites</h1>
         <div className="flex gap-4 items-center">
