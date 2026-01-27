@@ -167,7 +167,7 @@ const CampusBitesHome = () => {
       ] 
     },
     { 
-      id: 11, 
+      id: 12, 
       name: "Sample 2Gonz", 
       loc: "Gonzaga", 
       rating: 90, 
@@ -243,7 +243,7 @@ const CampusBitesHome = () => {
       <main className="max-w-6xl mx-auto px-8 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredStalls.map((stall) => (
-            <div 
+            <div
               key={stall.id} 
               onClick={() => setSelectedStall(stall)}
               className="group border border-gray-100 rounded-2xl hover:shadow-xl transition-all duration-300 bg-white overflow-hidden cursor-pointer"
