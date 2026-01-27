@@ -151,9 +151,39 @@ const CampusBitesHome = () => {
         { name: "Curry Spiced Pork", price: 200 },
       ] 
     },
+    { 
+      id: 11, 
+      name: "Gyud Food", 
+      loc: "Gonzaga", 
+      rating: 92, 
+      price: "₱", 
+      hours: "8:00 AM - 5:00 PM", 
+      tags: ["Inside Campus", "Gonzaga", "Budget", "Filipino"], 
+      menu: [
+        { name: "Karaage", price: 150 },
+        { name: "Torched Salmon", price: 360 },
+        { name: "Garlic Beef", price: 270 },
+        { name: "Curry Spiced Pork", price: 200 },
+      ] 
+    },
+    { 
+      id: 11, 
+      name: "Sample 2Gonz", 
+      loc: "Gonzaga", 
+      rating: 90, 
+      price: "₱", 
+      hours: "8:00 AM - 5:00 PM",
+      tags: ["Inside Campus", "2Gonz"],
+      menu: [
+        { name: "Karaage", price: 150 },
+        { name: "Torched Salmon", price: 360 },
+        { name: "Garlic Beef", price: 270 },
+        { name: "Curry Spiced Pork", price: 200 },
+      ] 
+    },    
   ];
 
-  const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC","Gonzaga","2Gonz"];
+  const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC", "Gonzaga", "2Gonz"]
   const categories = ["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino"];
   const pricePoints = ["All", "₱", "₱₱", "₱₱₱"];
 
