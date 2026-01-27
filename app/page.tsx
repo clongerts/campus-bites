@@ -131,9 +131,9 @@ const CampusBitesHome = () => {
       hours: "7:00 AM - 9:00 PM", 
       tags: ["Regis"], 
       menu: [
-        { name: "Pastry A", price: 120 },
-        { name: "Pastry B", price: 130 },
-        { name: "Coffee", price: 150 }
+        { name: "0", price: 0 },
+        { name: "0", price: 0 },
+        { name: "0", price: 0 }
       ] 
     },
     { 
@@ -157,14 +157,30 @@ const CampusBitesHome = () => {
       loc: "Gonzaga", 
       rating: 92, 
       price: "₱", 
-      hours: "7:00 AM - 6:00 PM", 
+      hours: "8:00 AM - 5:00 PM", 
       tags: ["Inside Campus", "Gonzaga", "Budget", "Filipino"], 
       menu: [
-        { name: "Tapa Bowl", price: 95 },
-        { name: "Tocino Rice", price: 85 },
-        { name: "Egg Add-on", price: 15 }
+        { name: "Karaage", price: 150 },
+        { name: "Torched Salmon", price: 360 },
+        { name: "Garlic Beef", price: 270 },
+        { name: "Curry Spiced Pork", price: 200 },
       ] 
     },
+    { 
+      id: 11, 
+      name: "Sample 2Gonz", 
+      loc: "Gonzaga", 
+      rating: 90, 
+      price: "₱", 
+      hours: "8:00 AM - 5:00 PM",
+      tags: ["Inside Campus", "2Gonz"],
+      menu: [
+        { name: "Karaage", price: 150 },
+        { name: "Torched Salmon", price: 360 },
+        { name: "Garlic Beef", price: 270 },
+        { name: "Curry Spiced Pork", price: 200 },
+      ] 
+    },    
   ];
 
   const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC", "Gonzaga", "2Gonz"];
@@ -179,7 +195,7 @@ const CampusBitesHome = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div className="min-h-screen bg-white text-gray-900 font-geist-mono">
       <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-50">
         <h1 className="text-2xl font-bold text-[#003A70] tracking-tight">Campus Bites</h1>
         <div className="flex gap-4 items-center">
@@ -304,7 +320,7 @@ const CampusBitesHome = () => {
           </div>
         </div>
       )}
-
+     
       {isSearchModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-[110]">
           <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300 overflow-y-auto max-h-[90vh]">
