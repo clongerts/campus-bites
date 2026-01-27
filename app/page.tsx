@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 
-// This Interface fixes most GitHub "Build Failed" errors by defining your data structure
 interface Menu {
   name: string;
   price: number;
@@ -22,7 +21,6 @@ interface Stall {
 const CampusBitesHome = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  // Changed <any> to <Stall | null> for strict type safety
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState("All");
