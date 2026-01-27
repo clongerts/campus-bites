@@ -153,7 +153,7 @@ const CampusBitesHome = () => {
     },
   ];
 
-  const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC"];
+  const locations = ["All", "Inside Campus", "Regis", "Katipunan", "JSEC","Gonzaga","2Gonz"];
   const categories = ["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino"];
   const pricePoints = ["All", "₱", "₱₱", "₱₱₱"];
 
