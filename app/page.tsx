@@ -2,14 +2,32 @@
 
 import React, { useState } from 'react';
 
+// This Interface fixes most GitHub "Build Failed" errors by defining your data structure
+interface Menu {
+  name: string;
+  price: number;
+}
+
+interface Stall {
+  id: number;
+  name: string;
+  loc: string;
+  rating: number;
+  price: string;
+  hours: string;
+  tags: string[];
+  menu: Menu[];
+}
+
 const CampusBitesHome = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedStall, setSelectedStall] = useState<any>(null);
+  // Changed <any> to <Stall | null> for strict type safety
+  const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState("All");
 
-  const stalls = [
+  const stalls: Stall[] = [
     { 
       id: 1, 
       name: "BOK Korean Fried Chicken", 
@@ -131,9 +149,9 @@ const CampusBitesHome = () => {
       hours: "7:00 AM - 9:00 PM", 
       tags: ["Regis"], 
       menu: [
-        { name: "0", price: 0 },
-        { name: "0", price: 0 },
-        { name: "0", price: 0 }
+        { name: "Signature Bread", price: 80 },
+        { name: "Iced Latte", price: 140 },
+        { name: "Pastry Set", price: 250 }
       ] 
     },
     { 
@@ -160,10 +178,9 @@ const CampusBitesHome = () => {
       hours: "8:00 AM - 5:00 PM", 
       tags: ["Inside Campus", "Gonzaga", "Budget", "Filipino"], 
       menu: [
-        { name: "Karaage", price: 150 },
-        { name: "Torched Salmon", price: 360 },
-        { name: "Garlic Beef", price: 270 },
-        { name: "Curry Spiced Pork", price: 200 },
+        { name: "Tapa Special", price: 120 },
+        { name: "Pork Sisig", price: 110 },
+        { name: "Iced Tea", price: 30 }
       ] 
     },
     { 
@@ -175,10 +192,9 @@ const CampusBitesHome = () => {
       hours: "8:00 AM - 5:00 PM",
       tags: ["Inside Campus", "2Gonz"],
       menu: [
-        { name: "Karaage", price: 150 },
-        { name: "Torched Salmon", price: 360 },
-        { name: "Garlic Beef", price: 270 },
-        { name: "Curry Spiced Pork", price: 200 },
+        { name: "Chicken Adobo", price: 95 },
+        { name: "Fried Fish", price: 85 },
+        { name: "Vegetable Side", price: 25 }
       ] 
     },    
   ];
@@ -195,7 +211,7 @@ const CampusBitesHome = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-geist-mono">
+    <div className="min-h-screen bg-white text-gray-900">
       <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-50">
         <h1 className="text-2xl font-bold text-[#003A70] tracking-tight">Campus Bites</h1>
         <div className="flex gap-4 items-center">
@@ -243,7 +259,7 @@ const CampusBitesHome = () => {
       <main className="max-w-6xl mx-auto px-8 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredStalls.map((stall) => (
-            <div
+            <div 
               key={stall.id} 
               onClick={() => setSelectedStall(stall)}
               className="group border border-gray-100 rounded-2xl hover:shadow-xl transition-all duration-300 bg-white overflow-hidden cursor-pointer"
@@ -303,7 +319,7 @@ const CampusBitesHome = () => {
             <div className="border-t border-gray-100 pt-6">
               <h3 className="font-extrabold text-[#003A70] uppercase tracking-tighter text-lg mb-4">On the Menu</h3>
               <ul className="space-y-3">
-                {selectedStall.menu.map((item: any, index: number) => (
+                {selectedStall.menu.map((item, index) => (
                   <li key={index} className="flex items-center justify-between text-gray-700 font-medium bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <div className="flex items-center gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#FFD700]"></div>
@@ -320,7 +336,7 @@ const CampusBitesHome = () => {
           </div>
         </div>
       )}
-     
+
       {isSearchModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-[110]">
           <div className="bg-white rounded-[2.5rem] p-10 max-w-lg w-full relative shadow-2xl animate-in fade-in zoom-in duration-300 overflow-y-auto max-h-[90vh]">
