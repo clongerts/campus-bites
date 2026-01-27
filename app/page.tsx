@@ -47,9 +47,9 @@ const CampusBitesHome = () => {
       hours: "9:00 AM - 9:00 PM", 
       tags: ["Regis", "Budget", "Chinese"], 
       menu: [
-        { name: "Sharks Fin Rice", price: 85 },
-        { name: "Pork Dumplings", price: 65 },
-        { name: "Laksa", price: 110 }
+        { name: "Sharks Fin Rice", price: 100 },
+        { name: "Pork Dumplings", price: 70 },
+        { name: "Laksa", price: 140 }
       ] 
     },
     { 
@@ -82,16 +82,16 @@ const CampusBitesHome = () => {
     },
     { 
       id: 6, 
-      name: "Cookies by the Bucket", 
+      name: "Frutas Fruit Shakes", 
       loc: "Regis 3/F", 
       rating: 97, 
       price: "₱", 
       hours: "10:00 AM - 8:00 PM", 
       tags: ["Regis", "Budget", "Dessert"], 
       menu: [
-        { name: "Classic Chocolate Chip", price: 150 },
-        { name: "Dark Chocolate", price: 160 },
-        { name: "Oatmeal Raisin", price: 155 }
+        { name: "Large", price: 150 },
+        { name: "Extra Large", price: 160 },
+        { name: "Combo", price: 155 }
       ] 
     },
     { 
@@ -110,7 +110,7 @@ const CampusBitesHome = () => {
     },
     { 
       id: 8, 
-      name: "JSEC: Overload", 
+      name: "Yatako", 
       loc: "JSEC", 
       rating: 98, 
       price: "₱₱", 
@@ -124,30 +124,31 @@ const CampusBitesHome = () => {
     },
     { 
       id: 9, 
-      name: "Ate Rica's Bacsilog", 
-      loc: "Agno/Katipunan", 
+      name: "Baekiri", 
+      loc: "Regis 3/F", 
       rating: 95, 
-      price: "₱", 
+      price: "₱₱", 
       hours: "7:00 AM - 9:00 PM", 
-      tags: ["Katipunan", "Budget", "Filipino"], 
+      tags: ["Regis"], 
       menu: [
-        { name: "Bacon Bacsilog", price: 99 },
-        { name: "Tapa Bacsilog", price: 105 },
-        { name: "Hotdog Bacsilog", price: 89 }
+        { name: "0", price: 0 },
+        { name: "0", price: 0 },
+        { name: "0", price: 0 }
       ] 
     },
     { 
       id: 10, 
-      name: "Gino's Brick Oven", 
-      loc: "Regis Center", 
+      name: "Tetsuo", 
+      loc: "Regis 2/F", 
       rating: 92, 
       price: "₱₱₱", 
       hours: "11:00 AM - 9:30 PM", 
-      tags: ["Regis", "Date Spot", "Italian"], 
+      tags: ["Regis", "Date Spot", "Japanese"], 
       menu: [
-        { name: "Bacon Pizza", price: 485 },
-        { name: "SMEGG Pizza", price: 520 },
-        { name: "Buffalo Wings", price: 340 }
+        { name: "Karaage", price: 150 },
+        { name: "Torched Salmon", price: 360 },
+        { name: "Garlic Beef", price: 270 },
+        { name: "Curry Spiced Pork", price: 200 },
       ] 
     },
   ];
