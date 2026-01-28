@@ -46,7 +46,7 @@ const CampusBitesHome = () => {
       loc: "Regis 3/F", 
       rating: 91, 
       price: "₱₱", 
-      hours: "10:00 AM - 8:00 PM", 
+      hours: "9:00 AM - 8:00 PM", 
       tags: ["Regis", "Budget", "Japanese"], 
       menu: [
         { name: "Spicy Miso Ramen", price: 249 },
