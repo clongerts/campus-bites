@@ -35,7 +35,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "10:00 AM - 2:30 AM", 
       tags: ["Regis", "Katipunan", "Korean"],
-      image: "/images/BOK-Chicken-4.jpg",
+      image: "/images/BOK.jpg",
       menu: [
         { name: "Soy Garlic Chicken", price: 185 },
         { name: "Snow Cheese Chicken", price: 195 },
@@ -80,7 +80,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "10:00 AM - 9:00 PM", 
       tags: ["Regis", "Katipunan", "Japanese"], 
-      image: "/images/kanzen-sushi-roll.jpg",
+      image: "/images/kanzen.jpg",
       menu: [
         { name: "California Maki", price: 175 },
         { name: "Spicy Tuna Roll", price: 190 },
@@ -110,7 +110,7 @@ const CampusBitesHome = () => {
       price: "₱", 
       hours: "10:00 AM - 8:00 PM", 
       tags: ["Regis", "Budget", "Dessert"], 
-      image: "/images/frutas-fruit-shakes.jpg",
+      image: "/images/fruitas.jpg",
       menu: [
         { name: "Large", price: 150 },
         { name: "Extra Large", price: 160 },
@@ -127,9 +127,9 @@ const CampusBitesHome = () => {
       tags: ["Regis", "Katipunan", "Filipino"], 
       image: "/images/potato-corner.jpg",
       menu: [
-        { name: "Sweet & Spicy Chicken", price: 180 },
-        { name: "Fried Rice", price: 45 },
-        { name: "Coleslaw", price: 40 }
+        { name: "Mega", price: 180 },
+        { name: "Tera", price: 45 },
+        { name: "Jumbo", price: 40 }
       ] 
     },
     { 
@@ -149,15 +149,15 @@ const CampusBitesHome = () => {
     },
     { 
       id: 9, 
-      name: "Baekiri", 
+      name: "Spudbae", 
       loc: "Regis 3/F", 
       rating: 95, 
       price: "₱₱", 
       hours: "7:00 AM - 9:00 PM", 
       tags: ["Regis"], 
-      image: "/images/baekiri.jpg",
+      image: "/images/spudbae.jpg",
       menu: [
-        { name: "Signature Bread", price: 80 },
+        { name: "Chili con Carne spud", price: 80 },
         { name: "Iced Latte", price: 140 },
         { name: "Pastry Set", price: 250 }
       ] 
