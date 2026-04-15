@@ -15,6 +15,7 @@ interface Stall {
   price: string;
   hours: string;
   tags: string[];
+  image: string;
   menu: Menu[];
 }
 
@@ -34,6 +35,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "10:00 AM - 2:30 AM", 
       tags: ["Regis", "Katipunan", "Korean"],
+      image: "/images/BOK-Chicken-4.jpg",
       menu: [
         { name: "Soy Garlic Chicken", price: 185 },
         { name: "Snow Cheese Chicken", price: 195 },
@@ -47,7 +49,8 @@ const CampusBitesHome = () => {
       rating: 91, 
       price: "₱₱", 
       hours: "9:00 AM - 8:00 PM", 
-      tags: ["Regis", "Budget", "Japanese"], 
+      tags: ["Regis", "Budget", "Japanese"],       
+      image: "/images/yummytokyo.jpeg",      
       menu: [
         { name: "Spicy Miso Ramen", price: 249 },
         { name: "California Roll", price: 180 },
@@ -62,6 +65,7 @@ const CampusBitesHome = () => {
       price: "₱", 
       hours: "9:00 AM - 9:00 PM", 
       tags: ["Regis", "Budget", "Chinese"], 
+      image: "/images/paotsin.jpeg",
       menu: [
         { name: "Sharks Fin Rice", price: 100 },
         { name: "Pork Dumplings", price: 70 },
@@ -76,6 +80,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "10:00 AM - 9:00 PM", 
       tags: ["Regis", "Katipunan", "Japanese"], 
+      image: "/images/kanzen-sushi-roll.jpg",
       menu: [
         { name: "California Maki", price: 175 },
         { name: "Spicy Tuna Roll", price: 190 },
@@ -90,6 +95,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "8:00 AM - 10:00 PM", 
       tags: ["Regis", "Study Spots", "Healthy"], 
+      image: "/images/subway.jpg",
       menu: [
         { name: "B.M.T. Sandwich", price: 235 },
         { name: "Subway Club", price: 255 },
@@ -104,6 +110,7 @@ const CampusBitesHome = () => {
       price: "₱", 
       hours: "10:00 AM - 8:00 PM", 
       tags: ["Regis", "Budget", "Dessert"], 
+      image: "/images/frutas-fruit-shakes.jpg",
       menu: [
         { name: "Large", price: 150 },
         { name: "Extra Large", price: 160 },
@@ -112,12 +119,13 @@ const CampusBitesHome = () => {
     },
     { 
       id: 7, 
-      name: "Chicken NamNam", 
+      name: "Potato Corner  ", 
       loc: "Regis 3/F", 
       rating: 90, 
       price: "₱₱", 
       hours: "10:00 AM - 9:00 PM", 
       tags: ["Regis", "Katipunan", "Filipino"], 
+      image: "/images/potato-corner.jpg",
       menu: [
         { name: "Sweet & Spicy Chicken", price: 180 },
         { name: "Fried Rice", price: 45 },
@@ -132,6 +140,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "8:00 AM - 5:00 PM", 
       tags: ["Inside Campus", "JSEC", "Breakfast"], 
+      image: "/images/yatako.jpg",
       menu: [
         { name: "Angus Beef Tapa", price: 220 },
         { name: "Breakfast Bowl", price: 190 },
@@ -146,6 +155,7 @@ const CampusBitesHome = () => {
       price: "₱₱", 
       hours: "7:00 AM - 9:00 PM", 
       tags: ["Regis"], 
+      image: "/images/baekiri.jpg",
       menu: [
         { name: "Signature Bread", price: 80 },
         { name: "Iced Latte", price: 140 },
@@ -160,6 +170,7 @@ const CampusBitesHome = () => {
       price: "₱₱₱", 
       hours: "11:00 AM - 9:30 PM", 
       tags: ["Regis", "Date Spot", "Japanese"], 
+      image: "/images/tetsuo.jpg",
       menu: [
         { name: "Karaage", price: 150 },
         { name: "Torched Salmon", price: 360 },
@@ -175,6 +186,7 @@ const CampusBitesHome = () => {
       price: "₱", 
       hours: "8:00 AM - 5:00 PM", 
       tags: ["Inside Campus", "Gonzaga", "Budget", "Filipino"], 
+      image: "/images/gyud-food.jpg",
       menu: [
         { name: "Tapa Special", price: 120 },
         { name: "Pork Sisig", price: 110 },
@@ -189,6 +201,7 @@ const CampusBitesHome = () => {
       price: "₱", 
       hours: "8:00 AM - 5:00 PM",
       tags: ["Inside Campus", "2Gonz"],
+      image: "/images/sample-2gonz.jpg",
       menu: [
         { name: "Chicken Adobo", price: 95 },
         { name: "Fried Fish", price: 85 },
@@ -262,14 +275,20 @@ const CampusBitesHome = () => {
               onClick={() => setSelectedStall(stall)}
               className="group border border-gray-100 rounded-2xl hover:shadow-xl transition-all duration-300 bg-white overflow-hidden cursor-pointer"
             >
-              <div className="h-32 bg-gradient-to-br from-[#003A70]/5 to-[#FFD700]/10 flex items-center justify-center relative">
-                 <span className="absolute top-3 right-3 bg-white px-2 py-1 rounded text-[10px] font-bold text-[#003A70] shadow-sm">
-                    {stall.rating}%
-                 </span>
-                 <p className="text-[#003A70]/20 font-black text-4xl italic select-none uppercase tracking-widest">
-                    {stall.name.substring(0, 2)}
-                 </p>
-              </div>
+            <div className="h-32 bg-gradient-to-br from-[#003A70]/5 to-[#FFD700]/10 flex items-center justify-center relative">
+              <img 
+              src={stall.image} 
+              alt={stall.name} 
+              className="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:scale-110 transition-transform duration-500"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+             />
+              <span className="absolute top-3 right-3 bg-white px-2 py-1 rounded text-[10px] font-bold text-[#003A70] shadow-sm z-10">
+              {stall.rating}%
+              </span>
+              <p className="text-[#003A70]/20 font-black text-4xl italic select-none uppercase tracking-widest">
+             {stall.name.substring(0, 2)}
+            </p>
+            </div>
               <div className="p-6">
                 <h4 className="text-lg font-bold group-hover:text-[#003A70] transition mb-1">{stall.name}</h4>
                 <div className="flex justify-between text-xs text-gray-500 mb-3 font-medium">
