@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Campus Bites",
   description: "The best food guide for Ateneans",
+  icons: {
+    // Note the /images/ prefix to match your folder
+    icon: "/images/logo_campusbites.png", 
+  },
   openGraph: {
     title: "Campus Bites",
     description: "The best food guide for Ateneans",
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Campus Bites",
     images: [
       {
-        url: "/images/banner.png", 
+        url: "/images/banner.png", // Match your filename in the images folder
         width: 1200,
         height: 630,
         alt: "Campus Bites Banner",
@@ -30,12 +34,6 @@ export const metadata: Metadata = {
     ],
     locale: "en_PH",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Campus Bites",
-    description: "The best food guide for Ateneans",
-    images: ["/images/banner.png"],
   },
 };
 
