@@ -15,8 +15,32 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Campus Bites",
   description: "The best food guide for Ateneans",
+  icons: {
+    icon: "/icon.png", // This is your new logo
+  },
+  openGraph: {
+    title: "Campus Bites",
+    description: "The best food guide for Ateneans",
+    url: "https://campus-bites-admu.vercel.app",
+    siteName: "Campus Bites",
+    images: [
+      {
+        url: "/banner.jpg", // This is your banner
+        width: 1200,
+        height: 630,
+        alt: "Campus Bites Banner",
+      },
+    ],
+    locale: "en_PH",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Campus Bites",
+    description: "The best food guide for Ateneans",
+    images: ["/banner.jpg"],
+  },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
