@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Campus Bites",
   description: "The best food guide for Ateneans",
   icons: {
-    // Note the /images/ prefix to match your folder
+  
     icon: "/images/logo_campusbites.png", 
   },
   openGraph: {
