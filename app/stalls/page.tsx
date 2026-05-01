@@ -41,6 +41,9 @@ export default function StallsPage() {
   const [priceFilter, setPriceFilter] = useState("All");
   const [budgetLimit, setBudgetLimit] = useState<string | null>(null);
   const [quickDecideResult, setQuickDecideResult] = useState<Stall[] | null>(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
 
   const stalls: Stall[] = [
     // --- JSEC STALLS ---
@@ -107,7 +110,7 @@ export default function StallsPage() {
     { id: 51, name: "Zus Coffee", loc: "Katipunan", rating: 93, price: "₱₱", hours: "7:00 AM - 10:00 PM", tags: ["Near Ateneo", "Katipunan", "Drinks"], image: "/images/zus.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "CEO Latte", price: 95 }, { name: "Spanish Latte", price: 110 }, { name: "Buttercrush Frappe", price: 145 }, { name: "Oat Milk Upgrade", price: 35 }], reviews: [] },
   ];
 
-  const locations = ["All", "Inside Campus", "JSEC", "Gonzaga", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo", "Residence Halls"];
+  const locations = ["All", "Inside Campus", "JSEC", "Gonzaga 1/F", "Gonzaga 2/F", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo", "Residence Halls"];
   const categories = ["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"];
 
   const filteredStalls = stalls.filter(stall => {
@@ -135,15 +138,17 @@ export default function StallsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       {/* --- NAVBAR --- */}
-      <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-50">
-        <Link href="/" className="text-2xl font-bold text-[#003A70] tracking-tight">Campus Bites</Link>
+      <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#001a4d]/90 backdrop-blur-md z-50">
+        <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
+          <img src="/images/logo_campusbites.png" alt="Campus Bites" className="h-8 object-contain" />
+        </Link>
         <div className="flex gap-4 items-center">
           <input 
             type="text"
             placeholder="Search stalls or food..."
-            className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20"
+            className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20 bg-white/90"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -155,16 +160,18 @@ export default function StallsPage() {
           <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
-          <Link href="/login" className="bg-[#003A70] text-white px-5 py-2 rounded-full font-medium hover:bg-blue-800 transition text-sm" style={{ textDecoration: "none" }}>
+          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm" style={{ textDecoration: "none" }}>
             Login
           </Link>
         </div>
       </nav>
 
+      {/* --- WHITE BACKGROUND WRAPPER --- */}
+      <div className="bg-white">
       {/* --- HEADER --- */}
       <header className="py-12 px-8 max-w-6xl mx-auto text-center">
         <h2 className="text-5xl font-extrabold mb-4 text-[#003A70]">All Food Stalls</h2>
-        <p className="text-gray-500 text-lg mb-8">Browse all {stalls.length} spots across the Hill.</p>
+        <p className="text-gray-600 text-lg mb-8">Browse all {stalls.length} spots across the Hill.</p>
         <button onClick={handleQuickDecide} className="bg-[#FFD700] text-[#003A70] px-8 py-3 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-lg">
             ⚡ Quick Decide
         </button>
@@ -312,21 +319,22 @@ export default function StallsPage() {
                   </div>
               ))}
           </div>
+          </div>
       </div>
 
       {/* --- STALL DETAIL MODAL --- */}
       {selectedStall && (
           <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[120]" onClick={() => setSelectedStall(null)}>
               <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                  <div className="relative mb-4 w-full flex justify-end">
-                      <button onClick={() => setSelectedStall(null)} className="mt-2 mr-2 text-red-500 hover:text-red-700 text-3xl font-bold z-10">&times;</button>
-                  </div>
                   <div className="flex justify-between items-start mb-4">
                       <div>
                           <h3 className="text-3xl font-bold text-[#003A70]">{selectedStall.name}</h3>
                           <p className="text-gray-500">{selectedStall.loc}</p>
                       </div>
-                      {selectedStall.isBestValue && <span className="bg-[#FFD700] text-[#003A70] text-sm font-bold px-3 py-1 rounded-full">Best Value</span>}
+                      <div className="flex items-start gap-3">
+                          {selectedStall.isBestValue && <span className="bg-[#FFD700] text-[#003A70] text-sm font-bold px-3 py-1 rounded-full whitespace-nowrap">Best Value</span>}
+                          <button onClick={() => setSelectedStall(null)} className="text-red-500 hover:text-red-700 text-3xl font-bold flex-shrink-0">&times;</button>
+                      </div>
                   </div>
                   <div className="flex items-center gap-4 mb-6">
                       <div className="text-xl">{selectedStall.price}</div>
@@ -355,13 +363,15 @@ export default function StallsPage() {
                   
                   <div className="mb-6">
                       <h4 className="font-bold text-lg mb-3">Menu</h4>
-                      <div className="grid grid-cols-2 gap-3">
-                          {selectedStall.menu.map((item, idx) => (
-                              <div key={idx} className="flex justify-between p-3 bg-gray-50 rounded-xl">
-                                  <span>{item.name}</span>
-                                  <span className="font-medium">₱{item.price}</span>
-                              </div>
-                          ))}
+                      <div className="bg-gray-50 rounded-xl p-3 max-h-48 overflow-y-auto">
+                          <div className="grid grid-cols-1 gap-2">
+                              {selectedStall.menu.map((item, idx) => (
+                                  <div key={idx} className="flex justify-between items-center">
+                                      <span className="text-sm">{item.name}</span>
+                                      <span className="font-medium text-sm">₱{item.price}</span>
+                                  </div>
+                              ))}
+                          </div>
                       </div>
                   </div>
                   <div className="mb-6">
@@ -407,8 +417,70 @@ export default function StallsPage() {
                               <p className="text-xs font-black text-blue-900 uppercase">Review & Earn</p>
                               <p className="text-xs text-blue-700">Submit a photo to get a 10% voucher!</p>
                           </div>
-                          <button className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full font-black">Review</button>
+                          <button onClick={() => setIsReviewModalOpen(true)} className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full font-black hover:bg-blue-700 transition">Review</button>
                       </div>
+                  </div>
+              </div>
+          </div>
+      )}
+
+      {/* --- CREATE REVIEW MODAL --- */}
+      {isReviewModalOpen && selectedStall && (
+          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[130]" onClick={() => setIsReviewModalOpen(false)}>
+              <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+                  <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-2xl font-bold text-[#003A70]">Review {selectedStall.name}</h3>
+                      <button onClick={() => setIsReviewModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
+                  </div>
+
+                  {/* Rating */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Rating</h4>
+                      <div className="flex gap-2 justify-center">
+                          {[1, 2, 3, 4, 5].map(star => (
+                              <button
+                                  key={star}
+                                  onClick={() => setReviewRating(star)}
+                                  className={`text-3xl transition ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}`}
+                              >
+                                  ★
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+
+                  {/* Review Text */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Your Review</h4>
+                      <textarea
+                          placeholder="Share your experience..."
+                          className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20 resize-none"
+                          rows={4}
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                      />
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex gap-3">
+                      <button
+                          onClick={() => setIsReviewModalOpen(false)}
+                          className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition"
+                      >
+                          Cancel
+                      </button>
+                      <button
+                          onClick={() => {
+                              alert(`Review submitted: ${reviewRating} stars - "${reviewText}"`);
+                              setIsReviewModalOpen(false);
+                              setReviewText("");
+                              setReviewRating(5);
+                          }}
+                          className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-medium hover:bg-blue-800 transition disabled:opacity-50"
+                          disabled={!reviewText.trim()}
+                      >
+                          Submit
+                      </button>
                   </div>
               </div>
           </div>
