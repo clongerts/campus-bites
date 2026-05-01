@@ -39,7 +39,7 @@ export default function StallsPage() {
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState("All");
-  const [budgetLimit, setBudgetLimit] = useState<number | null>(null);
+  const [budgetLimit, setBudgetLimit] = useState<string | null>(null);
   const [quickDecideResult, setQuickDecideResult] = useState<Stall[] | null>(null);
 
   const stalls: Stall[] = [
@@ -114,7 +114,17 @@ export default function StallsPage() {
     const matchesFilter = activeFilter === "All" || stall.tags.includes(activeFilter) || stall.loc.includes(activeFilter);
     const matchesPrice = priceFilter === "All" || stall.price === priceFilter;
     const matchesSearch = stall.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesBudget = !budgetLimit || stall.menu.some(item => item.price <= budgetLimit);
+    // Budget filter logic
+    let matchesBudget = true;
+    if (budgetLimit) {
+      const minPrices = stall.menu.map(item => item.price);
+      const minPrice = Math.min(...minPrices);
+      if (budgetLimit === 'Under ₱50') matchesBudget = minPrice < 50;
+      else if (budgetLimit === '₱50-100') matchesBudget = minPrice >= 50 && minPrice <= 100;
+      else if (budgetLimit === '₱100-150') matchesBudget = minPrice >= 100 && minPrice <= 150;
+      else if (budgetLimit === '₱150-200') matchesBudget = minPrice >= 150 && minPrice <= 200;
+      else if (budgetLimit === '₱200+') matchesBudget = minPrice >= 200;
+    }
     return matchesFilter && matchesSearch && matchesPrice && matchesBudget;
   });
 
@@ -130,6 +140,18 @@ export default function StallsPage() {
       <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-50">
         <Link href="/" className="text-2xl font-bold text-[#003A70] tracking-tight">Campus Bites</Link>
         <div className="flex gap-4 items-center">
+          <input 
+            type="text"
+            placeholder="Search stalls or food..."
+            className="hidden md:block border border-gray-200 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+                    <button onClick={() => setIsSearchModalOpen(true)} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition text-[#003A70]" title="Advanced Filters">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                    </button>
           <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
@@ -154,34 +176,105 @@ export default function StallsPage() {
               <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl animate-in zoom-in duration-300">
                   <div className="flex justify-between items-center mb-6">
                       <h3 className="text-2xl font-bold text-[#003A70]">Can't Decide? 🤔</h3>
-                      <button onClick={() => setQuickDecideResult(null)} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                      <button onClick={() => setQuickDecideResult(null)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {quickDecideResult.map(stall => (
                           <div key={stall.id} className="border border-gray-200 rounded-2xl p-4 hover:shadow-lg transition cursor-pointer" onClick={() => { setSelectedStall(stall); setQuickDecideResult(null); }}>
-                              <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center text-4xl">🍽️</div>
+                              <div className="h-32 bg-gray-100 rounded-xl mb-3 overflow-hidden relative">
+                                  <img src={stall.image} alt={stall.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                              </div>
                               <h4 className="font-bold text-lg">{stall.name}</h4>
                               <p className="text-gray-500 text-sm">{stall.loc}</p>
                               <div className="flex items-center gap-1 mt-2">
-                                  <span className="text-yellow-500">⭐</span>
-                                  <span className="font-medium">{stall.rating}</span>
+                                  <span className="font-medium">{stall.rating}%</span>
                                   <span className="text-gray-400 text-sm ml-2">{stall.price}</span>
                               </div>
                           </div>
                       ))}
                   </div>
+                  <button onClick={handleQuickDecide} className="w-full mt-4 py-3 bg-[#FFD700] text-[#003A70] rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Re-roll!
+                  </button>
               </div>
           </div>
       )}
 
-      {/* --- FILTERS --- */}
+      {/* --- ADVANCED FILTER MODAL --- */}
+      {isSearchModalOpen && (
+          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[120]">
+              <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+                  <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-2xl font-bold text-[#003A70]">Advanced Filters</h3>
+                      <button onClick={() => setIsSearchModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
+                  </div>
+                  {/* Budget Filter */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Budget</h4>
+                      <div className="flex flex-wrap gap-2">
+                          {['Under ₱50', '₱50-100', '₱100-150', '₱150-200', '₱200+'].map(budget => (
+                              <button 
+                                  key={budget}
+                                  onClick={() => setBudgetLimit(budgetLimit === budget ? null : budget)}
+                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${budgetLimit === budget ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                              >
+                                  {budget}
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+                  {/* Location Filter */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Location</h4>
+                      <div className="flex flex-wrap gap-2">
+                          {locations.map(loc => (
+                              <button 
+                                  key={loc}
+                                  onClick={() => setActiveFilter(activeFilter === loc ? "All" : loc)}
+                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${activeFilter === loc ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                              >
+                                  {loc}
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+                  {/* Category Filter */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Category</h4>
+                      <div className="flex flex-wrap gap-2">
+                          {categories.map(cat => (
+                              <button 
+                                  key={cat}
+                                  onClick={() => setActiveFilter(activeFilter === cat ? "All" : cat)}
+                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${activeFilter === cat ? 'bg-[#FFD700] text-[#003A70]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                              >
+                                  {cat}
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+                  <div className="flex gap-3">
+                      <button onClick={() => { setActiveFilter("All"); setBudgetLimit(null); setSearchQuery(""); }} className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition">
+                          Clear All
+                      </button>
+                      <button onClick={() => setIsSearchModalOpen(false)} className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-medium hover:bg-blue-800 transition">
+                          Apply
+                      </button>
+                  </div>
+              </div>
+          </div>
+      )}
       <div className="px-8 pb-8 max-w-6xl mx-auto">
-          <div className="flex flex-wrap gap-2 mb-4">
-              {locations.map(loc => (
-                  <button key={loc} onClick={() => setActiveFilter(loc)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeFilter === loc ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                      {loc}
-                  </button>
-              ))}
+          <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-wrap gap-2">
+                  {locations.map(loc => (
+                      <button key={loc} onClick={() => setActiveFilter(loc)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeFilter === loc ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                          {loc}
+                      </button>
+                  ))}
+              </div>
+
           </div>
           <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
@@ -206,10 +299,8 @@ export default function StallsPage() {
                           {stall.isBestValue && <span className="bg-[#FFD700] text-[#003A70] text-xs font-bold px-2 py-1 rounded-full">Best Value</span>}
                       </div>
                       <p className="text-gray-500 text-sm mb-2">{stall.loc}</p>
-                      <div className="flex items-center gap-2 mb-2">
-                          <span className="text-yellow-500">⭐</span>
-                          <span className="font-medium">{stall.rating}</span>
-                          <span className="text-gray-400 text-sm ml-2">{stall.price}</span>
+                      <div className="flex items-center gap-1 mb-2">
+                          <span className="font-medium">{stall.price}</span>
                           <span className="text-gray-400 text-sm">•</span>
                           <span className="text-gray-400 text-sm">{stall.hours}</span>
                       </div>
@@ -227,9 +318,8 @@ export default function StallsPage() {
       {selectedStall && (
           <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[120]" onClick={() => setSelectedStall(null)}>
               <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                  <button onClick={() => setSelectedStall(null)} className="text-gray-400 hover:text-gray-600 text-2xl float-right">&times;</button>
-                  <div className="h-48 bg-gray-100 rounded-2xl mb-4 overflow-hidden relative">
-                      <img src={selectedStall.image} alt={selectedStall.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  <div className="relative mb-4 w-full flex justify-end">
+                      <button onClick={() => setSelectedStall(null)} className="mt-2 mr-2 text-red-500 hover:text-red-700 text-3xl font-bold z-10">&times;</button>
                   </div>
                   <div className="flex justify-between items-start mb-4">
                       <div>
@@ -239,10 +329,6 @@ export default function StallsPage() {
                       {selectedStall.isBestValue && <span className="bg-[#FFD700] text-[#003A70] text-sm font-bold px-3 py-1 rounded-full">Best Value</span>}
                   </div>
                   <div className="flex items-center gap-4 mb-6">
-                      <div className="flex items-center gap-1">
-                          <span className="text-yellow-500 text-xl">⭐</span>
-                          <span className="text-2xl font-bold">{selectedStall.rating}</span>
-                      </div>
                       <div className="text-xl">{selectedStall.price}</div>
                       <div className="text-gray-500">{selectedStall.hours}</div>
                   </div>

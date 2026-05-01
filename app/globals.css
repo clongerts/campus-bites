@@ -1,3 +1,20 @@
+/* Custom scrollbar styling for the whole site and modals */
+html, body, .modal, .overflow-y-auto, .max-h-\[90vh\] {
+  scrollbar-width: thin;
+  scrollbar-color: #003A70 #e5e7eb;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #e5e7eb;
+}
+::-webkit-scrollbar-thumb {
+  background: #003A70;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0051a8;
+}
 @import "tailwindcss";
 
 :root {
