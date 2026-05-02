@@ -32,14 +32,14 @@ export default function HomePage() {
         <div className="flex justify-center gap-6 pb-15">
           <Link 
             href="/stalls"
-            className="bg-[#003A70] text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
+            className="flex justify-center items-center bg-[#003A70] text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
             style={{ textDecoration: "none" }}
           >
             Browse All Stalls
           </Link>
           <Link 
             href="/map"
-            className="bg-[#FFD700] text-[#003A70] px-8 py-4 rounded-2xl font-bold hover:bg-yellow-400 transition text-lg shadow-lg"
+            className="flex justify-center items-center bg-[#FFD700] text-[#003A70] px-8 py-4 rounded-2xl font-bold hover:bg-yellow-400 transition text-lg shadow-lg"
             style={{ textDecoration: "none" }}
           >
             View Campus Map
