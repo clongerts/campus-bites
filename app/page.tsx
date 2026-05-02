@@ -24,22 +24,22 @@ export default function HomePage() {
       {/* --- WHITE BACKGROUND SECTION --- */}
       <div className="bg-white">
         {/* --- HERO SECTION --- */}
-        <header className="py-15 px-8 max-w-6xl mx-auto text-center">
-          <h2 className="text-6xl font-extrabold mb-4 text-[#003A70]">Eat like an Eagle.</h2>
-          <p className="text-gray-600 text-xl mb-10">Discover the best food spots across campus.</p>
+        <header className="py-10 px-8 max-w-6xl mx-auto text-center">
+          <h2 className="text-7xl font-extrabold mb-4 text-[#003A70]">Eat like an Eagle.</h2>
+          <p className="text-gray-600 text-2xl mb-5">Discover the best food spots across campus.</p>
         </header>
         
-        <div className="flex justify-center gap-6 pb-15">
+        <div className="flex justify-center gap-6 pb-15 px-8">
           <Link 
             href="/stalls"
-            className="text-center bg-[#003A70] text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
+            className="text-center bg-[#003A70] text-white px-8 py-6 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
             style={{ textDecoration: "none" }}
           >
             Browse All Stalls
           </Link>
           <Link 
             href="/map"
-            className="text-center bg-[#FFD700] text-[#003A70] px-8 py-4 rounded-2xl font-bold hover:bg-yellow-400 transition text-lg shadow-lg"
+            className="text-center bg-[#FFD700] text-[#003A70] px-8 py-6 rounded-2xl font-bold hover:bg-yellow-400 transition text-lg shadow-lg"
             style={{ textDecoration: "none" }}
           >
             View Campus Map
