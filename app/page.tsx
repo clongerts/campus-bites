@@ -15,7 +15,7 @@ export default function HomePage() {
           <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
-          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm" style={{ textDecoration: "none" }}>
+          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Login
           </Link>
         </div>
@@ -29,7 +29,7 @@ export default function HomePage() {
           <p className="text-gray-600 text-xl mb-10">Discover the best food spots across campus.</p>
         </header>
         
-        <div className="flex justify-center gap-6 pb-20">
+        <div className="flex justify-center gap-6 pb-10">
           <Link 
             href="/stalls"
             className="bg-[#003A70] text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
@@ -52,7 +52,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
             <div className="text-4xl mb-4">🍽️</div>
-            <h3 className="text-xl font-bold mb-2 text-[#003A70]">51 Food Stalls</h3>
+            <h3 className="text-xl font-bold mb-2 text-[#003A70]">Food Stalls</h3>
             <p className="text-gray-600">Browse through all the best dining options on campus.</p>
           </div>
           <div className="text-center p-6 bg-white rounded-2xl shadow-lg">

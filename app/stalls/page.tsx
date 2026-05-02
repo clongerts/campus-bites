@@ -172,9 +172,9 @@ export default function StallsPage() {
       </nav>
 
       {/* --- WHITE BACKGROUND WRAPPER --- */}
-      <div className="bg-white">
+      <div className="bg-white max-w-6xl mx-auto">
       {/* --- HEADER --- */}
-      <header className="py-12 px-8 max-w-6xl mx-auto text-center">
+      <header className="py-12 px-8 text-center">
         <h2 className="text-5xl font-extrabold mb-4 text-[#003A70]">All Food Stalls</h2>
         <p className="text-gray-600 text-lg mb-8">Browse all the spots across the Hill.</p>
         <button onClick={handleQuickDecide} className="bg-[#FFD700] text-[#003A70] px-8 py-3 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-lg">
@@ -277,7 +277,7 @@ export default function StallsPage() {
               </div>
           </div>
       )}
-      <div className="px-8 pb-8 max-w-6xl mx-auto">
+      <div className="px-8 pb-8">
           <div className="flex justify-between items-center mb-4">
               <div className="flex flex-wrap gap-2">
                   {locations.map(loc => (
@@ -298,7 +298,7 @@ export default function StallsPage() {
       </div>
 
       {/* --- STALLS GRID --- */}
-      <div className="px-8 pb-16 max-w-6xl mx-auto">
+      <div className="px-8 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredStalls.map(stall => (
                   <div key={stall.id} className="border border-gray-100 rounded-2xl p-4 hover:shadow-lg transition cursor-pointer bg-white" onClick={() => setSelectedStall(stall)}>
@@ -324,7 +324,7 @@ export default function StallsPage() {
                   </div>
               ))}
           </div>
-          </div>
+      </div>
       </div>
 
       {/* --- STALL DETAIL MODAL --- */}
