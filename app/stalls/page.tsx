@@ -143,7 +143,7 @@ export default function StallsPage() {
   };
 
   return (
-    <div className="min-h-screen text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
+<div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       {/* --- NAVBAR --- */}
       <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#001a4d]/90 backdrop-blur-md z-50">
         <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
@@ -172,7 +172,7 @@ export default function StallsPage() {
       </nav>
 
       {/* --- WHITE BACKGROUND WRAPPER --- */}
-      <div className="bg-white max-w-6xl mx-auto">
+      <div className="bg-white max-w-7xl mx-auto -mt-20 pt-20 flex-grow w-full">
       {/* --- HEADER --- */}
       <header className="py-12 px-8 text-center">
         <h2 className="text-5xl font-extrabold mb-4 text-[#003A70]">All Food Stalls</h2>
@@ -301,7 +301,7 @@ export default function StallsPage() {
       <div className="px-8 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredStalls.map(stall => (
-                  <div key={stall.id} className="border border-gray-100 rounded-2xl p-4 hover:shadow-lg transition cursor-pointer bg-white" onClick={() => setSelectedStall(stall)}>
+                  <div key={stall.id} className="border border-gray-100 rounded-2xl p-4 hover:shadow-lg transition duration-300 transform hover:scale-110 cursor-pointer bg-white" onClick={() => setSelectedStall(stall)}>
                       <div className="h-40 bg-gray-100 rounded-xl mb-3 overflow-hidden relative">
                           <img src={stall.image} alt={stall.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                           <span className="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[#003A70]">{stall.rating}%</span>
@@ -441,7 +441,7 @@ export default function StallsPage() {
       {/* --- CREATE REVIEW MODAL --- */}
       {isReviewModalOpen && selectedStall && (
           <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[130]" onClick={() => setIsReviewModalOpen(false)}>
-              <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+              <div className="bg-white rounded-3xl p-8 max-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
                   <div className="flex justify-between items-center mb-6">
                       <h3 className="text-2xl font-bold text-[#003A70]">Review {selectedStall.name}</h3>
                       <button onClick={() => setIsReviewModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
