@@ -15,7 +15,7 @@ export default function HomePage() {
           <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
-          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm shadow" style={{ textDecoration: "none" }}>
+          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Login
           </Link>
         </div>
@@ -24,12 +24,12 @@ export default function HomePage() {
       {/* --- WHITE BACKGROUND SECTION --- */}
       <div className="bg-white">
         {/* --- HERO SECTION --- */}
-        <header className="py-20 px-8 max-w-6xl mx-auto text-center">
+        <header className="py-15 px-8 max-w-6xl mx-auto text-center">
           <h2 className="text-6xl font-extrabold mb-4 text-[#003A70]">Eat like an Eagle.</h2>
           <p className="text-gray-600 text-xl mb-10">Discover the best food spots across campus.</p>
         </header>
         
-        <div className="flex justify-center gap-6 pb-10">
+        <div className="flex justify-center gap-6 pb-15">
           <Link 
             href="/stalls"
             className="bg-[#003A70] text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"

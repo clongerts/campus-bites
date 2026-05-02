@@ -93,14 +93,14 @@ export default function StallsPage() {
 
     // --- REGIS CENTER ---
     { id: 39, name: "Domino's Pizza", loc: "Regis 1/F", rating: 82, price: "₱₱", hours: "10:00 AM - 10:00 PM", tags: ["Regis", "Regis 1/F", "Fast"], image: "/images/dominos.jpg", portionSize: "Large", isBestValue: false, menu: [{ name: "Regular Pepperoni", price: 299 }, { name: "Creamy Carbonara", price: 199 }, { name: "Cheesy Breadsticks", price: 120 }], reviews: [] },
-    { id: 40, name: "CBTL", loc: "Regis 1/F", rating: 91, price: "₱₱", hours: "7:00 AM - 11:00 PM", tags: ["Regis", "Regis 1/F", "Study Spots"], image: "/images/cbtl.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "African Sunrise Iced Tea", price: 185 }, { name: "Vanilla Latte", price: 175 }, { name: "Blueberry Muffin", price: 110 }], reviews: [] },
+    { id: 40, name: "The Coffee Bean & Tea Leaf", loc: "Regis 1/F", rating: 91, price: "₱₱", hours: "7:00 AM - 11:00 PM", tags: ["Regis", "Regis 1/F", "Study Spots"], image: "/images/cbtl.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "African Sunrise Iced Tea", price: 185 }, { name: "Vanilla Latte", price: 175 }, { name: "Blueberry Muffin", price: 110 }], reviews: [] },
     { id: 41, name: "Tetsuo", loc: "Regis 2/F", rating: 94, price: "₱₱₱", hours: "11:00 AM - 9:00 PM", tags: ["Regis", "Regis 2/F", "Japanese", "Date Spot"], image: "/images/tetsuo.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Signature Karaage (S)", price: 210 }, { name: "Cold Soba Noodles", price: 195 }, { name: "Umami Fried Rice", price: 95 }, { name: "Japanese Slaw", price: 60 }], reviews: [] },
     { id: 42, name: "BOK Chicken", loc: "Regis 2/F", rating: 95, price: "₱₱", hours: "10:00 AM - 2:00 AM", tags: ["Regis", "Regis 2/F", "Korean"], image: "/images/bok.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "6pc Double Fried Chicken", price: 195 }, { name: "Snow Cheese Poppers", price: 155 }, { name: "BOK Rice Bowl", price: 175 }], reviews: [] },
     { id: 43, name: "JAAM House of Sushi", loc: "Regis 2/F", rating: 89, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 2/F", "Japanese"], image: "/images/jaam.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Sushi Platter (Mixed)", price: 250 }, { name: "California Maki", price: 180 }, { name: "Ebi Tempura (3pcs)", price: 195 }], reviews: [] },
     { id: 44, name: "Dim Dum Tom", loc: "Regis 2/F", rating: 87, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 2/F", "Chinese"], image: "/images/dim-dum.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Assorted Dimsum Box", price: 160 }, { name: "Beef Wonton Noodles", price: 185 }, { name: "Soy Chicken Rice", price: 170 }], reviews: [] },
     { id: 45, name: "Coco Milk Tea", loc: "Regis 2/F", rating: 92, price: "₱₱", hours: "11:00 AM - 9:00 PM", tags: ["Regis", "Regis 2/F", "Drinks"], image: "/images/coco.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Panda Milk Tea", price: 130 }, { name: "3 Buddies Milk Tea", price: 145 }, { name: "Lemon Green Tea", price: 110 }], reviews: [] },
     { id: 46, name: "Subway", loc: "Regis 3/F", rating: 88, price: "₱₱", hours: "9:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Healthy"], image: "/images/subway.jpg", portionSize: "Large", isBestValue: false, menu: [{ name: "6-inch Roast Beef", price: 230 }, { name: "Footlong Upgrade", price: 160 }, { name: "Chocolate Chip Cookie", price: 50 }], reviews: [] },
-    { id: 47, name: "Kim-s Ramyun", loc: "Regis 3/F", rating: 90, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Korean"], image: "/images/kims.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Shin Ramyun Bowl", price: 180 }, { name: "Tuna Gimbap", price: 150 }, { name: "Tteokbokki", price: 165 }], reviews: [] },
+    { id: 47, name: "Kim's Ramyun", loc: "Regis 3/F", rating: 90, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Korean"], image: "/images/kims.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Shin Ramyun Bowl", price: 180 }, { name: "Tuna Gimbap", price: 150 }, { name: "Tteokbokki", price: 165 }], reviews: [] },
     { id: 48, name: "Royal Tea", loc: "Regis 3/F", rating: 86, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Drinks"], image: "/images/royal-tea.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Cheese Cream Matcha", price: 140 }, { name: "Royal Fruit Tea", price: 135 }, { name: "Oreo Cocoa", price: 125 }], reviews: [] },
     { id: 49, name: "Paotsin", loc: "Regis 3/F", rating: 97, price: "₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Budget"], image: "/images/paotsin.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Shark's Fin w/ Green Rice", price: 100 }, { name: "Beef Siomai w/ Green Rice", price: 100 }, { name: "Laksa Noodles", price: 120 }, { name: "Fried Dumplings", price: 45 }], reviews: [] },
     { id: 50, name: "Fruitas", loc: "Regis 3/F", rating: 93, price: "₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Drinks"], image: "/images/fruitas.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Buko Juice", price: 80 }, { name: "Mango Shake", price: 95 }, { name: "Four Seasons Shake", price: 110 }], reviews: [] },
@@ -165,7 +165,7 @@ export default function StallsPage() {
           <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
-          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm" style={{ textDecoration: "none" }}>
+          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition text-sm" style={{ textDecoration: "none" }}>
             Login
           </Link>
         </div>
@@ -349,19 +349,23 @@ export default function StallsPage() {
                   {/* EXPECTATION VS REALITY */}
                   <div className="mb-6">
                       <h4 className="font-bold text-lg mb-3">📸 Reality Check</h4>
-                      <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden border border-gray-100 h-32">
-                          <div className="relative group">
-                              <img src={selectedStall.image} alt="Expectation" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                              <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded font-bold">Expectation</span>
+                      <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden border border-gray-100">
+                          <div className="relative">
+                              <img src={selectedStall.image} alt="Expectation" className="h-32 w-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                              <div className="absolute inset-0 flex flex-col justify-end">
+                                  <span className="bg-black/60 text-white text-[8px] px-1.5 py-0.5 font-bold">Expectation</span>
+                              </div>
                           </div>
-                          <div className="relative group">
+                          <div className="relative">
                               <img 
                                   src={selectedStall.reviews.find(r => r.realityPhoto)?.realityPhoto || "/images/placeholder-reality.jpg"} 
                                   alt="Reality" 
-                                  className="h-full w-full object-cover" 
+                                  className="h-32 w-full object-cover" 
                                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                               />
-                              <span className="absolute bottom-1 left-1 bg-blue-600/80 text-white text-[8px] px-1.5 py-0.5 rounded font-bold">Student Reality</span>
+                              <div className="absolute inset-0 flex flex-col justify-end">
+                                  <span className="bg-blue-600/80 text-white text-[8px] px-1.5 py-0.5 font-bold">Student Reality</span>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -378,6 +382,11 @@ export default function StallsPage() {
                               ))}
                           </div>
                       </div>
+                      <Link href="/map" style={{ textDecoration: "none" }}>
+                          <button className="w-full mt-3 py-2 bg-[#003A70] text-white rounded-lg font-bold hover:bg-blue-800 transition text-sm">
+                              Go! 📍
+                          </button>
+                      </Link>
                   </div>
                   <div className="mb-6">
                       <h4 className="font-bold text-lg mb-3">Tags</h4>
