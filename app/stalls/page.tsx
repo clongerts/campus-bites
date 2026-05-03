@@ -1,9 +1,7 @@
-export const dynamic = 'force-dynamic';
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
 
 interface Menu {
   name: string;
@@ -46,15 +44,6 @@ export default function StallsPage() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
-
-  const searchParams = useSearchParams();
-  const filterParam = searchParams.get('filter');
-
-  useEffect(() => {
-    if (filterParam) {
-      setActiveFilter(filterParam);
-    }
-  }, [filterParam]);
 
   const stalls: Stall[] = [
     // --- JSEC STALLS ---
@@ -117,16 +106,16 @@ export default function StallsPage() {
     { id: 50, name: "Fruitas", loc: "Regis 3/F", rating: 93, price: "₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F", "Drinks"], image: "/images/fruitas.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Buko Juice", price: 80 }, { name: "Mango Shake", price: 95 }, { name: "Four Seasons Shake", price: 110 }], reviews: [] },
     { id: 51, name: "Spudbae", loc: "Regis 3/F", rating: 89, price: "₱₱", hours: "10:00 AM - 9:00 PM", tags: ["Regis", "Regis 3/F"], image: "/images/spudbae.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fully Loaded Baked Potato", price: 150 }, { name: "Sour Cream Fries", price: 90 }, { name: "Cheesy Spuds", price: 110 }], reviews: [] },
 
-    // --- OUTSIDE CAMPUS / KATIPUNAN ---
-    { id: 52, name: "Busan Korean Restaurant", loc: "Katipunan", rating: 91, price: "₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Outside Campus", "Katipunan", "Korean"], image: "/images/busan.jpg", portionSize: "Large", isBestValue: false, menu: [{ name: "Beef Samgyup Set", price: 499 }, { name: "Dolsot Bibimbap", price: 250 }, { name: "Pork Cutlet", price: 280 }], reviews: [] },
-    { id: 53, name: "Kanto Freestyle", loc: "Katipunan", rating: 94, price: "₱₱", hours: "24 Hours", tags: ["Outside Campus", "Katipunan", "Breakfast"], image: "/images/kanto.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Batangas Beef Tapa", price: 160 }, { name: "Honey Garlic Chicken", price: 155 }, { name: "Mixed Berry Pancakes", price: 140 }, { name: "Fried Oreo", price: 90 }], reviews: [] },
-    { id: 54, name: "Go Salads!", loc: "Katipunan", rating: 89, price: "₱₱", hours: "10:00 AM - 8:00 PM", tags: ["Outside Campus", "Katipunan", "Healthy"], image: "/images/go-salads.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Hummus Salad", price: 190 }, { name: "Green Smoothie", price: 150 }, { name: "Chicken Pesto Wrap", price: 175 }], reviews: [] },
-    { id: 55, name: "JT's Manukan", loc: "Katipunan", rating: 92, price: "₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Outside Campus", "Katipunan", "Filipino"], image: "/images/jts.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Chicken Inasal Paa", price: 180 }, { name: "Garlic Rice", price: 35 }, { name: "Chicken Skin", price: 95 }, { name: "Batchoy", price: 145 }], reviews: [] },
-    { id: 56, name: "Gino's Brick Oven Pizza", loc: "Katipunan", rating: 96, price: "₱₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Outside Campus", "Katipunan", "Date Spot"], image: "/images/ginos.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Margherita Pizza", price: 380 }, { name: "Burrata", price: 450 }, { name: "Salted Egg Pasta", price: 320 }, { name: "Lemonade", price: 95 }], reviews: [] },
-    { id: 57, name: "Zus Coffee", loc: "Katipunan", rating: 93, price: "₱₱", hours: "7:00 AM - 10:00 PM", tags: ["Outside Campus", "Katipunan", "Drinks"], image: "/images/zus.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "CEO Latte", price: 95 }, { name: "Spanish Latte", price: 110 }, { name: "Buttercrush Frappe", price: 145 }, { name: "Oat Milk Upgrade", price: 35 }], reviews: [] },
+    // --- NEAR ATENEO / KATIPUNAN ---
+    { id: 52, name: "Busan Korean Restaurant", loc: "Katipunan", rating: 91, price: "₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Near Ateneo", "Katipunan", "Korean"], image: "/images/busan.jpg", portionSize: "Large", isBestValue: false, menu: [{ name: "Beef Samgyup Set", price: 499 }, { name: "Dolsot Bibimbap", price: 250 }, { name: "Pork Cutlet", price: 280 }], reviews: [] },
+    { id: 53, name: "Kanto Freestyle", loc: "Katipunan", rating: 94, price: "₱₱", hours: "24 Hours", tags: ["Near Ateneo", "Katipunan", "Breakfast"], image: "/images/kanto.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Batangas Beef Tapa", price: 160 }, { name: "Honey Garlic Chicken", price: 155 }, { name: "Mixed Berry Pancakes", price: 140 }, { name: "Fried Oreo", price: 90 }], reviews: [] },
+    { id: 54, name: "Go Salads!", loc: "Katipunan", rating: 89, price: "₱₱", hours: "10:00 AM - 8:00 PM", tags: ["Near Ateneo", "Katipunan", "Healthy"], image: "/images/go-salads.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Hummus Salad", price: 190 }, { name: "Green Smoothie", price: 150 }, { name: "Chicken Pesto Wrap", price: 175 }], reviews: [] },
+    { id: 55, name: "JT's Manukan", loc: "Katipunan", rating: 92, price: "₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Near Ateneo", "Katipunan", "Filipino"], image: "/images/jts.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Chicken Inasal Paa", price: 180 }, { name: "Garlic Rice", price: 35 }, { name: "Chicken Skin", price: 95 }, { name: "Batchoy", price: 145 }], reviews: [] },
+    { id: 56, name: "Gino's Brick Oven Pizza", loc: "Katipunan", rating: 96, price: "₱₱₱", hours: "11:00 AM - 10:00 PM", tags: ["Near Ateneo", "Katipunan", "Date Spot"], image: "/images/ginos.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Margherita Pizza", price: 380 }, { name: "Burrata", price: 450 }, { name: "Salted Egg Pasta", price: 320 }, { name: "Lemonade", price: 95 }], reviews: [] },
+    { id: 57, name: "Zus Coffee", loc: "Katipunan", rating: 93, price: "₱₱", hours: "7:00 AM - 10:00 PM", tags: ["Near Ateneo", "Katipunan", "Drinks"], image: "/images/zus.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "CEO Latte", price: 95 }, { name: "Spanish Latte", price: 110 }, { name: "Buttercrush Frappe", price: 145 }, { name: "Oat Milk Upgrade", price: 35 }], reviews: [] },
   ];
 
-  const locations = ["All", "Inside Campus", "JSEC", "Gonzaga 1/F", "Gonzaga 2/F", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Outside Campus", "Residence Halls"];
+  const locations = ["All", "Inside Campus", "JSEC", "Gonzaga 1/F", "Gonzaga 2/F", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo", "Residence Halls"];
   const categories = ["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"];
 
   const filteredStalls = stalls.filter(stall => {
@@ -393,7 +382,7 @@ export default function StallsPage() {
                               ))}
                           </div>
                       </div>
-                      <Link href={`/map?location=${encodeURIComponent(selectedStall.loc)}`} style={{ textDecoration: "none" }}>
+                      <Link href="/map" style={{ textDecoration: "none" }}>
                           <button className="w-full mt-3 py-2 bg-[#003A70] text-white rounded-lg font-bold hover:bg-blue-800 transition text-sm">
                               Go! 📍
                           </button>
@@ -449,83 +438,67 @@ export default function StallsPage() {
           </div>
       )}
 
-    {/* --- CREATE REVIEW MODAL --- */}
-    {isReviewModalOpen && selectedStall && (
-      <div 
-        className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[130]" 
-        onClick={() => setIsReviewModalOpen(false)}
-      >
-        {/* FIXED: Changed 'max-md' to 'max-w-md' to constrain width */}
-        <div 
-          className="bg-white rounded-3xl p-6 md:p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in-95 duration-200" 
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl md:text-2xl font-bold text-[#003A70]">
-              Review {selectedStall.name}
-            </h3>
-            <button 
-              onClick={() => setIsReviewModalOpen(false)} 
-              className="text-slate-400 hover:text-red-500 transition-colors text-3xl font-light"
-            >
-              &times;
-            </button>
-          </div>
+      {/* --- CREATE REVIEW MODAL --- */}
+      {isReviewModalOpen && selectedStall && (
+          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[130]" onClick={() => setIsReviewModalOpen(false)}>
+              <div className="bg-white rounded-3xl p-8 max-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+                  <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-2xl font-bold text-[#003A70]">Review {selectedStall.name}</h3>
+                      <button onClick={() => setIsReviewModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
+                  </div>
 
-          {/* Rating */}
-          <div className="mb-6 text-center">
-            <h4 className="font-bold text-xs uppercase tracking-widest text-slate-500 mb-3">Rating</h4>
-            <div className="flex gap-2 justify-center">
-              {[1, 2, 3, 4, 5].map(star => (
-                <button
-                  key={star}
-                  onClick={() => setReviewRating(star)}
-                  className={`text-4xl transition-all duration-200 transform active:scale-90 ${
-                    star <= reviewRating ? 'text-yellow-400' : 'text-slate-200'
-                  }`}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
+                  {/* Rating */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Rating</h4>
+                      <div className="flex gap-2 justify-center">
+                          {[1, 2, 3, 4, 5].map(star => (
+                              <button
+                                  key={star}
+                                  onClick={() => setReviewRating(star)}
+                                  className={`text-3xl transition ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}`}
+                              >
+                                  ★
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+
+                  {/* Review Text */}
+                  <div className="mb-6">
+                      <h4 className="font-bold text-sm mb-3">Your Review</h4>
+                      <textarea
+                          placeholder="Share your experience..."
+                          className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20 resize-none"
+                          rows={4}
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                      />
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex gap-3">
+                      <button
+                          onClick={() => setIsReviewModalOpen(false)}
+                          className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition"
+                      >
+                          Cancel
+                      </button>
+                      <button
+                          onClick={() => {
+                              alert(`Review submitted: ${reviewRating} stars - "${reviewText}"`);
+                              setIsReviewModalOpen(false);
+                              setReviewText("");
+                              setReviewRating(5);
+                          }}
+                          className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-medium hover:bg-blue-800 transition disabled:opacity-50"
+                          disabled={!reviewText.trim()}
+                      >
+                          Submit
+                      </button>
+                  </div>
+              </div>
           </div>
-    
-          {/* Review Text */}
-          <div className="mb-8">
-            <h4 className="font-bold text-xs uppercase tracking-widest text-slate-500 mb-3">Your Review</h4>
-            <textarea
-              placeholder="What did you think of the food or service?"
-              className="w-full border border-slate-200 rounded-2xl p-4 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#003A70]/20 focus:border-[#003A70] transition-all resize-none bg-slate-50"
-              rows={4}
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-            />
-          </div>
-    
-          {/* Buttons */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => setIsReviewModalOpen(false)}
-              className="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors text-sm md:text-base"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                alert(`Review submitted: ${reviewRating} stars - "${reviewText}"`);
-                setIsReviewModalOpen(false);
-                setReviewText("");
-                setReviewRating(5);
-              }}
-              className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-bold hover:bg-[#002a50] transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:shadow-none text-sm md:text-base"
-              disabled={!reviewText.trim()}
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
+      )}
     </div>
   );
 }
