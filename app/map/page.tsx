@@ -43,7 +43,7 @@ export default function MapPage() {
   }, []);
 
   return (
-    <main className="relative min-h-screen text-gray-900 pt-8 px-4 overflow-hidden">
+    <main className="relative min-h-screen text-gray-900 pt-4 md:pt-8 px-4 overflow-x-hidden">
       {/* --- FIXED BACKGROUND IMAGE --- */}
       <div 
         className="fixed inset-0 z-0"
@@ -58,13 +58,13 @@ export default function MapPage() {
       {/* Dark/Blur Overlay to ensure contrast */}
       <div className="fixed inset-0 z-0 bg-slate-900/20 backdrop-blur-[2px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="relative z-10 max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 pb-8">
         
         {/* Header */}
-        <div className="lg:col-span-4 flex justify-between items-center bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div className="lg:col-span-4 flex justify-between items-center bg-white/90 backdrop-blur-md p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200">
           <div>
-            <h1 className="text-3xl font-black text-[#003A70]">Campus Map</h1>
-            <p className="text-slate-500 font-medium italic">Pinch/Scroll to zoom • Drag to pan</p>
+            <h1 className="text-2xl md:text-3xl font-black text-[#003A70]">Campus Map</h1>
+            <p className="text-slate-500 text-xs md:text-sm font-medium italic">Pinch/Scroll to zoom • Drag to pan</p>
           </div>
           {selectedStall && (
             <div className="bg-blue-50 border border-blue-100 px-4 py-2 rounded-full hidden md:block animate-in fade-in zoom-in-95">
@@ -76,7 +76,8 @@ export default function MapPage() {
         </div>
 
         {/* --- MAP SECTION --- */}
-        <div className="lg:col-span-3 relative h-[750px] bg-slate-300 rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl touch-none">
+        {/* FIXED: Added responsive height h-[450px] for mobile and lg:h-[750px] for desktop */}
+        <div className="lg:col-span-3 relative h-[450px] lg:h-[750px] bg-slate-300 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl touch-none">
           <QuickPinchZoom 
             onUpdate={onUpdate} 
             wheelScaleFactor={500} 
@@ -84,7 +85,6 @@ export default function MapPage() {
             minScale={1}
             maxScale={5}
           >
-            {/* Added will-change for performance */}
             <div ref={imgRef} className="relative w-full h-full will-change-transform">
               <img 
                 src="/images/map.png"
@@ -99,18 +99,18 @@ export default function MapPage() {
                   style={{ top: stall.top, left: stall.left }}
                   className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-30"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevents map drag from triggering on click
+                    e.stopPropagation();
                     setSelectedStall(stall);
                   }}
                 >
-                  <div className={`w-10 h-10 flex items-center justify-center rounded-full border-4 border-white shadow-xl transition-all duration-300 ${
+                  <div className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full border-2 md:border-4 border-white shadow-xl transition-all duration-300 ${
                     selectedStall?.name === stall.name ? "bg-yellow-400 scale-125" : "bg-[#003A70] hover:scale-110"
                   }`}>
-                    <span className="text-white text-sm">📍</span>
+                    <span className="text-white text-xs md:text-sm">📍</span>
                   </div>
                   
-                  {/* Tooltip */}
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-[#003A70] px-3 py-1 rounded-lg text-xs font-black shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                  {/* Tooltip (Desktop only) */}
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-[#003A70] px-3 py-1 rounded-lg text-xs font-black shadow-lg opacity-0 lg:group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                     {stall.name}
                   </div>
                 </div>
@@ -119,8 +119,8 @@ export default function MapPage() {
           </QuickPinchZoom>
 
           {/* Zoom Instruction Overlay */}
-          <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-slate-200 pointer-events-none z-40">
-            <p className="text-[10px] font-black text-[#003A70] uppercase tracking-tighter">
+          <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-white/90 backdrop-blur-sm px-3 py-1 md:px-4 md:py-2 rounded-xl shadow-lg border border-slate-200 pointer-events-none z-40">
+            <p className="text-[8px] md:text-[10px] font-black text-[#003A70] uppercase tracking-tighter">
               Scroll or Pinch to Explore
             </p>
           </div>
@@ -128,7 +128,7 @@ export default function MapPage() {
 
         {/* --- SIDEBAR --- */}
         <div className="lg:col-span-1">
-          <div className={`p-8 rounded-[2.5rem] transition-all duration-500 shadow-xl min-h-[500px] flex flex-col justify-between h-full ${
+          <div className={`p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] transition-all duration-500 shadow-xl min-h-[400px] lg:min-h-[500px] flex flex-col justify-between h-full ${
             selectedStall ? "bg-[#003A70]/95 backdrop-blur-md text-white" : "bg-white/90 backdrop-blur-md border border-slate-200"
           }`}>
             
@@ -138,10 +138,10 @@ export default function MapPage() {
                   <span className="text-[10px] uppercase font-black tracking-[0.2em] opacity-60">
                     {selectedStall.category}
                   </span>
-                  <h3 className="text-4xl font-black mt-4 mb-6 leading-tight">
+                  <h3 className="text-2xl md:text-4xl font-black mt-2 md:mt-4 mb-4 md:mb-6 leading-tight">
                     {selectedStall.name}
                   </h3>
-                  <p className={`${selectedStall ? 'text-blue-100' : 'text-gray-600'} text-lg leading-relaxed mb-8`}>
+                  <p className={`${selectedStall ? 'text-blue-100' : 'text-gray-600'} text-base md:text-lg leading-relaxed mb-6 md:mb-8`}>
                     {selectedStall.info}
                   </p>
                   <button 
@@ -152,26 +152,26 @@ export default function MapPage() {
                   </button>
                 </div>
               ) : (
-                <div className="py-20 text-center">
-                  <div className="text-5xl mb-6 opacity-20">🧭</div>
-                  <p className="text-slate-400 text-lg font-bold">
+                <div className="py-10 md:py-20 text-center">
+                  <div className="text-4xl md:text-5xl mb-4 md:mb-6 opacity-20">🧭</div>
+                  <p className="text-slate-400 text-base md:text-lg font-bold px-4">
                     Tap a pin on the map to see details
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="space-y-4 pt-8 border-t border-white/10 mt-auto">
+            <div className="space-y-3 md:space-y-4 pt-6 md:pt-8 border-t border-white/10 mt-auto">
               <Link 
                 href="/stalls" 
-                className={`block w-full text-center py-5 rounded-2xl font-extrabold text-lg transition-all shadow-lg ${
+                className={`block w-full text-center py-4 md:py-5 rounded-2xl font-extrabold text-base md:text-lg transition-all shadow-lg ${
                   selectedStall ? "bg-yellow-400 text-[#003A70] hover:bg-yellow-300" : "bg-[#003A70] text-white hover:bg-[#002a50]"
                 }`}
                 style={{ textDecoration: 'none' }}
               >
                 Browse All Stalls
               </Link>
-              <Link href="/" className={`block text-center text-sm font-bold transition-opacity py-2 ${selectedStall ? 'text-blue-200 hover:text-white' : 'text-slate-400 hover:text-[#003A70]'}`} style={{ textDecoration: 'none' }}>
+              <Link href="/" className={`block text-center text-xs md:text-sm font-bold transition-opacity py-2 ${selectedStall ? 'text-blue-200 hover:text-white' : 'text-slate-400 hover:text-[#003A70]'}`} style={{ textDecoration: 'none' }}>
                 ← Return Home
               </Link>
             </div>
