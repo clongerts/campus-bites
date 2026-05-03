@@ -1,183 +1,177 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
+// Using a standard import that works across most Next.js configurations
+import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
 
 export default function MapPage() {
-  // State to track which stall/building is currently selected
   const [selectedStall, setSelectedStall] = useState<{
     name: string;
     info: string;
     category: string;
   } | null>(null);
 
-  // Data for the interactive stalls/buildings
+  const imgRef = useRef<HTMLDivElement>(null);
+
   const stalls = {
-    union: {
-      name: "Student Union",
-      info: "The main food court featuring 5 different stalls including the famous chicken meals.",
-      category: "Food Court",
+    regis: {
+      name: "Regis Center",
+      info: "The ultimate 'off-campus' sanctuary. Whether you're grabbing a post-class Popeyes fix, studying in a milk tea shop, or getting school supplies, it's the bridge between campus life and Katipunan’s bustling food scene.",
+      category: "Commercial / Off-Campus",
+      top: "22%", left: "24%", 
     },
-    cafe: {
-      name: "Library Cafe",
-      info: "Specialty coffee, quick pastries, and reliable Wi-Fi for studying.",
-      category: "Cafe",
+    gonzaga: {
+      name: "Gonzaga Hall",
+      info: "The heart of student life. Home to the university bookstore and the central cafeteria, it’s where you'll find everything from 'blue book' emergencies to classic budget-friendly meals and essential student services.",
+      category: "Academic / Dining",
+      top: "47%", left: "58.5%", 
     },
-    jollibee: {
-      name: "Jollibee Katipunan",
-      info: "Home of the famous Chickenjoy and Jolly Spaghetti near Gate 3.",
-      category: "Fast Food",
+    jsec: {
+      name: "JSEC",
+      info: "A dynamic open-air food laboratory. Every year, student entrepreneurs launch fresh concepts here, making it the go-to spot for unique, rotating flavors and witnessing the university’s business spirit in action.",
+      category: "Dining / Business",
+      top: "64%", left: "44%", 
     },
   };
 
-  // Base Tailwind classes for all interactive SVG groups
-  const interactiveGroupClasses = "cursor-pointer transition-transform duration-300 ease-out origin-center hover:scale-110";
+  const onUpdate = useCallback(({ x, y, scale }: { x: number; y: number; scale: number }) => {
+    if (imgRef.current) {
+      const value = make3dTransformValue({ x, y, scale });
+      imgRef.current.style.setProperty("transform", value);
+      imgRef.current.style.setProperty("-webkit-transform", value);
+    }
+  }, []);
 
   return (
-    <main className="bg-white min-h-screen text-gray-900 pt-12">
-      {/* --- MAIN CONTENT SECTION --- */}
-      <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <main className="relative min-h-screen text-gray-900 pt-8 px-4 overflow-hidden">
+      {/* --- FIXED BACKGROUND IMAGE --- */}
+      <div 
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: "url('/images/ADMU_1.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      />
+      
+      {/* Dark/Blur Overlay to ensure contrast */}
+      <div className="fixed inset-0 z-0 bg-slate-900/20 backdrop-blur-[2px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
         
-        {/* Left Column: Massive Interactive Map */}
-        <div className="lg:col-span-3 flex flex-col gap-6">
-          <div className="flex justify-between items-end">
-            <div>
-              <h1 className="text-4xl font-black text-[#003A70]">Campus Map</h1>
-              <p className="text-gray-500 font-medium">Interactive Discovery Tool</p>
-            </div>
-            <p className="text-sm text-blue-600 font-bold bg-blue-50 px-4 py-2 rounded-full">
-              {selectedStall ? `Selected: ${selectedStall.name}` : "Select a location"}
-            </p>
+        {/* Header */}
+        <div className="lg:col-span-4 flex justify-between items-center bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-sm border border-slate-200">
+          <div>
+            <h1 className="text-3xl font-black text-[#003A70]">Campus Map</h1>
+            <p className="text-slate-500 font-medium italic">Pinch/Scroll to zoom • Drag to pan</p>
           </div>
+          {selectedStall && (
+            <div className="bg-blue-50 border border-blue-100 px-4 py-2 rounded-full hidden md:block animate-in fade-in zoom-in-95">
+              <p className="text-blue-700 text-xs font-bold uppercase tracking-widest">
+                Viewing: {selectedStall.name}
+              </p>
+            </div>
+          )}
+        </div>
 
-          {/* Map Container */}
-          <div className="border-[6px] border-[#003A70] rounded-[2.5rem] bg-[#f1f5f9] p-2 shadow-2xl relative overflow-hidden h-[800px]">
-            <svg 
-              viewBox="0 0 800 800" 
-              className="w-full h-full"
-              preserveAspectRatio="xMidYMid slice"
-            >
-              {/* Map Base */}
-              <rect width="800" height="800" fill="#e2e8f0" rx="30" />
-              
-              {/* Decorative Paths (Roads) */}
-              <path d="M -50,400 Q 400,350 850,500" fill="none" stroke="#cbd5e1" strokeWidth="50" />
-              <path d="M 400,-50 L 400,850" fill="none" stroke="#cbd5e1" strokeWidth="30" strokeDasharray="15,15" />
+        {/* --- MAP SECTION --- */}
+        <div className="lg:col-span-3 relative h-[750px] bg-slate-300 rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl touch-none">
+          <QuickPinchZoom 
+            onUpdate={onUpdate} 
+            wheelScaleFactor={500} 
+            tapZoomFactor={1.5}
+            minScale={1}
+            maxScale={5}
+          >
+            {/* Added will-change for performance */}
+            <div ref={imgRef} className="relative w-full h-full will-change-transform">
+              <img 
+                src="/images/map.png"
+                alt="ADMU Campus Map"
+                className="w-full h-full object-cover pointer-events-none"
+              />
 
-              {/* --- Student Union INTERACTIVE GROUP --- */}
-              <g 
-                className={interactiveGroupClasses}
-                onClick={() => setSelectedStall(stalls.union)}
-              >
-                <rect
-                  x="480" y="350" width="180" height="120" rx="15"
-                  fill={selectedStall?.name === stalls.union.name ? "#FFD700" : "#003A70"}
-                  className="shadow-lg transition-colors duration-300"
-                />
-                <text 
-                  x="570" y="415" 
-                  textAnchor="middle" 
-                  fill={selectedStall?.name === stalls.union.name ? "#003A70" : "white"} 
-                  fontSize="16" fontWeight="bold" 
-                  className="pointer-events-none select-none transition-colors duration-300"
+              {/* Interactive Pins */}
+              {Object.entries(stalls).map(([key, stall]) => (
+                <div
+                  key={key}
+                  style={{ top: stall.top, left: stall.left }}
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-30"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents map drag from triggering on click
+                    setSelectedStall(stall);
+                  }}
                 >
-                  Student Union
-                </text>
-              </g>
+                  <div className={`w-10 h-10 flex items-center justify-center rounded-full border-4 border-white shadow-xl transition-all duration-300 ${
+                    selectedStall?.name === stall.name ? "bg-yellow-400 scale-125" : "bg-[#003A70] hover:scale-110"
+                  }`}>
+                    <span className="text-white text-sm">📍</span>
+                  </div>
+                  
+                  {/* Tooltip */}
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-[#003A70] px-3 py-1 rounded-lg text-xs font-black shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                    {stall.name}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </QuickPinchZoom>
 
-              {/* --- Library Cafe INTERACTIVE GROUP --- */}
-              <g 
-                className={interactiveGroupClasses}
-                onClick={() => setSelectedStall(stalls.cafe)}
-              >
-                <circle
-                  cx="320" cy="220" r="60"
-                  fill={selectedStall?.name === stalls.cafe.name ? "#FFD700" : "#003A70"}
-                  className="transition-colors duration-300"
-                />
-                <text 
-                  x="320" y="225" 
-                  textAnchor="middle" 
-                  fill={selectedStall?.name === stalls.cafe.name ? "#003A70" : "white"} 
-                  fontSize="14" fontWeight="bold" 
-                  className="pointer-events-none select-none transition-colors duration-300"
-                >
-                  Library Cafe
-                </text>
-              </g>
-
-              {/* --- Jollibee INTERACTIVE GROUP --- */}
-              <g 
-                className={interactiveGroupClasses}
-                onClick={() => setSelectedStall(stalls.jollibee)}
-              >
-                <circle
-                  cx="180" cy="620" r="55"
-                  fill={selectedStall?.name === stalls.jollibee.name ? "#FFD700" : "#003A70"}
-                  className="transition-colors duration-300"
-                />
-                <text 
-                  x="180" y="625" 
-                  textAnchor="middle" 
-                  fill={selectedStall?.name === stalls.jollibee.name ? "#003A70" : "white"} 
-                  fontSize="14" fontWeight="bold" 
-                  className="pointer-events-none select-none transition-colors duration-300"
-                >
-                  Jollibee
-                </text>
-              </g>
-            </svg>
+          {/* Zoom Instruction Overlay */}
+          <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-slate-200 pointer-events-none z-40">
+            <p className="text-[10px] font-black text-[#003A70] uppercase tracking-tighter">
+              Scroll or Pinch to Explore
+            </p>
           </div>
         </div>
 
-        {/* Right Column: Information Sidebar */}
+        {/* --- SIDEBAR --- */}
         <div className="lg:col-span-1">
-          <div className={`sticky top-8 p-8 border-2 rounded-[2rem] transition-all duration-500 shadow-2xl h-fit ${
-            selectedStall 
-              ? "border-[#FFD700] bg-[#fffef2]" 
-              : "border-gray-200 bg-white"
+          <div className={`p-8 rounded-[2.5rem] transition-all duration-500 shadow-xl min-h-[500px] flex flex-col justify-between h-full ${
+            selectedStall ? "bg-[#003A70]/95 backdrop-blur-md text-white" : "bg-white/90 backdrop-blur-md border border-slate-200"
           }`}>
             
-            {selectedStall ? (
-              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <span className="text-[10px] uppercase font-black tracking-[0.2em] text-[#003A70] bg-[#e6efff] px-4 py-1.5 rounded-full">
-                  {selectedStall.category}
-                </span>
-                <h3 className="text-4xl font-black text-[#003A70] mt-6 mb-4 leading-none">
-                  {selectedStall.name}
-                </h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                  {selectedStall.info}
-                </p>
-                <button 
-                  onClick={() => setSelectedStall(null)}
-                  className="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors uppercase tracking-widest"
-                >
-                  ✕ Close Details
-                </button>
-              </div>
-            ) : (
-              <div className="py-20 text-center">
-                <div className="text-5xl mb-6 opacity-20">📍</div>
-                <p className="text-gray-400 text-lg font-medium leading-tight">
-                  Select a location on the map to see more information.
-                </p>
-              </div>
-            )}
+            <div className="flex-1">
+              {selectedStall ? (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
+                  <span className="text-[10px] uppercase font-black tracking-[0.2em] opacity-60">
+                    {selectedStall.category}
+                  </span>
+                  <h3 className="text-4xl font-black mt-4 mb-6 leading-tight">
+                    {selectedStall.name}
+                  </h3>
+                  <p className={`${selectedStall ? 'text-blue-100' : 'text-gray-600'} text-lg leading-relaxed mb-8`}>
+                    {selectedStall.info}
+                  </p>
+                  <button 
+                    onClick={() => setSelectedStall(null)}
+                    className="text-xs font-bold text-yellow-400 hover:text-white transition-colors uppercase tracking-widest"
+                  >
+                    ✕ Close Details
+                  </button>
+                </div>
+              ) : (
+                <div className="py-20 text-center">
+                  <div className="text-5xl mb-6 opacity-20">🧭</div>
+                  <p className="text-slate-400 text-lg font-bold">
+                    Tap a pin on the map to see details
+                  </p>
+                </div>
+              )}
+            </div>
 
-            <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col gap-4">
+            <div className="space-y-4 pt-8 border-t border-white/10 mt-auto">
               <Link 
                 href="/stalls" 
-                className="w-full text-center py-5 bg-[#003A70] text-white rounded-2xl font-bold hover:bg-blue-900 hover:-translate-y-1 transition-all text-lg shadow-lg"
-                style={{ textDecoration: "none" }}
+                className={`block w-full text-center py-5 rounded-2xl font-extrabold text-lg transition-all shadow-lg ${
+                  selectedStall ? "bg-yellow-400 text-[#003A70] hover:bg-yellow-300" : "bg-[#003A70] text-white hover:bg-[#002a50]"
+                }`}
+                style={{ textDecoration: 'none' }}
               >
                 Browse All Stalls
               </Link>
-
-              <Link 
-                href="/" 
-                className="text-gray-500 text-center font-bold hover:text-[#003A70] transition-colors py-2"
-                style={{ textDecoration: "none" }}
-              >
+              <Link href="/" className={`block text-center text-sm font-bold transition-opacity py-2 ${selectedStall ? 'text-blue-200 hover:text-white' : 'text-slate-400 hover:text-[#003A70]'}`} style={{ textDecoration: 'none' }}>
                 ← Return Home
               </Link>
             </div>
