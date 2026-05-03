@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 
+
 interface Menu {
   name: string;
   price: number;
@@ -182,120 +183,58 @@ export default function StallsPage() {
         </button>
       </header>
 
-      {/* --- QUICK DECIDE RESULTS MODAL --- */}
-      {quickDecideResult && (
-          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[120]">
-              <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl animate-in zoom-in duration-300">
-                  <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-2xl font-bold text-[#003A70]">Can't Decide? 🤔</h3>
-                      <button onClick={() => setQuickDecideResult(null)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {quickDecideResult.map(stall => (
-                          <div key={stall.id} className="border border-gray-200 rounded-2xl p-4 hover:shadow-lg transition cursor-pointer" onClick={() => { setSelectedStall(stall); setQuickDecideResult(null); }}>
-                              <div className="h-32 bg-gray-100 rounded-xl mb-3 overflow-hidden relative">
-                                  <img src={stall.image} alt={stall.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                              </div>
-                              <h4 className="font-bold text-lg">{stall.name}</h4>
-                              <p className="text-gray-500 text-sm">{stall.loc}</p>
-                              <div className="flex items-center gap-1 mt-2">
-                                  <span className="font-medium">{stall.rating}%</span>
-                                  <span className="text-gray-400 text-sm ml-2">{stall.price}</span>
-                              </div>
-                          </div>
-                      ))}
-                  </div>
-                  <button onClick={handleQuickDecide} className="w-full mt-4 py-3 bg-[#FFD700] text-[#003A70] rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                    Re-roll!
-                  </button>
-              </div>
+    {/* --- QUICK DECIDE RESULTS MODAL --- */}
+    {quickDecideResult && (
+      <div className="fixed inset-0 bg-[#003A70]/80 backdrop-blur-sm flex items-center justify-center p-4 z-[120] animate-in fade-in duration-200">
+        <div className="bg-white rounded-[2rem] p-6 md:p-8 max-w-2xl w-full shadow-2xl animate-in zoom-in-95 duration-300 max-h-[90vh] flex flex-col">
+      
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6 shrink-0">
+            <h3 className="text-2xl font-black text-[#003A70] tracking-tight">Can't Decide? 🤔</h3>
+            <button 
+              onClick={() => setQuickDecideResult(null)} 
+              className="bg-gray-100 hover:bg-gray-200 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+            >
+              <span className="text-2xl leading-none">&times;</span>
+            </button>
           </div>
-      )}
 
-      {/* --- ADVANCED FILTER MODAL --- */}
-      {isSearchModalOpen && (
-          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[120]">
-              <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                  <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-2xl font-bold text-[#003A70]">Advanced Filters</h3>
-                      <button onClick={() => setIsSearchModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
-                  </div>
-                  {/* Budget Filter */}
-                  <div className="mb-6">
-                      <h4 className="font-bold text-sm mb-3">Budget</h4>
-                      <div className="flex flex-wrap gap-2">
-                          {['Under ₱50', '₱50-100', '₱100-150', '₱150-200', '₱200+'].map(budget => (
-                              <button 
-                                  key={budget}
-                                  onClick={() => setBudgetLimit(budgetLimit === budget ? null : budget)}
-                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${budgetLimit === budget ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                              >
-                                  {budget}
-                              </button>
-                          ))}
-                      </div>
-                  </div>
-                  {/* Location Filter */}
-                  <div className="mb-6">
-                      <h4 className="font-bold text-sm mb-3">Location</h4>
-                      <div className="flex flex-wrap gap-2">
-                          {locations.map(loc => (
-                              <button 
-                                  key={loc}
-                                  onClick={() => setActiveFilter(activeFilter === loc ? "All" : loc)}
-                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${activeFilter === loc ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                              >
-                                  {loc}
-                              </button>
-                          ))}
-                      </div>
-                  </div>
-                  {/* Category Filter */}
-                  <div className="mb-6">
-                      <h4 className="font-bold text-sm mb-3">Category</h4>
-                      <div className="flex flex-wrap gap-2">
-                          {categories.map(cat => (
-                              <button 
-                                  key={cat}
-                                  onClick={() => setActiveFilter(activeFilter === cat ? "All" : cat)}
-                                  className={`px-3 py-2 rounded-full text-sm font-medium transition ${activeFilter === cat ? 'bg-[#FFD700] text-[#003A70]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                              >
-                                  {cat}
-                              </button>
-                          ))}
-                      </div>
-                  </div>
-                  <div className="flex gap-3">
-                      <button onClick={() => { setActiveFilter("All"); setBudgetLimit(null); setSearchQuery(""); }} className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition">
-                          Clear All
-                      </button>
-                      <button onClick={() => setIsSearchModalOpen(false)} className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-medium hover:bg-blue-800 transition">
-                          Apply
-                      </button>
-                  </div>
+          {/* Results Grid - Added scrollable area for mobile safety */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 overflow-y-auto pr-2 custom-scrollbar">
+            {quickDecideResult.map((stall) => (
+              <div 
+                key={stall.id} 
+                className="group border border-gray-100 rounded-2xl p-4 hover:border-[#FFD700] hover:shadow-xl transition-all duration-300 cursor-pointer bg-white"
+                onClick={() => { setSelectedStall(stall); setQuickDecideResult(null); }}
+              >  
+                <h4 className="font-bold text-gray-900 leading-tight mb-1">{stall.name}</h4>
+                <p className="text-gray-400 text-xs font-medium uppercase tracking-wider">{stall.loc}</p>
+            
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-[#003A70] font-bold text-sm">{stall.rating}%</span>
+                  <span className="text-gray-400 text-xs">{stall.price}</span>
+                </div>
               </div>
+            ))}
           </div>
-      )}
-      <div className="px-8 pb-8">
-          <div className="flex justify-between items-center mb-4">
-              <div className="flex flex-wrap gap-2">
-                  {locations.map(loc => (
-                      <button key={loc} onClick={() => setActiveFilter(loc)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeFilter === loc ? 'bg-[#003A70] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                          {loc}
-                      </button>
-                  ))}
-              </div>
 
+          {/* Footer Action */}
+          <div className="mt-6 pt-2 shrink-0">
+            <button 
+              onClick={handleQuickDecide} 
+              className="w-full py-4 bg-[#FFD700] hover:bg-[#F0C800] text-[#003A70] rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-transform active:scale-[0.98] shadow-md"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Re-roll!
+            </button>
           </div>
-          <div className="flex flex-wrap gap-2">
-              {categories.map(cat => (
-                  <button key={cat} onClick={() => setActiveFilter(activeFilter === cat ? "All" : cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeFilter === cat ? 'bg-[#FFD700] text-[#003A70]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                      {cat}
-                  </button>
-              ))}
-          </div>
+    
+        </div>
       </div>
+    )}
+
 
       {/* --- STALLS GRID --- */}
       <div className="px-8 pb-16">
