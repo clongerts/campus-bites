@@ -1,8 +1,8 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-// Using a standard import that works across most Next.js configurations
 import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
+import { useSearchParams } from 'next/navigation';
 
 export default function MapPage() {
   const [selectedStall, setSelectedStall] = useState<{
@@ -33,6 +33,21 @@ export default function MapPage() {
       top: "64%", left: "44%", 
     },
   };
+
+  const searchParams = useSearchParams();
+  const locationParam = searchParams.get('location');
+
+  useEffect(() => {
+    if (locationParam) {
+      if (locationParam.includes('JSEC')) {
+        setSelectedStall(stalls.jsec);
+      } else if (locationParam.includes('Gonzaga')) {
+        setSelectedStall(stalls.gonzaga);
+      } else if (locationParam.includes('Regis')) {
+        setSelectedStall(stalls.regis);
+      }
+    }
+  }, [locationParam]);
 
   const onUpdate = useCallback(({ x, y, scale }: { x: number; y: number; scale: number }) => {
     if (imgRef.current) {
@@ -76,7 +91,6 @@ export default function MapPage() {
         </div>
 
         {/* --- MAP SECTION --- */}
-        {/* FIXED: Added responsive height h-[450px] for mobile and lg:h-[750px] for desktop */}
         <div className="lg:col-span-3 relative h-[450px] lg:h-[750px] bg-slate-300 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl touch-none">
           <QuickPinchZoom 
             onUpdate={onUpdate} 
@@ -162,10 +176,21 @@ export default function MapPage() {
             </div>
 
             <div className="space-y-3 md:space-y-4 pt-6 md:pt-8 border-t border-white/10 mt-auto">
+              {selectedStall && (
+                <Link 
+                  href={`/stalls?filter=${selectedStall.name === "Regis Center" ? "Regis" : selectedStall.name === "Gonzaga Hall" ? "Gonzaga" : "JSEC"}`}
+                  className={`block w-full text-center py-4 md:py-5 rounded-2xl font-extrabold text-base md:text-lg transition-all shadow-lg ${
+                    selectedStall ? "bg-yellow-400 text-[#003A70] hover:bg-yellow-300" : "bg-[#003A70] text-white hover:bg-[#002a50]"
+                  }`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  View Stalls
+                </Link>
+              )}
               <Link 
                 href="/stalls" 
                 className={`block w-full text-center py-4 md:py-5 rounded-2xl font-extrabold text-base md:text-lg transition-all shadow-lg ${
-                  selectedStall ? "bg-yellow-400 text-[#003A70] hover:bg-yellow-300" : "bg-[#003A70] text-white hover:bg-[#002a50]"
+                  selectedStall ? "bg-white/20 text-white hover:bg-white/30" : "bg-[#003A70] text-white hover:bg-[#002a50]"
                 }`}
                 style={{ textDecoration: 'none' }}
               >
