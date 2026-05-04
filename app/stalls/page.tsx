@@ -196,7 +196,7 @@ export default function StallsPage() {
           </button>
         </div>
       
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
           {quickDecideResult.map(stall => (
             <div 
               key={stall.id} 
@@ -211,12 +211,10 @@ export default function StallsPage() {
                     alt={stall.name} 
                     className="w-full h-full object-cover" 
                     onError={(e) => { 
-                      // Instead of display='none', we show a placeholder icon or text
                       e.currentTarget.src = "https://via.placeholder.com/400x300?text=No+Image"; 
                     }} 
                   />
                 ) : (
-                  /* This renders if the stall.image string is empty in your data */
                   <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">No Image</span>
                 )}
               </div>
