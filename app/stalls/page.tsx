@@ -471,24 +471,27 @@ export default function StallsPage() {
           </div>
       )}
 
-      {/* --- CREATE REVIEW MODAL --- */}
+{/* --- CREATE REVIEW MODAL --- */}
       {isReviewModalOpen && selectedStall && (
-          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-4 z-[130]" onClick={() => setIsReviewModalOpen(false)}>
-              <div className="bg-white rounded-3xl p-8 max-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+          <div className="fixed inset-0 bg-[#003A70]/60 backdrop-blur-md flex items-center justify-center p-6 z-[130]" onClick={() => setIsReviewModalOpen(false)}>
+              <div 
+                className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-in fade-in zoom-in duration-200" 
+                onClick={e => e.stopPropagation()}
+              >
                   <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-2xl font-bold text-[#003A70]">Review {selectedStall.name}</h3>
-                      <button onClick={() => setIsReviewModalOpen(false)} className="text-red-500 hover:text-red-700 text-3xl font-bold">&times;</button>
+                      <h3 className="text-xl font-bold text-[#003A70] leading-tight">Review {selectedStall.name}</h3>
+                      <button onClick={() => setIsReviewModalOpen(false)} className="text-red-500 hover:text-red-700 text-2xl font-bold">&times;</button>
                   </div>
 
                   {/* Rating */}
-                  <div className="mb-6">
-                      <h4 className="font-bold text-sm mb-3">Rating</h4>
+                  <div className="mb-6 text-center">
+                      <h4 className="font-bold text-xs uppercase tracking-widest text-gray-400 mb-3">Rating</h4>
                       <div className="flex gap-2 justify-center">
                           {[1, 2, 3, 4, 5].map(star => (
                               <button
                                   key={star}
                                   onClick={() => setReviewRating(star)}
-                                  className={`text-3xl transition ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}`}
+                                  className={`text-3xl transition-transform active:scale-90 ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-200'}`}
                               >
                                   ★
                               </button>
@@ -498,10 +501,10 @@ export default function StallsPage() {
 
                   {/* Review Text */}
                   <div className="mb-6">
-                      <h4 className="font-bold text-sm mb-3">Your Review</h4>
+                      <h4 className="font-bold text-xs uppercase tracking-widest text-gray-400 mb-3">Your Review</h4>
                       <textarea
                           placeholder="Share your experience..."
-                          className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/20 resize-none"
+                          className="w-full border border-gray-100 bg-gray-50 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#003A70]/10 resize-none transition-all"
                           rows={4}
                           value={reviewText}
                           onChange={(e) => setReviewText(e.target.value)}
@@ -509,24 +512,24 @@ export default function StallsPage() {
                   </div>
 
                   {/* Buttons */}
-                  <div className="flex gap-3">
+                  <div className="flex flex-col gap-2">
                       <button
-                          onClick={() => setIsReviewModalOpen(false)}
-                          className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition"
-                      >
-                          Cancel
-                      </button>
-                      <button
+                          disabled={!reviewText.trim()}
                           onClick={() => {
-                              alert(`Review submitted: ${reviewRating} stars - "${reviewText}"`);
+                              alert(`Review submitted: ${reviewRating} stars`);
                               setIsReviewModalOpen(false);
                               setReviewText("");
                               setReviewRating(5);
                           }}
-                          className="flex-1 py-3 bg-[#003A70] text-white rounded-xl font-medium hover:bg-blue-800 transition disabled:opacity-50"
-                          disabled={!reviewText.trim()}
+                          className="w-full py-4 bg-[#003A70] text-white rounded-2xl font-bold hover:bg-[#002a50] transition disabled:opacity-50 disabled:grayscale shadow-lg shadow-blue-900/20"
                       >
-                          Submit
+                          Submit Review
+                      </button>
+                      <button
+                          onClick={() => setIsReviewModalOpen(false)}
+                          className="w-full py-3 text-gray-400 text-sm font-medium hover:text-gray-600 transition"
+                      >
+                          Cancel
                       </button>
                   </div>
               </div>
