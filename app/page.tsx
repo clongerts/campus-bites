@@ -1,72 +1,82 @@
 "use client";
-"use client";
 
 import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
-      {/* --- NAVBAR --- */}
-      <nav className="border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#001a4d]/90 backdrop-blur-md z-50">
-        <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
-          <img src="/images/logo_campusbites.png" alt="Campus Bites" className="h-8 object-contain" />
-        </Link>
-        <div className="flex gap-4 items-center">
-          <Link href="/map" className="bg-[#FFD700] text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-yellow-400 transition text-sm shadow" style={{ textDecoration: "none" }}>
-            Map
+    <div className="min-h-screen flex flex-col font-sans">
+      {/* --- HERO SECTION --- */}
+      <section className="bg-[#2003d4] py-5 px-8 flex flex-col items-center relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center">
+          <Link href="wheretodine" className="group transition-transform duration-300 active:scale-95">
+            <img
+              src="/images/2.png"
+              alt="Campus Bites Hero"
+              className="h-64 md:h-100 lg:h-60 w-auto object-contain animate-in fade-in zoom-in duration-700 group-hover:scale-105 transition-transform"
+            />
           </Link>
-          <Link href="/login" className="bg-white text-[#003A70] px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition text-sm shadow" style={{ textDecoration: "none" }}>
-            Login
-          </Link>
+          <div className="h-4"></div>
+        </div>
+      </section>
+
+      {/* --- WHITE NAV BAR --- */}
+      <nav className="bg-white border-b border-gray-100 py-4 px-8 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-6xl mx-auto flex justify-center gap-12 md:gap-24">
+          {["HOME", "ABOUT US", "WHERE TO DINE", "FOOD MAP", "BITE DEALS"].map((item) => (
+            <Link
+              key={item}
+              href={item === "HOME" ? "/" : `/${item.toLowerCase().replace(/ /g, "")}`}
+              className="text-xs font-black text-black hover:text-[#2003d4] transition-colors tracking-tighter"
+            >
+              {item}
+            </Link>
+          ))}
         </div>
       </nav>
 
-      {/* --- WHITE BACKGROUND SECTION --- */}
-      <div className="bg-white">
-        {/* --- HERO SECTION --- */}
-        <header className="py-10 px-8 max-w-6xl mx-auto text-center">
-          <h2 className="text-7xl font-extrabold mb-4 text-[#003A70]">Eat like an Eagle.</h2>
-          <p className="text-gray-600 text-2xl mb-5">Discover the best food spots across campus.</p>
-        </header>
-        
-        <div className="flex justify-center gap-6 pb-15 px-8">
-          <Link 
-            href="/stalls"
-            className="text-center bg-[#003A70] text-white px-8 py-5 rounded-2xl font-bold hover:bg-blue-800 transition text-lg shadow-lg"
-            style={{ textDecoration: "none" }}
-          >
-            Browse All Stalls
-          </Link>
-          <Link 
-            href="/map"
-            className="text-center bg-[#FFD700] text-[#003A70] px-8 py-5 rounded-2xl font-bold hover:bg-yellow-400 transition text-lg shadow-lg"
-            style={{ textDecoration: "none" }}
-          >
-            View Campus Map
-          </Link>
-        </div>
-      </div>
+      {/* --- MAIN CONTENT AREA --- */}
+      <main
+        className="flex-grow relative"
+        style={{
+          backgroundImage: "url('/images/HomeBG.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed"
+        }}
+      >
+        <div className="absolute inset-0 bg-black/10"></div>
 
-      {/* --- FEATURES --- */}
-      <section className="py-16 px-8 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">🍽️</div>
-            <h3 className="text-xl font-bold mb-2 text-[#003A70]">Food Stalls</h3>
-            <p className="text-gray-600">Browse through all the best dining options on campus.</p>
-          </div>
-          <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">🗺️</div>
-            <h3 className="text-xl font-bold mb-2 text-[#003A70]">Interactive Map</h3>
-            <p className="text-gray-600">Find your way around campus and locate food spots easily.</p>
-          </div>
-          <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">⭐</div>
-            <h3 className="text-xl font-bold mb-2 text-[#003A70]">Ratings & Reviews</h3>
-            <p className="text-gray-600">See what other students are saying about each stall.</p>
+        <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 flex justify-center lg:justify-start">
+          {/* Special Shoutouts (Floating Card) */}
+          <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-left duration-500">
+            <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase">
+              Special Shoutouts<br/>of the Week!
+            </h3>
+            
+            <div className="space-y-6">
+              {[
+                { img: "/images/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
+                { img: "/images/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
+                { img: "/images/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
+              ].map((review, i) => (
+                <div key={i} className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                  <img src={review.img} className="w-14 h-14 rounded-full border-2 border-[#2003d4] object-cover shrink-0" />
+                  <div>
+                    <div className="flex text-[#ffe500] text-xs mb-1">★★★★★</div>
+                    <p className="text-[10px] italic font-medium text-gray-700 leading-tight">"{review.text}"</p>
+                    <p className="text-[9px] font-bold text-[#2003d4] mt-2 text-right">-{review.user}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+
+        {/* Copyright Footer */}
+        <footer className="text-center py-0 text-white text-[10px] font-bold tracking-widest relative z-10">
+          © 2026 Campus Bites
+        </footer>
+      </main>
     </div>
   );
 }
