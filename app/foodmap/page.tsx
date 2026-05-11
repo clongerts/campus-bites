@@ -105,7 +105,7 @@ function MapInner() {
           >
             <div ref={imgRef} className="relative w-full h-full cursor-grab active:cursor-grabbing will-change-transform flex items-center justify-center">
               <img 
-                src="/images/map.png"
+                src="/images/assets/map.png"
                 alt="Campus Map"
                 className="w-full h-full object-contain high-res-render"
               />
