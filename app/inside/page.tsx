@@ -78,55 +78,97 @@ export default function WhereToDine() {
   return (
     <div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       
-      {/* --- FILTER MODAL --- */}
-      {isSearchModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-[#2003d4] text-white">
-              <h2 className="font-black uppercase tracking-tight">Search & Filters</h2>
-              <button onClick={() => setIsSearchModalOpen(false)} className="hover:rotate-90 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+{isSearchModalOpen && (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl p-8">
+      
+      {/* --- HEADER --- */}
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-[28px] font-bold text-[#1a0dab]">Bite Filters</h2>
+        <button 
+          onClick={() => setIsSearchModalOpen(false)} 
+          className="text-red-500 hover:scale-110 transition-transform"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="space-y-8">
+        {/* --- BUDGET SECTION --- */}
+        <div>
+          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Budget</p>
+          <div className="flex flex-wrap gap-3">
+            {["Under ₱50", "₱50-100", "₱100-150", "₱150-200", "₱200+"].map((price) => (
+              <button
+                key={price}
+                className="px-5 py-3 rounded-full bg-[#f0f2f5] text-[#4b5563] text-sm font-medium hover:bg-gray-200 transition-colors"
+              >
+                {price}
               </button>
-            </div>
-            <div className="p-6 space-y-6">
-              <div>
-                <p className="text-[10px] font-black uppercase text-[#2003d4]/40 mb-3 tracking-widest">Main Location</p>
-                <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
-                  {["Within Ateneo", "Outside Ateneo"].map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveMainTab(tab as any)}
-                      className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${activeMainTab === tab ? "bg-[#2003d4] text-white shadow-md" : "text-gray-500 hover:text-[#2003d4]"}`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-[#2003d4]/40 mb-3 tracking-widest">Food Category</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setCategoryFilter(cat)}
-                      className={`py-2 text-[10px] font-bold rounded-lg border transition-all ${categoryFilter === cat ? "bg-[#ffe500] border-[#ffe500] text-[#2003d4]" : "border-gray-200 text-gray-500 hover:border-[#2003d4]"}`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <button onClick={() => setIsSearchModalOpen(false)} className="w-full bg-[#2003d4] text-white py-4 rounded-xl font-black uppercase tracking-widest text-sm shadow-lg active:scale-[0.98] transition-transform">
-                Show Results
-              </button>
-            </div>
+            ))}
           </div>
         </div>
-      )}
 
+        {/* --- LOCATION SECTION --- */}
+        <div>
+          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Location</p>
+          <div className="flex flex-wrap gap-3">
+            {["All", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo"].map((loc) => (
+              <button
+                key={loc}
+                onClick={() => setActiveMainTab(loc === "Within Ateneo" || loc === "Outside Ateneo" ? loc : activeMainTab)}
+                className={`px-5 py-3 rounded-full text-sm font-medium transition-all ${
+                  loc === "All" 
+                  ? "bg-[#1a0dab] text-white shadow-md" 
+                  : "bg-[#f0f2f5] text-[#4b5563] hover:bg-gray-200"
+                }`}
+              >
+                {loc}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* --- CATEGORY SECTION --- */}
+        <div>
+          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Category</p>
+          <div className="flex flex-wrap gap-3">
+            {["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setCategoryFilter(cat)}
+                className={`px-5 py-3 rounded-full text-sm font-medium transition-all ${
+                  categoryFilter === cat 
+                  ? "bg-[#1a0dab] text-white" 
+                  : "bg-[#f0f2f5] text-[#4b5563] hover:bg-gray-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* --- FOOTER BUTTONS --- */}
+        <div className="flex gap-4 pt-4">
+          <button 
+            className="flex-1 bg-[#f0f2f5] text-[#4b5563] py-4 rounded-[1.2rem] font-bold text-lg hover:bg-gray-200 transition-colors"
+          >
+            Clear All
+          </button>
+          <button 
+            onClick={() => setIsSearchModalOpen(false)}
+            className="flex-1 bg-[#1a0dab] text-white py-4 rounded-[1.2rem] font-bold text-lg shadow-lg active:scale-95 transition-transform"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
       {/* --- NAVBAR --- */}
       <nav className="border-b border-[#ffffff]/10 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#2003d4] backdrop-blur-md z-50">
         <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>

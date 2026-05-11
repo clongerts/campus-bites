@@ -29,7 +29,7 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8 flex flex-col items-center">
             {/* Logo Image */}
-            <img src="images/3.png" alt="Campus Bites Logo" className="h-15 mb-0" />
+            <img src="images/assets/3.png" alt="Campus Bites Logo" className="h-15 mb-0" />
             <p className="text-gray-500 text-sm font-medium">
             </p>
           </div>
