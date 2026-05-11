@@ -283,36 +283,40 @@ export default function WhereToDine() {
               </button>
 
                 <div className="p-7">
-                <div className="mb-8">
-                  <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
-                  <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
-                    <div className="relative">
-                      <img src={selectedStall.expectationImage} className="w-full h-full object-cover" alt="Expectation" />
-                      <span className="absolute bottom-2 left-2 text-[8px] font-bold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm">Expectation</span>
-                        <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
-                         <div className="absolute inset-0 flex flex-col justify-end">
-                          <span className="bg-black/60 text-[#ffffff] text-[8px] px-1.5 py-0.5 font-bold">Expectation</span>
-                         </div>
-                      
-                      {/* --- PERSISTENT EXPECTATION OVERLAY --- */}
-                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
-                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Expectation</span>
-                      </div>
-                    </div>
+              <div className="mb-8">
+          <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
+          <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
+      
+            <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
+              {selectedStall.expectationImage ? (
+                <img 
+                  src={selectedStall.expectationImage} 
+                  className="w-full h-full object-cover" 
+                  alt="Expectation" 
+                />
+              ) : (
+                <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
+              )}
+              <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+                <span className="text-white text-[9px] font-black uppercase tracking-wider">Expectation</span>
+              </div>
+            </div>
 
-                    <div className="bg-[#f2f6ff] flex items-center justify-center relative">
-                      <span className="absolute bottom-2 left-2 text-[8px] font-bold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm">Student Reality</span>
-                      {selectedStall.reviews[0]?.realityPhoto ? (
-                        <img src={selectedStall.reviews[0].realityPhoto} className="w-full h-full object-cover" alt="Reality" />
-                      ) : (
-                        <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
-                      )}
+            <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
+              {selectedStall.realityImage ? (
+                <img 
+                  src={selectedStall.realityImage} 
+                  className="w-full h-full object-cover" 
+                  alt="Reality" 
+                />
+              ) : (
+                <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
+              )}
+              <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+          <span className="text-white text-[9px] font-black uppercase tracking-wider">Reality</span>
+              </div>
+            </div>
 
-                      {/* --- PERSISTENT REALITY OVERLAY --- */}
-                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
-                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Reality</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
