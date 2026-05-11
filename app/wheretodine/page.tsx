@@ -8,17 +8,17 @@ const LandingPage = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col text-[#2003d4]" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
+    <div className="min-h-screen flex flex-col text-[#2003d4]" style={{ backgroundImage: "url('/images/assets/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       
       {/* --- NAVBAR --- */}
       <nav className="border-b border-[#ffffff]/10 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#2003d4] backdrop-blur-md z-50">
         <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
-          <img src="/images/1.png" alt="Campus Bites" className="h-8 object-contain" />
+          <img src="/images/assets/1.png" alt="Campus Bites" className="h-8 object-contain" />
         </Link>
         
         <div className="flex gap-4 items-center">
 
-          <Link href="/map" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
+          <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
           
@@ -52,7 +52,7 @@ const LandingPage = () => {
               <div className="bg-white rounded-2xl p-3 shadow-md border border-gray-100 hover:shadow-xl transition-all group-hover:-translate-y-1 flex flex-col items-center">
                 <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 relative">
                   <img 
-                    src="/images/insidecampus.png" 
+                    src="/images/assets/insidecampus.png" 
                     alt="Inside Campus" 
                     className="w-full h-full object-cover transition-transform group-hover:scale-105"
                   />
@@ -69,7 +69,7 @@ const LandingPage = () => {
               <div className="bg-white rounded-2xl p-3 shadow-md border border-gray-100 hover:shadow-xl transition-all group-hover:-translate-y-1 flex flex-col items-center">
                 <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 relative">
                   <img 
-                    src="/images/outsidecampus.png" 
+                    src="/images/assets/outsidecampus.png" 
                     alt="Outside Campus" 
                     className="w-full h-full object-cover transition-transform group-hover:scale-105"
                   />
