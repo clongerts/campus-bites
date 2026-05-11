@@ -216,10 +216,10 @@ export default function WhereToDine() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
           </button>
-         <Link href="/foodmap" className="bg-[#ffffff] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffe500] transition text-sm shadow" style={{ textDecoration: "none" }}>
+         <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
             Map
           </Link>
-          <Link href="/login" className="bg-[#ffffff] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffe500] transition text-sm" style={{ textDecoration: "none" }}>
+          <Link href="/login" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm" style={{ textDecoration: "none" }}>
             Login
           </Link>
         </div>
@@ -282,7 +282,7 @@ export default function WhereToDine() {
                 </svg>
               </button>
 
-              <div className="p-7">
+                <div className="p-7">
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
                   <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
@@ -290,8 +290,16 @@ export default function WhereToDine() {
                       <img src={selectedStall.expectationImage} className="w-full h-full object-cover" alt="Expectation" />
                       <span className="absolute bottom-2 left-2 text-[8px] font-bold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm">Expectation</span>
                         <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
-
+                         <div className="absolute inset-0 flex flex-col justify-end">
+                          <span className="bg-black/60 text-[#ffffff] text-[8px] px-1.5 py-0.5 font-bold">Expectation</span>
+                         </div>
+                      
+                      {/* --- PERSISTENT EXPECTATION OVERLAY --- */}
+                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Expectation</span>
+                      </div>
                     </div>
+
                     <div className="bg-[#f2f6ff] flex items-center justify-center relative">
                       <span className="absolute bottom-2 left-2 text-[8px] font-bold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm">Student Reality</span>
                       {selectedStall.reviews[0]?.realityPhoto ? (
@@ -299,6 +307,11 @@ export default function WhereToDine() {
                       ) : (
                         <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
                       )}
+
+                      {/* --- PERSISTENT REALITY OVERLAY --- */}
+                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Reality</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -322,7 +335,6 @@ export default function WhereToDine() {
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4 flex items-center gap-2">📋 Full Menu</h4>
                   <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 aspect-[4/3] relative group">
-                    {/* Replace the src with your menu image path, e.g., selectedStall.menuImage */}
                     <img 
                       src={selectedStall.menuImage} 
                       className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-300" 
