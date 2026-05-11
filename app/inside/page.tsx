@@ -29,6 +29,13 @@ export default function WhereToDine() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
 
+  // --- ADDED FILTER STATE AT TOP LEVEL ---
+  const [filters, setFilters] = useState({
+    budget: '',
+    location: 'All',
+    category: ''
+  });
+
   useEffect(() => { document.title = "Where To Dine"; }, []);
 
   // --- FULL RESTORED DATA ---
@@ -50,7 +57,6 @@ export default function WhereToDine() {
     { id: 15, name: "Lami", loc: "JSEC", mainLoc: "Within Ateneo", rating: 91, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Filipino"], image: "/images/JSEC/lami.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Bisaya Pork Humba", price: 175 }, { name: "Chicken Inasal Bowl", price: 165 }, { name: "Lechon Kawali Rice", price: 185 }], reviews: [] },
     { id: 16, name: "Nom Noms", loc: "JSEC", mainLoc: "Within Ateneo", rating: 89, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/nomnoms.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Mozzarella Corn Dog", price: 95 }, { name: "Chicken Poppers", price: 140 }, { name: "Potato Wedges", price: 80 }], reviews: [] },
     { id: 17, name: "Hoi An", loc: "JSEC", mainLoc: "Within Ateneo", rating: 90, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Vietnamese"], image: "/images/JSEC/hoian.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Pork Banh Mi", price: 155 }, { name: "Fresh Spring Rolls", price: 120 }, { name: "Beef Pho", price: 190 }], reviews: [] },
-
     { id: 18, name: "Yum Dum Dim", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Japanese"], image: "/images/Gonzaga/yumdumdim.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
     { id: 19, name: "Chillers", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 88, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Drinks"], image: "/images/Gonzaga/chillers.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fruit Shake", price: 65 }, { name: "Iced Tea", price: 40 }], reviews: [] },
     { id: 20, name: "Colonel's Curry", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 85, price: "₱", hours: "7:00 AM - 6:00 PM", tags: ["Inside Campus", "Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/colonelscurry.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Economy Rice (2 Viands)", price: 85 }, { name: "Pork Liempo Meal", price: 95 }, { name: "Giniling Rice", price: 75 }, { name: "Fried Egg", price: 15 }], reviews: [] },
@@ -65,110 +71,104 @@ export default function WhereToDine() {
     { id: 29, name: "Swirlicious", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 93, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Dessert"], image: "/images/Gonzaga/swirlicious.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Soft Serve", price: 50 }, { name: "Swirl Cup", price: 75 }], reviews: [] },
     { id: 30, name: "Tomo", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 94, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Japanese"], image: "/images/Gonzaga/tomo.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Sushi Roll", price: 150 }, { name: "Ramen", price: 220 }], reviews: [] },
     { id: 31, name: "Varda", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 92, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Burgers"], image: "/images/Gonzaga/Varda.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Varda Burger", price: 85 }, { name: "Cheeseburger", price: 95 }], reviews: [] },
-    
     { id: 34, name: "Ebais", loc: "Residence Halls", mainLoc: "Within Ateneo", rating: 89, price: "₱", hours: "6:00 AM - 8:00 PM", tags: ["Inside Campus", "Budget", "Residence Halls"], image: "/images/ebais.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Dorm Student Meal", price: 90 }, { name: "Breakfast Silog Set", price: 85 }, { name: "Nilaga Bowl", price: 110 }], reviews: [] },
     { id: 36, name: "Iggy's", loc: "Theology", mainLoc: "Within Ateneo", rating: 94, price: "₱", hours: "8:00 AM - 4:00 PM", tags: ["Inside Campus", "Budget"], image: "/images/iggys.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Home-cooked Viand", price: 100 }, { name: "Beef Tapa", price: 115 }, { name: "Sinigang", price: 120 }], reviews: [] },
     { id: 38, name: "Rizal Library", loc: "Library", mainLoc: "Within Ateneo", rating: 88, price: "₱₱", hours: "8:00 AM - 6:00 PM", tags: ["Inside Campus", "Study Spots"], image: "/images/rizal-lib.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Exam Fuel (Double Shot)", price: 140 }, { name: "Tuna Pesto Sandwich", price: 120 }, { name: "Hot Tea", price: 90 }], reviews: [] },
-
   ];
 
   const locations = ["JSEC", "Gonzaga", "Residence Halls", "Theology", "ISO", "Library", "Katipunan"];
-  const categories = ["All", "Japanese", "Korean", "Thai", "Mexican", "Filipino", "Budget", "Breakfast", "Drinks", "Snacks"];
 
   return (
     <div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       
-{isSearchModalOpen && (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div className="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl p-8">
-      
-      {/* --- HEADER --- */}
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-[28px] font-bold text-[#1a0dab]">Bite Filters</h2>
-        <button 
-          onClick={() => setIsSearchModalOpen(false)} 
-          className="text-red-500 hover:scale-110 transition-transform"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <div className="space-y-8">
-        {/* --- BUDGET SECTION --- */}
-        <div>
-          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Budget</p>
-          <div className="flex flex-wrap gap-3">
-            {["Under ₱50", "₱50-100", "₱100-150", "₱150-200", "₱200+"].map((price) => (
-              <button
-                key={price}
-                className="px-5 py-3 rounded-full bg-[#f0f2f5] text-[#4b5563] text-sm font-medium hover:bg-gray-200 transition-colors"
+      {/* --- FILTER MODAL --- */}
+      {isSearchModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl">
+            
+            {/* Header */}
+            <div className="p-6 flex justify-between items-center bg-white text-[#2003d4]">
+              <h2 className="text-2xl font-black tracking-tight">Bite Filters</h2>
+              <button 
+                onClick={() => setIsSearchModalOpen(false)} 
+                className="hover:rotate-90 transition-transform p-1"
               >
-                {price}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
-            ))}
+            </div>
+
+            <div className="px-6 pb-8 space-y-7">
+              
+              {/* Budget Section */}
+              <div>
+                <p className="text-sm font-black text-[#2003d4] mb-3">Budget</p>
+                <div className="flex flex-wrap gap-2">
+                  {["Under ₱50", "₱50-100", "₱100-150", "₱150-200", "₱200+"].map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => setFilters({ ...filters, budget: b })}
+                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.budget === b ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                    >
+                      {b}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location Section */}
+              <div>
+                <p className="text-sm font-black text-[#2003d4] mb-3">Location</p>
+                <div className="flex flex-wrap gap-2">
+                  {["All", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo"].map((loc) => (
+                    <button
+                      key={loc}
+                      onClick={() => setFilters({ ...filters, location: loc })}
+                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.location === loc ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                    >
+                      {loc}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category Section */}
+              <div>
+                <p className="text-sm font-black text-[#2003d4] mb-3">Category</p>
+                <div className="flex flex-wrap gap-2">
+                  {["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setFilters({ ...filters, category: cat })}
+                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.category === cat ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-2">
+                <button 
+                  onClick={() => setFilters({ budget: '', location: 'All', category: '' })}
+                  className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors"
+                >
+                  Clear All
+                </button>
+                <button 
+                  onClick={() => setIsSearchModalOpen(false)}
+                  className="flex-1 bg-[#2003d4] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-[0.98] transition-transform"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+      )}
 
-        {/* --- LOCATION SECTION --- */}
-        <div>
-          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Location</p>
-          <div className="flex flex-wrap gap-3">
-            {["All", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo"].map((loc) => (
-              <button
-                key={loc}
-                onClick={() => setActiveMainTab(loc === "Within Ateneo" || loc === "Outside Ateneo" ? loc : activeMainTab)}
-                className={`px-5 py-3 rounded-full text-sm font-medium transition-all ${
-                  loc === "All" 
-                  ? "bg-[#1a0dab] text-white shadow-md" 
-                  : "bg-[#f0f2f5] text-[#4b5563] hover:bg-gray-200"
-                }`}
-              >
-                {loc}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* --- CATEGORY SECTION --- */}
-        <div>
-          <p className="text-[16px] font-bold text-[#1a0dab] mb-4">Category</p>
-          <div className="flex flex-wrap gap-3">
-            {["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-5 py-3 rounded-full text-sm font-medium transition-all ${
-                  categoryFilter === cat 
-                  ? "bg-[#1a0dab] text-white" 
-                  : "bg-[#f0f2f5] text-[#4b5563] hover:bg-gray-200"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* --- FOOTER BUTTONS --- */}
-        <div className="flex gap-4 pt-4">
-          <button 
-            className="flex-1 bg-[#f0f2f5] text-[#4b5563] py-4 rounded-[1.2rem] font-bold text-lg hover:bg-gray-200 transition-colors"
-          >
-            Clear All
-          </button>
-          <button 
-            onClick={() => setIsSearchModalOpen(false)}
-            className="flex-1 bg-[#1a0dab] text-white py-4 rounded-[1.2rem] font-bold text-lg shadow-lg active:scale-95 transition-transform"
-          >
-            Apply
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
       {/* --- NAVBAR --- */}
       <nav className="border-b border-[#ffffff]/10 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#2003d4] backdrop-blur-md z-50">
         <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
@@ -238,17 +238,15 @@ export default function WhereToDine() {
           );
         })}
 
-        {/* --- STALL DETAIL MODAL (Constrained Width/Height) --- */}
+        {/* --- STALL DETAIL MODAL --- */}
         {selectedStall && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            {/* max-w-md and h-[85vh] strictly set to look like the image */}
             <div className="bg-white rounded-[2rem] w-full max-w-md max-h-[90vh] overflow-y-auto relative shadow-2xl border border-gray-100">
               <button onClick={() => setSelectedStall(null)} className="absolute top-5 right-5 z-20 bg-white/90 rounded-full p-2 hover:bg-white shadow-sm text-gray-500">
                 ✕
               </button>
 
               <div className="p-7">
-                {/* Reality Check */}
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
                   <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
@@ -267,7 +265,6 @@ export default function WhereToDine() {
                   </div>
                 </div>
 
-                {/* Menu */}
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4">Menu</h4>
                   <div className="space-y-4 bg-gray-50/50 p-5 rounded-2xl border border-gray-50">
@@ -282,12 +279,10 @@ export default function WhereToDine() {
                   </div>
                 </div>
 
-                {/* Go! Button */}
                 <button className="w-full bg-[#003580] hover:bg-[#002a66] text-white py-4 rounded-2xl font-black mb-8 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-colors">
                   Go! 📍
                 </button>
 
-                {/* Tags */}
                 <div className="flex gap-2 mb-10 flex-wrap">
                   {selectedStall.tags.map(tag => (
                     <span key={tag} className="bg-gray-100 text-gray-500 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-tight">
@@ -296,7 +291,6 @@ export default function WhereToDine() {
                   ))}
                 </div>
 
-                {/* Reviews */}
                 <div>
                   <div className="flex justify-between items-center mb-5">
                     <h4 className="font-black text-lg">Reviews</h4>
@@ -319,7 +313,6 @@ export default function WhereToDine() {
                   )}
                 </div>
 
-                {/* Review and Earn */}
                 <div className="mt-8 bg-[#eef4ff] p-5 rounded-2xl flex justify-between items-center border border-blue-100 shadow-sm">
                   <div className="pr-2">
                     <p className="text-[10px] font-black text-[#003580] uppercase tracking-tighter">Review & Earn</p>
