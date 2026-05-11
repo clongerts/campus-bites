@@ -196,7 +196,7 @@ function MapInner() {
 export default function MapPage() {
   return (
     <main className="relative h-screen w-full text-slate-900 font-sans overflow-hidden p-4 md:p-6 lg:p-8">
-      <div className="fixed inset-0 z-0 bg-[url('/images/ADMU_1.jpg')] bg-cover bg-center bg-fixed" />
+      <div className="fixed inset-0 z-0 bg-[url('/images/assets/ADMU_1.jpg')] bg-cover bg-center bg-fixed" />
       <div className="fixed inset-0 z-0 bg-slate-950/40 backdrop-blur-[2px] pointer-events-none" />
       
       <Suspense fallback={<div className="text-white">Loading Map...</div>}>
