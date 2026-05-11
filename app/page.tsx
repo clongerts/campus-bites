@@ -10,7 +10,7 @@ export default function HomePage() {
         <div className="flex flex-col items-center justify-center">
           <Link href="wheretodine" className="group transition-transform duration-300 active:scale-95">
             <img
-              src="/images/2.png"
+              src="/images/assets/2.png"
               alt="Campus Bites Hero"
               className="h-64 md:h-100 lg:h-60 w-auto object-contain animate-in fade-in zoom-in duration-700 group-hover:scale-105 transition-transform"
             />
@@ -38,7 +38,7 @@ export default function HomePage() {
       <main
         className="flex-grow relative"
         style={{
-          backgroundImage: "url('/images/HomeBG.png')",
+          backgroundImage: "url('/images/assets/HomeBG.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed"
@@ -55,9 +55,9 @@ export default function HomePage() {
             
             <div className="space-y-6">
               {[
-                { img: "/images/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
-                { img: "/images/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
-                { img: "/images/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
+                { img: "/images/assets/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
+                { img: "/images/assets/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
+                { img: "/images/assets/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
               ].map((review, i) => (
                 <div key={i} className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
                   <img src={review.img} className="w-14 h-14 rounded-full border-2 border-[#2003d4] object-cover shrink-0" />
