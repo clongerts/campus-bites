@@ -29,7 +29,7 @@ const LandingPage = () => {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <main className="flex-grow flex flex-col items-center justify-center bg-[#2003d4]/60 backdrop-blur-md p-4">
+      <main className="flex-grow flex flex-col items-center justify-center bg-black/60 backdrop-blur-md p-4">
         
         {/* --- WHITE SELECTION CONTAINER --- */}
         <div className="bg-[#ffffff] rounded-3xl p-6 md:p-10 max-w-2xl w-full shadow-2xl text-center">
@@ -48,7 +48,7 @@ const LandingPage = () => {
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             
             {/* INSIDE CAMPUS CARD */}
-            <Link href="/inside" className="group no-underline block w-full max-w-[280px]" style={{ textDecoration: "none" }}>
+            <Link href="/wheretodine/inside" className="group no-underline block w-full max-w-[280px]" style={{ textDecoration: "none" }}>
               <div className="bg-white rounded-2xl p-3 shadow-md border border-gray-100 hover:shadow-xl transition-all group-hover:-translate-y-1 flex flex-col items-center">
                 <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 relative">
                   <img 
@@ -65,7 +65,7 @@ const LandingPage = () => {
             </Link>
 
             {/* OUTSIDE CAMPUS CARD */}
-            <Link href="/outside" className="group no-underline block w-full max-w-[280px]" style={{ textDecoration: "none" }}>
+            <Link href="/wheretodine/outside" className="group no-underline block w-full max-w-[280px]" style={{ textDecoration: "none" }}>
               <div className="bg-white rounded-2xl p-3 shadow-md border border-gray-100 hover:shadow-xl transition-all group-hover:-translate-y-1 flex flex-col items-center">
                 <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 relative">
                   <img 
