@@ -44,8 +44,17 @@ const CAMPUS_LOCATIONS = {
     name: "Rizal Library",
     info: "A quiet sanctuary for study and reflection. With its modern facilities and serene atmosphere, it’s the perfect spot for focused work and research.",
     category: "Academic / Study Spots",
-    top: "10%", left: "63.5%",
+    top: "25%", left: "42.5%",
     images: ["/images/assets/iso-1.jpg"]
+ },
+    IRH: {
+    id: "IRH",
+    name: "International Residence Halls",
+    info: "A vibrant melting pot of cultures and cuisines. With students from around the world, it’s a place where you can experience global flavors without leaving campus.",
+    category: "Residential / Study Spots",
+    top: "40%", left: "77%",
+    images: ["/images/assets/iso-1.jpg"]
+    
   },
 };
 
@@ -108,7 +117,7 @@ function MapInner() {
         </Link>
       </header>
 
-      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 pb-2">
+      <div className="flex-1 max-h-200 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 pb-10">
         <div className="lg:col-span-7 xl:col-span-8 relative bg-slate-100 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border-4 md:border-8 border-white/40 shadow-2xl touch-none h-full">
           <QuickPinchZoom 
             ref={pinchZoomRef} 
@@ -121,7 +130,7 @@ function MapInner() {
               <img 
                 src="/images/assets/map.png"
                 alt="Campus Map"
-                className="w-full h-full object-contain high-res-render"
+                className="w-full h-full object-cover high-res-render"
               />
 
               {Object.entries(CAMPUS_LOCATIONS).map(([key, loc]) => (
@@ -178,7 +187,7 @@ function MapInner() {
                     href={`/stalls?filter=${encodeURIComponent(selectedStall.id)}`}
                     className="block w-full py-4 bg-[#ffe500] text-[#2003d4] rounded-2xl font-black text-center mb-4 hover:scale-[1.02] active:scale-95 transition-all shadow-lg no-underline"
                   >
-                    VIEW DINING SPOTS AT {selectedStall.name.toUpperCase()}
+                    VIEW DINING SPOTS AT {selectedStall.id.toUpperCase()}
                   </Link>
 
                   <button onClick={() => setSelectedStall(null)} className="w-full text-[10px] font-black text-[#ffe500] hover:text-white transition-colors uppercase tracking-[0.2em] py-2">
@@ -201,6 +210,10 @@ function MapInner() {
   );
 }
 
+      <footer className="bg-[#ffffff] py-8 text-center border-t border-slate-100">
+        <p className="text-[#2003d4] text-[10px] font-black uppercase tracking-widest">Campus Map • Ateneo 2026</p>
+      </footer>
+
 export default function MapPage() {
   return (
     <main className="relative h-screen w-full text-slate-900 font-sans overflow-hidden p-4 md:p-6 lg:p-8">
@@ -219,5 +232,7 @@ export default function MapPage() {
         .high-res-render { image-rendering: -webkit-optimize-contrast; backface-visibility: hidden; }
       `}</style>
     </main>
+
+    
   );
 }

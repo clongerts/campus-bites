@@ -15,9 +15,9 @@ interface Stall {
   price: string;
   tags: string[];
   image: string;
-  menuImage?: string;       // NEW
-  expectationImage?: string; // NEW
-  realityImage?: string;     // NEW
+  menuImage?: string;
+  expectationImage?: string;
+  realityImage?: string;
   menu: Menu[];
   reviews: Review[];
   isBestValue: boolean;
@@ -30,6 +30,11 @@ export default function WhereToDine() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
+
+  // --- QUICK DECIDE STATES ---
+  const [isQuickDecideOpen, setIsQuickDecideOpen] = useState(false);
+  const [randomStall, setRandomStall] = useState<Stall | null>(null);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   const [filters, setFilters] = useState({ budget: '', location: 'All', category: '' });
   const [rating, setRating] = useState(0);
@@ -46,54 +51,78 @@ export default function WhereToDine() {
 
   useEffect(() => { document.title = "Where To Dine"; }, []);
 
+  // --- QUICK DECIDE LOGIC ---
+  const handleQuickDecide = () => {
+    setIsQuickDecideOpen(true);
+    setIsSpinning(true);
+    
+    let count = 0;
+    const interval = setInterval(() => {
+      const rand = stalls[Math.floor(Math.random() * stalls.length)];
+      setRandomStall(rand);
+      count++;
+      if (count > 10) {
+        clearInterval(interval);
+        setIsSpinning(false);
+      }
+    }, 100);
+  };
+
   // --- FULL DATA ---
   const stalls: Stall[] = [
-    // -- JSEC ---
-    { id: 1, name: "Yatako", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Japanese"], image: "/images/JSEC/Yatako.jpg", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
-    { id: 2, name: "The Breakfast Club", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Breakfast"], image: "/images/JSEC/TBC.jpg", isBestValue: false, menu: [{ name: "Fluffy Pancakes", price: 150 }, { name: "Breakfast Burrito", price: 185 }, { name: "French Toast", price: 160 }, { name: "Cold Brew", price: 120 }], reviews: [] },
-    { id: 3, name: "ONDO", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Korean"], image: "/images/JSEC/ondo.jpg", isBestValue: false, menu: [{ name: "Beef Bulgogi Bowl", price: 190 }, { name: "Spicy Pork Rice", price: 180 }, { name: "Kimchi Fried Rice", price: 165 }, { name: "Fish Cake", price: 45 }], reviews: [] },
-    { id: 4, name: "Suan Rak", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Thai"], image: "/images/JSEC/suanrak.jpg", isBestValue: false, menu: [{ name: "Pad Thai", price: 175 }, { name: "Green Curry Rice", price: 185 }, { name: "Thai Milk Tea", price: 90 }, { name: "Mango Sticky Rice", price: 120 }], reviews: [] },
-    { id: 5, name: "The Middle Feast", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Middle Eastern"], image: "/images/JSEC/middlefeast.jpg", isBestValue: true, menu: [{ name: "Shawarma Rice", price: 165 }, { name: "Falafel Wrap", price: 150 }, { name: "Hummus w/ Pita", price: 120 }, { name: "Kefta Skewer", price: 145 }], reviews: [] },
-    { id: 6, name: "Tampai", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/tampai.jpg", isBestValue: false, menu: [{ name: "Fusion Rice Bowl", price: 170 }, { name: "Tampai Wings (4pcs)", price: 180 }, { name: "Truffle Fries", price: 110 }], reviews: [] },
-    { id: 7, name: "Lucky Kat", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Japanese"], image: "/images/JSEC/luckykat.jpg", isBestValue: false, menu: [{ name: "Chicken Katsu", price: 185 }, { name: "Gyudon Bowl", price: 195 }, { name: "Katsu Sando", price: 160 }, { name: "Miso Soup", price: 40 }], reviews: [] },
-    { id: 8, name: "Mongch", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/monch.jpg", isBestValue: false, menu: [{ name: "Signature Rice Meal", price: 160 }, { name: "Crispy Pork Chop", price: 155 }, { name: "Sweet Glazed Chicken", price: 160 }], reviews: [] },
-    { id: 9, name: "Baoba", loc: "JSEC", rating: 5, price: "₱100-150", tags: ["JSEC", "Drinks"], image: "/images/JSEC/Baoba.jpg", isBestValue: false, menu: [{ name: "Classic Milk Tea", price: 120 }, { name: "Wintermelon Tea", price: 110 }, { name: "Brown Sugar Latte", price: 140 }, { name: "Cream Cheese Top", price: 30 }], reviews: [] },
-    { id: 10, name: "Hikori", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/hikori.jpg", isBestValue: false, menu: [{ name: "Hibachi Grill Chicken", price: 195 }, { name: "Yakitori Skewer Set", price: 180 }, { name: "Grilled Corn", price: 75 }], reviews: [] },
-    { id: 11, name: "Eagle Eatery", loc: "JSEC", rating: 5, price: "₱50-100", tags: ["JSEC", "Budget"], image: "/images/JSEC/eagle-eatery.jpg", isBestValue: true, menu: [{ name: "Student Meal A (Pork)", price: 99 }, { name: "Student Meal B (Chicken)", price: 99 }, { name: "Siomai Rice", price: 75 }, { name: "Extra Rice", price: 20 }], reviews: [] },
-    { id: 12, name: "Wagwan", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/wagwan.PNG", isBestValue: false, menu: [{ name: "Caribbean Rice Bowl", price: 180 }, { name: "Jerk Chicken Skewers", price: 190 }, { name: "Plantain Chips", price: 65 }], reviews: [] },
-    { id: 13, name: "Kahlo", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Mexican"], image: "/images/JSEC/kahlo.jpg", isBestValue: false, menu: [{ name: "Soft Tacos (2pcs)", price: 150 }, { name: "Cheese Quesadilla", price: 170 }, { name: "Loaded Nachos", price: 130 }, { name: "Horchata", price: 95 }], reviews: [] },
-    { id: 14, name: "Aja!", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Korean"], image: "/images/JSEC/aja.jpg", isBestValue: false, menu: [{ name: "Classic Bibimbap", price: 170 }, { name: "Fried Mandu (5pcs)", price: 120 }, { name: "Japchae", price: 140 }], reviews: [] },
-    { id: 15, name: "Lami", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Filipino"], image: "/images/JSEC/lami.jpg", isBestValue: false, menu: [{ name: "Bisaya Pork Humba", price: 175 }, { name: "Chicken Inasal Bowl", price: 165 }, { name: "Lechon Kawali Rice", price: 185 }], reviews: [] },
-    { id: 16, name: "Nom Noms", loc: "JSEC", rating: 4, price: "₱100-150", tags: ["JSEC"], image: "/images/JSEC/nomnoms.PNG", isBestValue: false, menu: [{ name: "Mozzarella Corn Dog", price: 95 }, { name: "Chicken Poppers", price: 140 }, { name: "Potato Wedges", price: 80 }], reviews: [] },
-    { id: 17, name: "Hoi An", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Vietnamese"], image: "/images/JSEC/hoian.PNG", isBestValue: false, menu: [{ name: "Pork Banh Mi", price: 155 }, { name: "Fresh Spring Rolls", price: 120 }, { name: "Beef Pho", price: 190 }], reviews: [] },
-  
-// -- GONZ ---
-  { id: 18, name: "Yum Dum Dim", loc: "Gonzaga", rating: 5, price: "₱150-200", tags: ["Gonzaga 2/F","Japanese"], image: "/images/Gonzaga/yumdumdim.jpg", menuImage: "/images/Gonzaga/menus/yumdumdimmenu.jpg", expectationImage: "/images/Gonzaga/yumdumdim.jpg", realityImage: "/images/reality/yumdumdim-real.jpg", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "g1", user: "BlueEagle99", rating: 5, comment: "Best dimsum on campus, hands down.", isAnonymous: false, date: "2026-05-01" }] },
-  { id: 19, name: "Chillers", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Gonzaga 2/F","Drinks"], image: "/images/Gonzaga/chillers.jpg", menuImage: "/images/Gonzaga/menus/chillersmenu.jpg", expectationImage: "/images/Gonzaga/chillers.jpg", realityImage: "/images/reality/chillers-real.jpg", isBestValue: false, menu: [{ name: "Fruit Shake", price: 65 }, { name: "Iced Tea", price: 40 }], reviews: [{ id: "g2", user: "HydrationNation", rating: 4, comment: "Perfect for the heat, though lines get long.", isAnonymous: true, date: "2026-04-28" }] },
-  { id: 20, name: "Colonel's Curry", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Gonzaga 2/F", "Budget"], image: "/images/Gonzaga/colonelscurry.jpg", menuImage: "/images/Gonzaga/menus/colonelscurrymenu.jpg", expectationImage: "/images/Gonzaga/colonelscurry.jpg", realityImage: "/images/reality/colonelscurry-real.jpg", isBestValue: true, menu: [{ name: "Economy Rice (2 Viands)", price: 85 }, { name: "Pork Liempo Meal", price: 95 }, { name: "Giniling Rice", price: 75 }, { name: "Fried Egg", price: 15 }], reviews: [{ id: "g3", user: "BudgetKing", rating: 4, comment: "Reliable student meal. The liempo is great.", isAnonymous: false, date: "2026-05-02" }] },
-  { id: 21, name: "Jamaican Patty", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Gonzaga 1/F", "Snacks"], image: "/images/Gonzaga/jamaicanpatty.png", menuImage: "/images/Gonzaga/menus/jamaicanmenu.jpg", expectationImage: "/images/Gonzaga/jamaicanpatty.png", realityImage: "/images/reality/jamaicanpatty-real.jpg", isBestValue: false, menu: [{ name: "Beef Pinatubo (Spicy)", price: 75 }, { name: "Cheesy Beef", price: 85 }, { name: "Chicken Patty", price: 75 }], reviews: [{ id: "g4", user: "SpiceLover", rating: 5, comment: "Pinatubo is actually spicy! Love it.", isAnonymous: true, date: "2026-05-05" }] },
-  { id: 22, name: "Chunky Chicks", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Gonzaga 1/F"], image: "/images/Gonzaga/chunkychicks.png", menuImage: "/images/Gonzaga/menus/chunkychicksmenu.jpg", expectationImage: "/images/Gonzaga/chunkychicks.png", realityImage: "/images/reality/chunkychicks-real.jpg", isBestValue: false, menu: [{ name: "2pc Fried Chicken", price: 160 }, { name: "Chicken Sandwich", price: 175 }, { name: "Chicken Poppers", price: 120 }, { name: "Gravy Rice", price: 30 }], reviews: [{ id: "g5", user: "ProteinPal", rating: 4, comment: "Portions are huge. Good value.", isAnonymous: false, date: "2026-05-08" }] },
-  { id: 23, name: "Day Off", loc: "Gonzaga", rating: 4, price: "₱100-150", tags: ["Gonzaga 1/F","Cafe"], image: "/images/Gonzaga/dayoff.png", menuImage: "/images/Gonzaga/menus/dayoffmenu.jpg", expectationImage: "/images/Gonzaga/dayoff.png", realityImage: "/images/reality/dayoff-real.jpg", isBestValue: false, menu: [{ name: "Iced Latte", price: 120 }, { name: "Cold Brew", price: 130 }], reviews: [{ id: "g6", user: "CaffeineFiend", rating: 4, comment: "Solid cold brew to get through Theo.", isAnonymous: true, date: "2026-05-10" }] },
-  { id: 24, name: "Get Bowld", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Gonzaga 2/F","Rice Bowls"], image: "/images/Gonzaga/getbowld.png", menuImage: "/images/Gonzaga/menus/getbowldmenu.jpg", expectationImage: "/images/Gonzaga/getbowld.png", realityImage: "/images/reality/getbowld-real.jpg", isBestValue: false, menu: [{ name: "Beef Gyudon", price: 190 }, { name: "Katsudon", price: 185 }], reviews: [{ id: "g7", user: "RiceBowlFan", rating: 4, comment: "Very filling and the beef is tender.", isAnonymous: false, date: "2026-05-03" }] },
-  { id: 25, name: "Ghe!", loc: "Gonzaga", rating: 5, price: "₱100-150", tags: ["Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/ghe.png", menuImage: "/images/Gonzaga/menus/ghemenu.jpg", expectationImage: "/images/Gonzaga/ghe.png", realityImage: "/images/reality/ghe-real.jpg", isBestValue: true, menu: [{ name: "Adobo Rice Meal", price: 110 }, { name: "Skinless Longganisa", price: 95 }, { name: "Tocino", price: 105 }], reviews: [{ id: "g8", user: "LolaVibes", rating: 5, comment: "Tastes like home. Adobo is top notch.", isAnonymous: false, date: "2026-04-30" }] },
-  { id: 26, name: "Luckys", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Gonzaga 2/F","Budget"], image: "/images/Gonzaga/luckys.jpg", menuImage: "/images/Gonzaga/menus/luckysmenu.jpg", expectationImage: "/images/Gonzaga/luckys.jpg", realityImage: "/images/reality/luckys-real.jpg", isBestValue: true, menu: [{ name: "Sizzling Sisig", price: 99 }, { name: "Chicken Pastil", price: 75 }], reviews: [{ id: "g9", user: "SisigScholar", rating: 4, comment: "Cheap and satisfying sisig.", isAnonymous: true, date: "2026-05-01" }] },
-  { id: 27, name: "Potato Corner", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Gonzaga 1/F","Snacks"], image: "/images/Gonzaga/potatocorner.png", menuImage: "/images/Gonzaga/menus/potatocornermenu.jpg", expectationImage: "/images/Gonzaga/potatocorner.png", realityImage: "/images/reality/potatocorner-real.jpg", isBestValue: false, menu: [{ name: "Mega Fries", price: 95 }, { name: "Giga Fries", price: 180 }], reviews: [{ id: "g10", user: "FryGuy", rating: 5, comment: "Always fresh and well-seasoned.", isAnonymous: false, date: "2026-05-09" }] },
-  { id: 28, name: "Simply", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Gonzaga 1/F","Healthy"], image: "/images/Gonzaga/simply.png", menuImage: "/images/Gonzaga/menus/simplymenu.jpg", expectationImage: "/images/Gonzaga/simply.png", realityImage: "/images/reality/simply-real.jpg", isBestValue: false, menu: [{ name: "Salad Bowl", price: 160 }, { name: "Fresh Juice", price: 90 }], reviews: [{ id: "g11", user: "HealthNut", rating: 4, comment: "Hard to find healthy food on campus, this is a gem.", isAnonymous: false, date: "2026-05-04" }] },
-  { id: 29, name: "Swirlicious", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Gonzaga 2/F","Dessert"], image: "/images/Gonzaga/swirlicious.jpg", menuImage: "/images/Gonzaga/menus/swirliciousmenu.jpg", expectationImage: "/images/Gonzaga/swirlicious.jpg", realityImage: "/images/reality/swirlicious-real.jpg", isBestValue: false, menu: [{ name: "Soft Serve", price: 50 }, { name: "Swirl Cup", price: 75 }], reviews: [{ id: "g12", user: "SweetTooth", rating: 5, comment: "Best soft serve for the price.", isAnonymous: true, date: "2026-05-06" }] },
-  { id: 30, name: "Tomo", loc: "Gonzaga", rating: 5, price: "₱150-200", tags: ["Gonzaga 1/F","Japanese"], image: "/images/Gonzaga/tomo.png", menuImage: "/images/Gonzaga/menus/tomomenu.jpg", expectationImage: "/images/Gonzaga/tomo.png", realityImage: "/images/reality/tomo-real.jpg", isBestValue: false, menu: [{ name: "Sushi Roll", price: 150 }, { name: "Ramen", price: 220 }], reviews: [{ id: "g13", user: "SushiMaster", rating: 5, comment: "The ramen broth is surprisingly rich.", isAnonymous: false, date: "2026-05-07" }] },
-  { id: 31, name: "Varda", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Gonzaga 2/F","Burgers"], image: "/images/Gonzaga/Varda.jpg", menuImage: "/images/Gonzaga/menus/vardamenu.jpg", expectationImage: "/images/Gonzaga/Varda.jpg", realityImage: "/images/reality/varda-real.jpg", isBestValue: true, menu: [{ name: "Varda Burger", price: 85 }, { name: "Cheeseburger", price: 95 }], reviews: [{ id: "g14", user: "BurgerKing", rating: 5, comment: "Unbeatable price for a good burger.", isAnonymous: true, date: "2026-05-08" }] },
-    // -- Others ---
-    { id: 34, name: "Ebais", loc: "Residence Halls", rating: 4, price: "₱50-100", tags: ["Budget", "Residence Halls"], image: "/images/ebais.png", isBestValue: true, menu: [{ name: "Dorm Student Meal", price: 90 }, { name: "Breakfast Silog Set", price: 85 }, { name: "Nilaga Bowl", price: 110 }], reviews: [] },
-    { id: 35, name: "IRH", loc: "Residence Halls", rating: 4, price: "₱50-100", tags: ["Budget", "Residence Halls"], image: "/images/IRH.png", isBestValue: true, menu: [{ name: "Dorm Student Meal", price: 90 }, { name: "Breakfast Silog Set", price: 85 }, { name: "Nilaga Bowl", price: 110 }], reviews: [] },
-    { id: 36, name: "Iggy's", loc: "Theology", rating: 5, price: "₱100-150", tags: ["Budget"], image: "/images/iggys.jpg", isBestValue: true, menu: [{ name: "Home-cooked Viand", price: 100 }, { name: "Beef Tapa", price: 115 }, { name: "Sinigang", price: 120 }], reviews: [] },
-    { id: 38, name: "Rizal Library", loc: "Library", rating: 4, price: "₱100-150", tags: ["Rizal","Study Spots"], image: "/images/rizal-lib.jpg", isBestValue: false, menu: [{ name: "Exam Fuel (Double Shot)", price: 140 }, { name: "Tuna Pesto Sandwich", price: 120 }, { name: "Hot Tea", price: 90 }], reviews: [] },
+ // --- REGIS CENTER ---
+    { id: 40, name: "Domino's Pizza", loc: "Regis Center", rating: 4, price: "₱200+", tags: ["Regis 1/F", "Fast"], image: "/images/dominos.jpg", menuImage: "/images/menus/dominos-menu.jpg", expectationImage: "/images/dominos.jpg", realityImage: "/images/reality/dominos-real.jpg", isBestValue: false, menu: [{ name: "Regular Pepperoni", price: 299 }, { name: "Creamy Carbonara", price: 199 }, { name: "Cheesy Breadsticks", price: 120 }], reviews: [] },
+    { id: 41, name: "The Coffee Bean & Tea Leaf", loc: "Regis Center", rating: 5, price: "₱150-200", tags: ["Regis 1/F", "Study Spots"], image: "/images/cbtl.jpg", menuImage: "/images/menus/cbtl-menu.jpg", expectationImage: "/images/cbtl.jpg", realityImage: "/images/reality/cbtl-real.jpg", isBestValue: false, menu: [{ name: "African Sunrise Iced Tea", price: 185 }, { name: "Vanilla Latte", price: 175 }, { name: "Blueberry Muffin", price: 110 }], reviews: [] },
+    { id: 42, name: "Tetsuo", loc: "Regis Center", rating: 5, price: "₱200+", tags: ["Regis 2/F", "Japanese", "Date Spot"], image: "/images/Regis/tetsuo.jpg", menuImage: "/images/menus/tetsuo-menu.jpg", expectationImage: "/images/tetsuo.jpg", realityImage: "/images/reality/tetsuo-real.jpg", isBestValue: false, menu: [{ name: "Signature Karaage (S)", price: 210 }, { name: "Cold Soba Noodles", price: 195 }, { name: "Umami Fried Rice", price: 95 }, { name: "Japanese Slaw", price: 60 }], reviews: [] },
+    { id: 43, name: "BOK Chicken", loc: "Regis Center", rating: 5, price: "₱150-200", tags: ["Regis 2/F", "Korean"], image: "/images/Regis/BOK.jpg", menuImage: "/images/menus/bok-menu.jpg", expectationImage: "/images/bok.jpg", realityImage: "/images/reality/bok-real.jpg", isBestValue: false, menu: [{ name: "6pc Double Fried Chicken", price: 195 }, { name: "Snow Cheese Poppers", price: 155 }, { name: "BOK Rice Bowl", price: 175 }], reviews: [] },
+    { id: 44, name: "JAAM House of Sushi", loc: "Regis Center", rating: 4, price: "₱150-200", tags: ["Regis 2/F", "Japanese"], image: "/images/jaam.jpg", menuImage: "/images/menus/jaam-menu.jpg", expectationImage: "/images/jaam.jpg", realityImage: "/images/reality/jaam-real.jpg", isBestValue: false, menu: [{ name: "Sushi Platter (Mixed)", price: 250 }, { name: "California Maki", price: 180 }, { name: "Ebi Tempura (3pcs)", price: 195 }], reviews: [] },
+    { id: 45, name: "Dim Dum Tom", loc: "Regis Center", rating: 4, price: "₱150-200", tags: ["Regis 2/F", "Chinese"], image: "/images/dim-dum.jpg", menuImage: "/images/menus/dimdumtom-menu.jpg", expectationImage: "/images/dim-dum.jpg", realityImage: "/images/reality/dimdumtom-real.jpg", isBestValue: false, menu: [{ name: "Assorted Dimsum Box", price: 160 }, { name: "Beef Wonton Noodles", price: 185 }, { name: "Soy Chicken Rice", price: 170 }], reviews: [] },
+    { id: 46, name: "Coco Milk Tea", loc: "Regis Center", rating: 5, price: "₱100-150", tags: ["Regis 2/F", "Drinks"], image: "/images/coco.jpg", menuImage: "/images/menus/coco-menu.jpg", expectationImage: "/images/coco.jpg", realityImage: "/images/reality/coco-real.jpg", isBestValue: false, menu: [{ name: "Panda Milk Tea", price: 130 }, { name: "3 Buddies Milk Tea", price: 145 }, { name: "Lemon Green Tea", price: 110 }], reviews: [] },
+    { id: 47, name: "Subway", loc: "Regis Center", rating: 4, price: "₱200+", tags: ["Regis 3/F", "Healthy"], image: "/images/Regis/subway.jpg", menuImage: "/images/menus/subway-menu.jpg", expectationImage: "/images/subway.jpg", realityImage: "/images/reality/subway-real.jpg", isBestValue: false, menu: [{ name: "6-inch Roast Beef", price: 230 }, { name: "Footlong Upgrade", price: 160 }, { name: "Chocolate Chip Cookie", price: 50 }], reviews: [] },
+    { id: 48, name: "Kim's Ramyun", loc: "Regis Center", rating: 5, price: "₱150-200", tags: ["Regis 3/F", "Korean"], image: "/images/kims.jpg", menuImage: "/images/menus/kims-menu.jpg", expectationImage: "/images/kims.jpg", realityImage: "/images/reality/kims-real.jpg", isBestValue: false, menu: [{ name: "Shin Ramyun Bowl", price: 180 }, { name: "Tuna Gimbap", price: 150 }, { name: "Tteokbokki", price: 165 }], reviews: [] },
+    { id: 49, name: "Royal Tea", loc: "Regis Center", rating: 4, price: "₱100-150", tags: ["Regis 3/F", "Drinks"], image: "/images/royal-tea.jpg", menuImage: "/images/menus/royaltea-menu.jpg", expectationImage: "/images/royal-tea.jpg", realityImage: "/images/reality/royaltea-real.jpg", isBestValue: false, menu: [{ name: "Cheese Cream Matcha", price: 140 }, { name: "Royal Fruit Tea", price: 135 }, { name: "Oreo Cocoa", price: 125 }], reviews: [] },
+    { id: 50, name: "Paotsin", loc: "Regis Center", rating: 5, price: "₱50-100", tags: ["Regis 3/F", "Budget"], image: "/images/Regis/paotsin.jpeg", menuImage: "/images/menus/paotsin-menu.jpg", expectationImage: "/images/paotsin.jpg", realityImage: "/images/reality/paotsin-real.jpg", isBestValue: true, menu: [{ name: "Shark's Fin w/ Green Rice", price: 100 }, { name: "Beef Siomai w/ Green Rice", price: 100 }, { name: "Laksa Noodles", price: 120 }, { name: "Fried Dumplings", price: 45 }], reviews: [] },
+
+    // --- NEAR ATENEO / KATIPUNAN ---
+    { id: 51, name: "Busan Korean Restaurant", loc: "Katipunan", rating: 5, price: "₱200+", tags: ["Near Ateneo", "Korean"], image: "/images/busan.jpg", menuImage: "/images/menus/busan-menu.jpg", expectationImage: "/images/busan.jpg", realityImage: "/images/reality/busan-real.jpg", isBestValue: false, menu: [{ name: "Beef Samgyup Set", price: 499 }, { name: "Dolsot Bibimbap", price: 250 }, { name: "Pork Cutlet", price: 280 }], reviews: [] },
+    { id: 52, name: "Kanto Freestyle", loc: "Katipunan", rating: 5, price: "₱150-200", tags: ["Near Ateneo", "Breakfast"], image: "/images/kanto.jpg", menuImage: "/images/menus/kanto-menu.jpg", expectationImage: "/images/kanto.jpg", realityImage: "/images/reality/kanto-real.jpg", isBestValue: true, menu: [{ name: "Batangas Beef Tapa", price: 160 }, { name: "Honey Garlic Chicken", price: 155 }, { name: "Mixed Berry Pancakes", price: 140 }, { name: "Fried Oreo", price: 90 }], reviews: [] },
+    { id: 53, name: "Go Salads!", loc: "Katipunan", rating: 4, price: "₱150-200", tags: ["Near Ateneo", "Healthy"], image: "/images/go-salads.jpg", menuImage: "/images/menus/gosalads-menu.jpg", expectationImage: "/images/go-salads.jpg", realityImage: "/images/reality/gosalads-real.jpg", isBestValue: false, menu: [{ name: "Hummus Salad", price: 190 }, { name: "Green Smoothie", price: 150 }, { name: "Chicken Pesto Wrap", price: 175 }], reviews: [] },
+    { id: 54, name: "JT's Manukan", loc: "Katipunan", rating: 5, price: "₱150-200", tags: ["Near Ateneo", "Filipino"], image: "/images/jts.jpg", menuImage: "/images/menus/jts-menu.jpg", expectationImage: "/images/jts.jpg", realityImage: "/images/reality/jts-real.jpg", isBestValue: false, menu: [{ name: "Chicken Inasal Paa", price: 180 }, { name: "Garlic Rice", price: 35 }, { name: "Chicken Skin", price: 95 }, { name: "Batchoy", price: 145 }], reviews: [] },
+    { id: 55, name: "Gino's Brick Oven Pizza", loc: "Katipunan", rating: 5, price: "₱200+", tags: ["Near Ateneo", "Date Spot"], image: "/images/ginos.jpg", menuImage: "/images/menus/ginos-menu.jpg", expectationImage: "/images/ginos.jpg", realityImage: "/images/reality/ginos-real.jpg", isBestValue: false, menu: [{ name: "Margherita Pizza", price: 380 }, { name: "Burrata", price: 450 }, { name: "Salted Egg Pasta", price: 320 }, { name: "Lemonade", price: 95 }], reviews: [] },
+    { id: 56, name: "Zus Coffee", loc: "Katipunan", rating: 5, price: "₱100-150", tags: ["Near Ateneo", "Drinks"], image: "/images/zus.jpg", menuImage: "/images/menus/zus-menu.jpg", expectationImage: "/images/zus.jpg", realityImage: "/images/reality/zus-real.jpg", isBestValue: false, menu: [{ name: "CEO Latte", price: 95 }, { name: "Spanish Latte", price: 110 }, { name: "Buttercrush Frappe", price: 145 }, { name: "Oat Milk Upgrade", price: 35 }], reviews: [] }, 
   ];
 
-  const locations = ["JSEC", "Gonzaga", "Residence Halls", "Theology", "ISO", "Library"];
+  const locations = ["Regis Center", "Katipunan", "Esteban Abada", "Gate 2.5",];
 
   return (
     <div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       
+      {/* --- QUICK DECIDE MODAL --- */}
+      {isQuickDecideOpen && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#2003d4]/40 backdrop-blur-xl">
+          <div className="bg-white rounded-[3rem] w-full max-w-sm overflow-hidden shadow-2xl p-8 text-center relative border-4 border-[#ffe500]">
+            <button onClick={() => setIsQuickDecideOpen(false)} className="absolute top-6 right-6">
+               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+               </svg>
+            </button>
+            <h2 className="text-[#2003d4] font-black text-3xl mb-2 italic">LUCKY BITE!</h2>
+            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-6">Letting fate decide your lunch...</p>
+            <div className={`transition-all duration-300 ${isSpinning ? "scale-95 opacity-50 grayscale" : "scale-110"}`}>
+               <div className="w-40 h-40 mx-auto rounded-full overflow-hidden border-8 border-[#ffe500] shadow-xl mb-6">
+                  <img src={randomStall?.image} className="w-full h-full object-cover" alt="Random result" />
+               </div>
+               <h3 className="text-2xl font-black text-[#2003d4] uppercase truncate">{randomStall?.name}</h3>
+               <p className="text-[#2003d4]/60 font-bold text-sm mb-6">{randomStall?.loc}</p>
+            </div>
+            <div className="flex gap-2">
+               <button onClick={handleQuickDecide} disabled={isSpinning} className="flex-1 bg-gray-100 text-[#2003d4] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all">Re-roll</button>
+               <button onClick={() => { setSelectedStall(randomStall); setIsQuickDecideOpen(false); }} className="flex-1 bg-[#2003d4] text-[#ffe500] py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200 active:scale-95 transition-all">Go There</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* --- FILTER MODAL --- */}
       {isSearchModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -126,7 +155,7 @@ export default function WhereToDine() {
               <div>
                 <p className="text-sm font-black text-[#2003d4] mb-3">Category</p>
                 <div className="flex flex-wrap gap-2">
-                  {["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"].map((cat) => (
+                  {["Budget", "Study Spots", "Date Spot", "Asian", "Breakfast", "Fast"].map((cat) => (
                     <button key={cat} onClick={() => setFilters({ ...filters, category: cat })} className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.category === cat ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>{cat}</button>
                   ))}
                 </div>
@@ -158,41 +187,15 @@ export default function WhereToDine() {
                   <label className="text-[10px] font-black uppercase text-gray-500">Rating</label>
                   <div className="flex gap-2 text-2xl mt-1">
                     {[1,2,3,4,5].map(s => (
-                      <button 
-                        key={s} 
-                        type="button"
-                        onMouseEnter={() => setHoverRating(s)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        onClick={() => setRating(s)}
-                        className={`transition-colors duration-200 ${
-                          s <= (hoverRating || rating) ? "text-yellow-400" : "text-gray-200"
-                        }`}
-                      >
-                        ★
-                      </button>
+                      <button key={s} type="button" onMouseEnter={() => setHoverRating(s)} onMouseLeave={() => setHoverRating(0)} onClick={() => setRating(s)} className={`transition-colors duration-200 ${s <= (hoverRating || rating) ? "text-yellow-400" : "text-gray-200"}`}>★</button>
                     ))}
                   </div>
                 </div>
-                <textarea 
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Tell us about your meal..." 
-                  className="w-full h-32 bg-gray-50 rounded-2xl p-4 text-sm focus:outline-none border-none focus:ring-2 focus:ring-blue-100 resize-none"
-                ></textarea>
+                <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Tell us about your meal..." className="w-full h-32 bg-gray-50 rounded-2xl p-4 text-sm focus:outline-none border-none focus:ring-2 focus:ring-blue-100 resize-none"></textarea>
                 <div className="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:bg-gray-50 transition-colors">
                    <p className="text-[10px] font-black text-blue-500">UPLOAD REALITY PHOTO</p>
                 </div>
-                <button 
-                  onClick={handleSubmitReview}
-                  disabled={rating === 0}
-                  className={`w-full py-4 rounded-2xl font-black uppercase text-xs shadow-lg transition-all ${
-                    rating > 0 
-                    ? "bg-[#2003d4] text-white shadow-blue-200 active:scale-[0.98]" 
-                    : "bg-gray-300 text-gray-100 cursor-not-allowed"
-                  }`}
-                >
-                  Post Review
-                </button>
+                <button onClick={handleSubmitReview} disabled={rating === 0} className={`w-full py-4 rounded-2xl font-black uppercase text-xs shadow-lg transition-all ${rating > 0 ? "bg-[#2003d4] text-white shadow-blue-200 active:scale-[0.98]" : "bg-gray-300 text-gray-100 cursor-not-allowed"}`}>Post Review</button>
              </div>
           </div>
         </div>
@@ -216,17 +219,28 @@ export default function WhereToDine() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
           </button>
-         <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
-            Map
-          </Link>
-          <Link href="/login" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm" style={{ textDecoration: "none" }}>
-            Login
-          </Link>
+         <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>Map</Link>
+          <Link href="/login" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm" style={{ textDecoration: "none" }}>Login</Link>
         </div>
       </nav>
 
       {/* --- MAIN CONTENT --- */}
       <main className="flex-grow">
+        
+        {/* --- QUICK DECIDE HERO SECTION (NEW POSITION) --- */}
+        <section className="bg-[#2003d4] pt-20 pb-10 px-4 text-center">
+           <div className="max-w-2xl mx-auto">
+              <h1 className="text-white text-5xl font-black mb-6 tracking-tighter leading-none">CAN'T DECIDE?</h1>
+              <p className="text-blue-200 text-sm mb-8 font-medium">Let fate pick your next Campus Bite. Click below for a random recommendation.</p>
+              <button 
+                onClick={handleQuickDecide}
+                className="bg-[#ffe500] text-[#2003d4] px-10 py-5 rounded-3xl font-black text-lg uppercase tracking-tight shadow-2xl hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3 border-b-4 border-[#d4be00]"
+              >
+                 <span>✨</span> QUICK DECIDE
+              </button>
+           </div>
+        </section>
+
         {locations.map((location, idx) => {
           const locationStalls = stalls.filter(s => 
             s.loc === location && 
@@ -272,7 +286,7 @@ export default function WhereToDine() {
           );
         })}
 
-{/* --- STALL DETAIL MODAL --- */}
+        {/* --- STALL DETAIL MODAL --- */}
         {selectedStall && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white rounded-[2rem] w-full max-w-md max-h-[90vh] overflow-y-auto relative shadow-2xl border border-gray-100">
@@ -281,46 +295,32 @@ export default function WhereToDine() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-
-                <div className="p-7">
-              <div className="mb-8">
-          <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
-          <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
-      
-            <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
-              {selectedStall.expectationImage ? (
-                <img 
-                  src={selectedStall.expectationImage} 
-                  className="w-full h-full object-cover" 
-                  alt="Expectation" 
-                />
-              ) : (
-                <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
-              )}
-              <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
-                <span className="text-white text-[9px] font-black uppercase tracking-wider">Expectation</span>
-              </div>
-            </div>
-
-            <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
-              {selectedStall.realityImage ? (
-                <img 
-                  src={selectedStall.realityImage} 
-                  className="w-full h-full object-cover" 
-                  alt="Reality" 
-                />
-              ) : (
-                <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
-              )}
-              <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
-          <span className="text-white text-[9px] font-black uppercase tracking-wider">Reality</span>
-              </div>
-            </div>
-
+              <div className="p-7">
+                <div className="mb-8">
+                  <h4 className="font-black text-lg mb-4 flex items-center gap-2">📷 Reality Check</h4>
+                  <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden h-44 shadow-inner">
+                    <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
+                      {selectedStall.expectationImage ? (
+                        <img src={selectedStall.expectationImage} className="w-full h-full object-cover" alt="Expectation" />
+                      ) : (
+                        <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
+                      )}
+                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Expectation</span>
+                      </div>
+                    </div>
+                    <div className="relative h-full w-full overflow-hidden bg-[#f2f6ff] flex items-center justify-center">
+                      {selectedStall.realityImage ? (
+                        <img src={selectedStall.realityImage} className="w-full h-full object-cover" alt="Reality" />
+                      ) : (
+                        <span className="text-gray-400 text-[10px] text-center px-6 leading-relaxed font-medium italic">No photo uploaded yet.</span>
+                      )}
+                      <div className="absolute bottom-0 left-0 w-full bg-black/50 py-1.5 z-10 text-center">
+                        <span className="text-white text-[9px] font-black uppercase tracking-wider">Reality</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                {/* --- BEST SELLERS SECTION --- */}
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4 flex items-center gap-2">🔥 Best Sellers</h4>
                   <div className="space-y-4 bg-gray-50/50 p-5 rounded-2xl border border-gray-50">
@@ -334,19 +334,16 @@ export default function WhereToDine() {
                     )}
                   </div>
                 </div>
-
-                {/* --- MENU PHOTO SECTION --- */}
                 <div className="mb-8">
                   <h4 className="font-black text-lg mb-4 flex items-center gap-2">📋 Full Menu</h4>
                   <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 aspect-[4/3] relative group">
-                    <img 
-                      src={selectedStall.menuImage} 
-                      className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-300" 
-                      alt="Full Menu" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-4">
-                      <p className="text-[10px] font-bold text-white uppercase tracking-widest">Tap to enlarge menu</p>
-                    </div>
+                    {selectedStall.menuImage ? (
+                       <img src={selectedStall.menuImage} className="w-full h-full object-cover" alt="Menu" />
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <span className="text-gray-400 text-[10px] italic">Menu photo coming soon</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -402,6 +399,8 @@ export default function WhereToDine() {
           </div>
         )}
       </main>
+
+      
 
       <footer className="bg-[#ffffff] py-8 text-center border-t border-slate-100">
         <p className="text-[#2003d4] text-[10px] font-black uppercase tracking-widest">Where To Dine • Ateneo 2026</p>
