@@ -33,7 +33,8 @@ export default function WhereToDine() {
 
   // --- QUICK DECIDE STATES ---
   const [isQuickDecideOpen, setIsQuickDecideOpen] = useState(false);
-  const [randomStall, setRandomStall] = useState<Stall | null>(null);
+  // UPDATED: Initialized as an array to support 3 columns
+  const [randomStalls, setRandomStalls] = useState<Stall[]>([]); 
   const [isSpinning, setIsSpinning] = useState(false);
 
   const [filters, setFilters] = useState({ budget: '', location: 'All', category: '' });
@@ -51,15 +52,18 @@ export default function WhereToDine() {
 
   useEffect(() => { document.title = "Where To Dine"; }, []);
 
-  // --- QUICK DECIDE LOGIC ---
+  // --- QUICK DECIDE LOGIC (UPDATED FOR 3 COLUMNS) ---
   const handleQuickDecide = () => {
     setIsQuickDecideOpen(true);
     setIsSpinning(true);
     
     let count = 0;
     const interval = setInterval(() => {
-      const rand = stalls[Math.floor(Math.random() * stalls.length)];
-      setRandomStall(rand);
+      // Pick 3 random unique stalls
+      const shuffled = [...stalls].sort(() => 0.5 - Math.random());
+      const selection = shuffled.slice(0, 3);
+      
+      setRandomStalls(selection);
       count++;
       if (count > 10) {
         clearInterval(interval);
@@ -97,27 +101,47 @@ export default function WhereToDine() {
   return (
     <div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
       
-      {/* --- QUICK DECIDE MODAL --- */}
+      {/* --- QUICK DECIDE MODAL (UPDATED 3-COLUMN LAYOUT) --- */}
       {isQuickDecideOpen && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-[#2003d4]/40 backdrop-blur-xl">
-          <div className="bg-white rounded-[3rem] w-full max-w-sm overflow-hidden shadow-2xl p-8 text-center relative border-4 border-[#ffe500]">
-            <button onClick={() => setIsQuickDecideOpen(false)} className="absolute top-6 right-6">
-               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="bg-white rounded-[3rem] w-full max-w-5xl overflow-hidden shadow-2xl p-8 md:p-12 text-center relative border-4 border-[#ffe500]">
+            
+            <button onClick={() => setIsQuickDecideOpen(false)} className="absolute top-8 right-8 z-10 hover:rotate-90 transition-transform">
+               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                </svg>
             </button>
-            <h2 className="text-[#2003d4] font-black text-3xl mb-2 italic">LUCKY BITE!</h2>
-            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-6">Letting fate decide your lunch...</p>
-            <div className={`transition-all duration-300 ${isSpinning ? "scale-95 opacity-50 grayscale" : "scale-110"}`}>
-               <div className="w-40 h-40 mx-auto rounded-full overflow-hidden border-8 border-[#ffe500] shadow-xl mb-6">
-                  <img src={randomStall?.image} className="w-full h-full object-cover" alt="Random result" />
-               </div>
-               <h3 className="text-2xl font-black text-[#2003d4] uppercase truncate">{randomStall?.name}</h3>
-               <p className="text-[#2003d4]/60 font-bold text-sm mb-6">{randomStall?.loc}</p>
+
+            <h2 className="text-[#2003d4] font-black text-4xl mb-2 italic">LUCKY BITES!</h2>
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-10">Fate has picked three options for you...</p>
+
+            <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 transition-all duration-300 ${isSpinning ? "scale-95 opacity-50 grayscale" : "scale-100"}`}>
+              {randomStalls.length > 0 ? (
+                randomStalls.map((stall, index) => (
+                  <div key={stall?.id || index} className="flex flex-col items-center p-4 rounded-[2rem] bg-blue-50/50 border-2 border-transparent hover:border-[#ffe500] transition-colors group">
+                    <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-8 border-[#ffe500] shadow-xl mb-6 group-hover:scale-105 transition-transform">
+                      <img src={stall?.image} className="w-full h-full object-cover" alt={stall?.name} />
+                    </div>
+                    <h3 className="text-xl font-black text-[#2003d4] uppercase line-clamp-1">{stall?.name}</h3>
+                    <p className="text-[#2003d4]/60 font-bold text-xs mb-4">{stall?.loc}</p>
+                    
+                    <button 
+                      onClick={() => { setSelectedStall(stall); setIsQuickDecideOpen(false); }}
+                      className="mt-auto w-full bg-[#2003d4] text-[#ffe500] py-3 rounded-xl font-black text-[10px] uppercase tracking-tighter hover:bg-blue-700 transition-all"
+                    >
+                      Select This
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-3 py-10 text-gray-300 font-bold italic">Gathering recommendations...</div>
+              )}
             </div>
-            <div className="flex gap-2">
-               <button onClick={handleQuickDecide} disabled={isSpinning} className="flex-1 bg-gray-100 text-[#2003d4] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all">Re-roll</button>
-               <button onClick={() => { setSelectedStall(randomStall); setIsQuickDecideOpen(false); }} className="flex-1 bg-[#2003d4] text-[#ffe500] py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200 active:scale-95 transition-all">Go There</button>
+
+            <div className="max-w-xs mx-auto">
+               <button onClick={handleQuickDecide} disabled={isSpinning} className="w-full bg-gray-100 text-[#2003d4] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all border-b-4 border-gray-300">
+                {isSpinning ? "Spinning..." : "Re-roll All"}
+               </button>
             </div>
           </div>
         </div>
