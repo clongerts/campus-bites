@@ -11,21 +11,17 @@ interface Stall {
   id: number;
   name: string;
   loc: string;
-  mainLoc: "Within Ateneo" | "Outside Ateneo";
-  rating: number; 
+  rating: number; // Now represents stars (1-5)
   price: string;
-  hours: string;
   tags: string[];
   image: string;
   menu: Menu[];
   reviews: Review[];
-  portionSize: "Small" | "Regular" | "Large";
   isBestValue: boolean;
 }
 
 export default function WhereToDine() {
   const router = useRouter();
-  const [activeMainTab, setActiveMainTab] = useState<"Within Ateneo" | "Outside Ateneo">("Within Ateneo");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -43,43 +39,49 @@ export default function WhereToDine() {
 
   // --- FULL DATA ---
   const stalls: Stall[] = [
-    { id: 1, name: "Yatako", loc: "JSEC", mainLoc: "Within Ateneo", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Japanese"], image: "/images/JSEC/Yatako.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
-    { id: 2, name: "The Breakfast Club", loc: "JSEC", mainLoc: "Within Ateneo", rating: 92, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Breakfast"], image: "/images/JSEC/tbc.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fluffy Pancakes", price: 150 }, { name: "Breakfast Burrito", price: 185 }, { name: "French Toast", price: 160 }, { name: "Cold Brew", price: 120 }], reviews: [] },
-    { id: 3, name: "ONDO", loc: "JSEC", mainLoc: "Within Ateneo", rating: 90, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Korean"], image: "/images/JSEC/ondo.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Beef Bulgogi Bowl", price: 190 }, { name: "Spicy Pork Rice", price: 180 }, { name: "Kimchi Fried Rice", price: 165 }, { name: "Fish Cake", price: 45 }], reviews: [] },
-    { id: 4, name: "Suan Rak", loc: "JSEC", mainLoc: "Within Ateneo", rating: 89, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Thai"], image: "/images/JSEC/suanrak.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Pad Thai", price: 175 }, { name: "Green Curry Rice", price: 185 }, { name: "Thai Milk Tea", price: 90 }, { name: "Mango Sticky Rice", price: 120 }], reviews: [] },
-    { id: 5, name: "The Middle Feast", loc: "JSEC", mainLoc: "Within Ateneo", rating: 91, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Middle Eastern"], image: "/images/JSEC/middlefeast.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Shawarma Rice", price: 165 }, { name: "Falafel Wrap", price: 150 }, { name: "Hummus w/ Pita", price: 120 }, { name: "Kefta Skewer", price: 145 }], reviews: [] },
-    { id: 6, name: "Tampai", loc: "JSEC", mainLoc: "Within Ateneo", rating: 88, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/tampai.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fusion Rice Bowl", price: 170 }, { name: "Tampai Wings (4pcs)", price: 180 }, { name: "Truffle Fries", price: 110 }], reviews: [] },
-    { id: 7, name: "Lucky Kat", loc: "JSEC", mainLoc: "Within Ateneo", rating: 93, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Japanese"], image: "/images/JSEC/luckykat.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Chicken Katsu", price: 185 }, { name: "Gyudon Bowl", price: 195 }, { name: "Katsu Sando", price: 160 }, { name: "Miso Soup", price: 40 }], reviews: [] },
-    { id: 8, name: "Mongch", loc: "JSEC", mainLoc: "Within Ateneo", rating: 87, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/monch.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Signature Rice Meal", price: 160 }, { name: "Crispy Pork Chop", price: 155 }, { name: "Sweet Glazed Chicken", price: 160 }], reviews: [] },
-    { id: 9, name: "Baoba", loc: "JSEC", mainLoc: "Within Ateneo", rating: 94, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Drinks"], image: "/images/JSEC/baoba.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Classic Milk Tea", price: 120 }, { name: "Wintermelon Tea", price: 110 }, { name: "Brown Sugar Latte", price: 140 }, { name: "Cream Cheese Top", price: 30 }], reviews: [] },
-    { id: 10, name: "Hikori", loc: "JSEC", mainLoc: "Within Ateneo", rating: 90, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/hikori.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Hibachi Grill Chicken", price: 195 }, { name: "Yakitori Skewer Set", price: 180 }, { name: "Grilled Corn", price: 75 }], reviews: [] },
-    { id: 11, name: "Eagle Eatery", loc: "JSEC", mainLoc: "Within Ateneo", rating: 95, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Budget"], image: "/images/JSEC/eagle-eatery.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Student Meal A (Pork)", price: 99 }, { name: "Student Meal B (Chicken)", price: 99 }, { name: "Siomai Rice", price: 75 }, { name: "Extra Rice", price: 20 }], reviews: [] },
-    { id: 12, name: "Wagwan", loc: "JSEC", mainLoc: "Within Ateneo", rating: 86, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/wagwan.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Caribbean Rice Bowl", price: 180 }, { name: "Jerk Chicken Skewers", price: 190 }, { name: "Plantain Chips", price: 65 }], reviews: [] },
-    { id: 13, name: "Kahlo", loc: "JSEC", mainLoc: "Within Ateneo", rating: 92, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Mexican"], image: "/images/JSEC/kahlo.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Soft Tacos (2pcs)", price: 150 }, { name: "Cheese Quesadilla", price: 170 }, { name: "Loaded Nachos", price: 130 }, { name: "Horchata", price: 95 }], reviews: [] },
-    { id: 14, name: "Aja!", loc: "JSEC", mainLoc: "Within Ateneo", rating: 93, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Korean"], image: "/images/JSEC/aja.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Classic Bibimbap", price: 170 }, { name: "Fried Mandu (5pcs)", price: 120 }, { name: "Japchae", price: 140 }], reviews: [] },
-    { id: 15, name: "Lami", loc: "JSEC", mainLoc: "Within Ateneo", rating: 91, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Filipino"], image: "/images/JSEC/lami.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Bisaya Pork Humba", price: 175 }, { name: "Chicken Inasal Bowl", price: 165 }, { name: "Lechon Kawali Rice", price: 185 }], reviews: [] },
-    { id: 16, name: "Nom Noms", loc: "JSEC", mainLoc: "Within Ateneo", rating: 89, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC"], image: "/images/JSEC/nomnoms.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Mozzarella Corn Dog", price: 95 }, { name: "Chicken Poppers", price: 140 }, { name: "Potato Wedges", price: 80 }], reviews: [] },
-    { id: 17, name: "Hoi An", loc: "JSEC", mainLoc: "Within Ateneo", rating: 90, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Vietnamese"], image: "/images/JSEC/hoian.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Pork Banh Mi", price: 155 }, { name: "Fresh Spring Rolls", price: 120 }, { name: "Beef Pho", price: 190 }], reviews: [] },
-    { id: 18, name: "Yum Dum Dim", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Japanese"], image: "/images/Gonzaga/yumdumdim.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
-    { id: 19, name: "Chillers", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 88, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Drinks"], image: "/images/Gonzaga/chillers.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fruit Shake", price: 65 }, { name: "Iced Tea", price: 40 }], reviews: [] },
-    { id: 20, name: "Colonel's Curry", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 85, price: "₱", hours: "7:00 AM - 6:00 PM", tags: ["Inside Campus", "Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/colonelscurry.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Economy Rice (2 Viands)", price: 85 }, { name: "Pork Liempo Meal", price: 95 }, { name: "Giniling Rice", price: 75 }, { name: "Fried Egg", price: 15 }], reviews: [] },
-    { id: 21, name: "Jamaican Patty", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 94, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Gonzaga 1/F", "Snacks"], image: "/images/Gonzaga/jamaicanpatty.png", portionSize: "Small", isBestValue: false, menu: [{ name: "Beef Pinatubo (Spicy)", price: 75 }, { name: "Cheesy Beef", price: 85 }, { name: "Chicken Patty", price: 75 }], reviews: [] },
-    { id: 22, name: "Chunky Chicks", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 92, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Gonzaga 1/F"], image: "/images/Gonzaga/chunkychicks.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "2pc Fried Chicken", price: 160 }, { name: "Chicken Sandwich", price: 175 }, { name: "Chicken Poppers", price: 120 }, { name: "Gravy Rice", price: 30 }], reviews: [] },
-    { id: 23, name: "Day Off", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 90, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Cafe"], image: "/images/Gonzaga/dayoff.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Iced Latte", price: 120 }, { name: "Cold Brew", price: 130 }], reviews: [] },
-    { id: 24, name: "Get Bowld", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 91, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Rice Bowls"], image: "/images/Gonzaga/getbowld.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Beef Gyudon", price: 190 }, { name: "Katsudon", price: 185 }], reviews: [] },
-    { id: 25, name: "Ghe!", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 95, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/ghe.png", portionSize: "Regular", isBestValue: true, menu: [{ name: "Adobo Rice Meal", price: 110 }, { name: "Skinless Longganisa", price: 95 }, { name: "Tocino", price: 105 }], reviews: [] },
-    { id: 26, name: "Luckys", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 87, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Budget"], image: "/images/Gonzaga/luckys.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Sizzling Sisig", price: 99 }, { name: "Chicken Pastil", price: 75 }], reviews: [] },
-    { id: 27, name: "Potato Corner", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 96, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Snacks"], image: "/images/Gonzaga/potatocorner.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Mega Fries", price: 95 }, { name: "Giga Fries", price: 180 }], reviews: [] },
-    { id: 28, name: "Simply", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 89, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Healthy"], image: "/images/Gonzaga/simply.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Salad Bowl", price: 160 }, { name: "Fresh Juice", price: 90 }], reviews: [] },
-    { id: 29, name: "Swirlicious", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 93, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Dessert"], image: "/images/Gonzaga/swirlicious.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Soft Serve", price: 50 }, { name: "Swirl Cup", price: 75 }], reviews: [] },
-    { id: 30, name: "Tomo", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 94, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Japanese"], image: "/images/Gonzaga/tomo.png", portionSize: "Regular", isBestValue: false, menu: [{ name: "Sushi Roll", price: 150 }, { name: "Ramen", price: 220 }], reviews: [] },
-    { id: 31, name: "Varda", loc: "Gonzaga", mainLoc: "Within Ateneo", rating: 92, price: "₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "Burgers"], image: "/images/Gonzaga/Varda.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Varda Burger", price: 85 }, { name: "Cheeseburger", price: 95 }], reviews: [] },
-    { id: 34, name: "Ebais", loc: "Residence Halls", mainLoc: "Within Ateneo", rating: 89, price: "₱", hours: "6:00 AM - 8:00 PM", tags: ["Inside Campus", "Budget", "Residence Halls"], image: "/images/ebais.jpg", portionSize: "Large", isBestValue: true, menu: [{ name: "Dorm Student Meal", price: 90 }, { name: "Breakfast Silog Set", price: 85 }, { name: "Nilaga Bowl", price: 110 }], reviews: [] },
-    { id: 36, name: "Iggy's", loc: "Theology", mainLoc: "Within Ateneo", rating: 94, price: "₱", hours: "8:00 AM - 4:00 PM", tags: ["Inside Campus", "Budget"], image: "/images/iggys.jpg", portionSize: "Regular", isBestValue: true, menu: [{ name: "Home-cooked Viand", price: 100 }, { name: "Beef Tapa", price: 115 }, { name: "Sinigang", price: 120 }], reviews: [] },
-    { id: 38, name: "Rizal Library", loc: "Library", mainLoc: "Within Ateneo", rating: 88, price: "₱₱", hours: "8:00 AM - 6:00 PM", tags: ["Inside Campus", "Study Spots"], image: "/images/rizal-lib.jpg", portionSize: "Small", isBestValue: false, menu: [{ name: "Exam Fuel (Double Shot)", price: 140 }, { name: "Tuna Pesto Sandwich", price: 120 }, { name: "Hot Tea", price: 90 }], reviews: [] },
+    
+   // -- JSEC ---
+    { id: 1, name: "Yatako", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Japanese"], image: "/images/JSEC/Yatako.jpg", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
+    { id: 2, name: "The Breakfast Club", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Breakfast"], image: "/images/JSEC/TBC.jpg", isBestValue: false, menu: [{ name: "Fluffy Pancakes", price: 150 }, { name: "Breakfast Burrito", price: 185 }, { name: "French Toast", price: 160 }, { name: "Cold Brew", price: 120 }], reviews: [] },
+    { id: 3, name: "ONDO", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Korean"], image: "/images/JSEC/ondo.jpg", isBestValue: false, menu: [{ name: "Beef Bulgogi Bowl", price: 190 }, { name: "Spicy Pork Rice", price: 180 }, { name: "Kimchi Fried Rice", price: 165 }, { name: "Fish Cake", price: 45 }], reviews: [] },
+    { id: 4, name: "Suan Rak", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Thai"], image: "/images/JSEC/suanrak.jpg", isBestValue: false, menu: [{ name: "Pad Thai", price: 175 }, { name: "Green Curry Rice", price: 185 }, { name: "Thai Milk Tea", price: 90 }, { name: "Mango Sticky Rice", price: 120 }], reviews: [] },
+    { id: 5, name: "The Middle Feast", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Middle Eastern"], image: "/images/JSEC/middlefeast.jpg", isBestValue: true, menu: [{ name: "Shawarma Rice", price: 165 }, { name: "Falafel Wrap", price: 150 }, { name: "Hummus w/ Pita", price: 120 }, { name: "Kefta Skewer", price: 145 }], reviews: [] },
+    { id: 6, name: "Tampai", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/tampai.jpg", isBestValue: false, menu: [{ name: "Fusion Rice Bowl", price: 170 }, { name: "Tampai Wings (4pcs)", price: 180 }, { name: "Truffle Fries", price: 110 }], reviews: [] },
+    { id: 7, name: "Lucky Kat", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Japanese"], image: "/images/JSEC/luckykat.jpg", isBestValue: false, menu: [{ name: "Chicken Katsu", price: 185 }, { name: "Gyudon Bowl", price: 195 }, { name: "Katsu Sando", price: 160 }, { name: "Miso Soup", price: 40 }], reviews: [] },
+    { id: 8, name: "Mongch", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/monch.jpg", isBestValue: false, menu: [{ name: "Signature Rice Meal", price: 160 }, { name: "Crispy Pork Chop", price: 155 }, { name: "Sweet Glazed Chicken", price: 160 }], reviews: [] },
+    { id: 9, name: "Baoba", loc: "JSEC", rating: 5, price: "₱100-150", tags: ["JSEC", "Drinks"], image: "/images/JSEC/Baoba.jpg", isBestValue: false, menu: [{ name: "Classic Milk Tea", price: 120 }, { name: "Wintermelon Tea", price: 110 }, { name: "Brown Sugar Latte", price: 140 }, { name: "Cream Cheese Top", price: 30 }], reviews: [] },
+    { id: 10, name: "Hikori", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/hikori.jpg", isBestValue: false, menu: [{ name: "Hibachi Grill Chicken", price: 195 }, { name: "Yakitori Skewer Set", price: 180 }, { name: "Grilled Corn", price: 75 }], reviews: [] },
+    { id: 11, name: "Eagle Eatery", loc: "JSEC", rating: 5, price: "₱50-100", tags: ["JSEC", "Budget"], image: "/images/JSEC/eagle-eatery.jpg", isBestValue: true, menu: [{ name: "Student Meal A (Pork)", price: 99 }, { name: "Student Meal B (Chicken)", price: 99 }, { name: "Siomai Rice", price: 75 }, { name: "Extra Rice", price: 20 }], reviews: [] },
+    { id: 12, name: "Wagwan", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC"], image: "/images/JSEC/wagwan.jpg", isBestValue: false, menu: [{ name: "Caribbean Rice Bowl", price: 180 }, { name: "Jerk Chicken Skewers", price: 190 }, { name: "Plantain Chips", price: 65 }], reviews: [] },
+    { id: 13, name: "Kahlo", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Mexican"], image: "/images/JSEC/kahlo.jpg", isBestValue: false, menu: [{ name: "Soft Tacos (2pcs)", price: 150 }, { name: "Cheese Quesadilla", price: 170 }, { name: "Loaded Nachos", price: 130 }, { name: "Horchata", price: 95 }], reviews: [] },
+    { id: 14, name: "Aja!", loc: "JSEC", rating: 5, price: "₱150-200", tags: ["JSEC", "Korean"], image: "/images/JSEC/aja.jpg", isBestValue: false, menu: [{ name: "Classic Bibimbap", price: 170 }, { name: "Fried Mandu (5pcs)", price: 120 }, { name: "Japchae", price: 140 }], reviews: [] },
+    { id: 15, name: "Lami", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Filipino"], image: "/images/JSEC/lami.jpg", isBestValue: false, menu: [{ name: "Bisaya Pork Humba", price: 175 }, { name: "Chicken Inasal Bowl", price: 165 }, { name: "Lechon Kawali Rice", price: 185 }], reviews: [] },
+    { id: 16, name: "Nom Noms", loc: "JSEC", rating: 4, price: "₱100-150", tags: ["JSEC"], image: "/images/JSEC/nomnoms.PNG", isBestValue: false, menu: [{ name: "Mozzarella Corn Dog", price: 95 }, { name: "Chicken Poppers", price: 140 }, { name: "Potato Wedges", price: 80 }], reviews: [] },
+    { id: 17, name: "Hoi An", loc: "JSEC", rating: 4, price: "₱150-200", tags: ["JSEC", "Vietnamese"], image: "/images/JSEC/hoian.png", isBestValue: false, menu: [{ name: "Pork Banh Mi", price: 155 }, { name: "Fresh Spring Rolls", price: 120 }, { name: "Beef Pho", price: 190 }], reviews: [] },
+  
+    // -- GONZ ---
+    { id: 18, name: "Yum Dum Dim", loc: "Gonzaga", rating: 5, price: "₱150-200", tags: ["Japanese"], image: "/images/Gonzaga/yumdumdim.jpg", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "g1", user: "BlueEagle99", rating: 5, comment: "Best dimsum on campus, hands down.", isAnonymous: false, date: "2026-05-01" }] },
+    { id: 19, name: "Chillers", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Drinks"], image: "/images/Gonzaga/chillers.jpg", isBestValue: false, menu: [{ name: "Fruit Shake", price: 65 }, { name: "Iced Tea", price: 40 }], reviews: [{ id: "g2", user: "HydrationNation", rating: 4, comment: "Perfect for the heat, though lines get long.", isAnonymous: true, date: "2026-04-28" }] },
+    { id: 20, name: "Colonel's Curry", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/colonelscurry.jpg", isBestValue: true, menu: [{ name: "Economy Rice (2 Viands)", price: 85 }, { name: "Pork Liempo Meal", price: 95 }, { name: "Giniling Rice", price: 75 }, { name: "Fried Egg", price: 15 }], reviews: [{ id: "g3", user: "BudgetKing", rating: 4, comment: "Reliable student meal. The liempo is great.", isAnonymous: false, date: "2026-05-02" }] },
+    { id: 21, name: "Jamaican Patty", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Gonzaga 1/F", "Snacks"], image: "/images/Gonzaga/jamaicanpatty.png", isBestValue: false, menu: [{ name: "Beef Pinatubo (Spicy)", price: 75 }, { name: "Cheesy Beef", price: 85 }, { name: "Chicken Patty", price: 75 }], reviews: [{ id: "g4", user: "SpiceLover", rating: 5, comment: "Pinatubo is actually spicy! Love it.", isAnonymous: true, date: "2026-05-05" }] },
+    { id: 22, name: "Chunky Chicks", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Gonzaga 1/F"], image: "/images/Gonzaga/chunkychicks.png", isBestValue: false, menu: [{ name: "2pc Fried Chicken", price: 160 }, { name: "Chicken Sandwich", price: 175 }, { name: "Chicken Poppers", price: 120 }, { name: "Gravy Rice", price: 30 }], reviews: [{ id: "g5", user: "ProteinPal", rating: 4, comment: "Portions are huge. Good value.", isAnonymous: false, date: "2026-05-08" }] },
+    { id: 23, name: "Day Off", loc: "Gonzaga", rating: 4, price: "₱100-150", tags: ["Cafe"], image: "/images/Gonzaga/dayoff.png", isBestValue: false, menu: [{ name: "Iced Latte", price: 120 }, { name: "Cold Brew", price: 130 }], reviews: [{ id: "g6", user: "CaffeineFiend", rating: 4, comment: "Solid cold brew to get through Theo.", isAnonymous: true, date: "2026-05-10" }] },
+    { id: 24, name: "Get Bowld", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Rice Bowls"], image: "/images/Gonzaga/getbowld.png", isBestValue: false, menu: [{ name: "Beef Gyudon", price: 190 }, { name: "Katsudon", price: 185 }], reviews: [{ id: "g7", user: "RiceBowlFan", rating: 4, comment: "Very filling and the beef is tender.", isAnonymous: false, date: "2026-05-03" }] },
+    { id: 25, name: "Ghe!", loc: "Gonzaga", rating: 5, price: "₱100-150", tags: ["Gonzaga 1/F", "Budget"], image: "/images/Gonzaga/ghe.png", isBestValue: true, menu: [{ name: "Adobo Rice Meal", price: 110 }, { name: "Skinless Longganisa", price: 95 }, { name: "Tocino", price: 105 }], reviews: [{ id: "g8", user: "LolaVibes", rating: 5, comment: "Tastes like home. Adobo is top notch.", isAnonymous: false, date: "2026-04-30" }] },
+    { id: 26, name: "Luckys", loc: "Gonzaga", rating: 4, price: "₱50-100", tags: ["Budget"], image: "/images/Gonzaga/luckys.jpg", isBestValue: true, menu: [{ name: "Sizzling Sisig", price: 99 }, { name: "Chicken Pastil", price: 75 }], reviews: [{ id: "g9", user: "SisigScholar", rating: 4, comment: "Cheap and satisfying sisig.", isAnonymous: true, date: "2026-05-01" }] },
+    { id: 27, name: "Potato Corner", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Snacks"], image: "/images/Gonzaga/potatocorner.png", isBestValue: false, menu: [{ name: "Mega Fries", price: 95 }, { name: "Giga Fries", price: 180 }], reviews: [{ id: "g10", user: "FryGuy", rating: 5, comment: "Always fresh and well-seasoned.", isAnonymous: false, date: "2026-05-09" }] },
+    { id: 28, name: "Simply", loc: "Gonzaga", rating: 4, price: "₱150-200", tags: ["Healthy"], image: "/images/Gonzaga/simply.png", isBestValue: false, menu: [{ name: "Salad Bowl", price: 160 }, { name: "Fresh Juice", price: 90 }], reviews: [{ id: "g11", user: "HealthNut", rating: 4, comment: "Hard to find healthy food on campus, this is a gem.", isAnonymous: false, date: "2026-05-04" }] },
+    { id: 29, name: "Swirlicious", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Dessert"], image: "/images/Gonzaga/swirlicious.jpg", isBestValue: false, menu: [{ name: "Soft Serve", price: 50 }, { name: "Swirl Cup", price: 75 }], reviews: [{ id: "g12", user: "SweetTooth", rating: 5, comment: "Best soft serve for the price.", isAnonymous: true, date: "2026-05-06" }] },
+    { id: 30, name: "Tomo", loc: "Gonzaga", rating: 5, price: "₱150-200", tags: ["Japanese"], image: "/images/Gonzaga/tomo.png", isBestValue: false, menu: [{ name: "Sushi Roll", price: 150 }, { name: "Ramen", price: 220 }], reviews: [{ id: "g13", user: "SushiMaster", rating: 5, comment: "The ramen broth is surprisingly rich.", isAnonymous: false, date: "2026-05-07" }] },
+    { id: 31, name: "Varda", loc: "Gonzaga", rating: 5, price: "₱50-100", tags: ["Burgers"], image: "/images/Gonzaga/Varda.jpg", isBestValue: true, menu: [{ name: "Varda Burger", price: 85 }, { name: "Cheeseburger", price: 95 }], reviews: [{ id: "g14", user: "BurgerKing", rating: 5, comment: "Unbeatable price for a good burger.", isAnonymous: true, date: "2026-05-08" }] },
+  
+    // -- Others ---
+    { id: 34, name: "Ebais", loc: "Residence Halls", rating: 4, price: "₱50-100", tags: ["Budget", "Residence Halls"], image: "/images/ebais.jpg", isBestValue: true, menu: [{ name: "Dorm Student Meal", price: 90 }, { name: "Breakfast Silog Set", price: 85 }, { name: "Nilaga Bowl", price: 110 }], reviews: [] },
+    { id: 36, name: "Iggy's", loc: "Theology", rating: 5, price: "₱100-150", tags: ["Budget"], image: "/images/iggys.jpg", isBestValue: true, menu: [{ name: "Home-cooked Viand", price: 100 }, { name: "Beef Tapa", price: 115 }, { name: "Sinigang", price: 120 }], reviews: [] },
+    { id: 38, name: "Rizal Library", loc: "Library", rating: 4, price: "₱100-150", tags: ["Study Spots"], image: "/images/rizal-lib.jpg", isBestValue: false, menu: [{ name: "Exam Fuel (Double Shot)", price: 140 }, { name: "Tuna Pesto Sandwich", price: 120 }, { name: "Hot Tea", price: 90 }], reviews: [] },
   ];
 
-  const locations = ["JSEC", "Gonzaga", "Residence Halls", "Theology", "ISO", "Library", "Katipunan"];
+  const locations = ["JSEC", "Gonzaga", "Residence Halls", "Theology", "ISO", "Library"];
 
   return (
     <div className="min-h-screen flex flex-col text-gray-900" style={{ backgroundImage: "url('/images/ADMU_1.jpg')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
@@ -108,7 +110,7 @@ export default function WhereToDine() {
               <div>
                 <p className="text-sm font-black text-[#2003d4] mb-3">Location</p>
                 <div className="flex flex-wrap gap-2">
-                  {["All", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo"].map((loc) => (
+                  {["All", "JSEC", "Gonzaga", "Residence Halls", "Theology", "Library"].map((loc) => (
                     <button key={loc} onClick={() => setFilters({ ...filters, location: loc })} className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.location === loc ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>{loc}</button>
                   ))}
                 </div>
@@ -188,7 +190,8 @@ export default function WhereToDine() {
         {locations.map((location, idx) => {
           const locationStalls = stalls.filter(s => 
             s.loc === location && 
-            s.mainLoc === activeMainTab &&
+            (filters.location === "All" || s.loc === filters.location) &&
+            (filters.budget === "" || s.price === filters.budget) &&
             (categoryFilter === "All" || s.tags.includes(categoryFilter)) &&
             s.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
@@ -206,12 +209,14 @@ export default function WhereToDine() {
                     <button onClick={() => setSelectedStall(stall)} key={stall.id} className="text-left group flex flex-col bg-white rounded-xl shadow-lg overflow-hidden transition-all hover:-translate-y-1">
                       <div className="relative aspect-square overflow-hidden bg-gray-100">
                         <img src={stall.image} alt={stall.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute top-2 right-2 bg-[#2003d4] text-[#ffe500] px-2 py-0.5 rounded-full text-[10px] font-black">{stall.rating}%</div>
+                        <div className="absolute top-2 right-2 bg-[#2003d4] text-[#ffe500] px-2 py-0.5 rounded-full text-[10px] font-black flex items-center gap-0.5">
+                           <span>{stall.rating}</span><span className="text-[8px]">★</span>
+                        </div>
                       </div>
                       <div className="p-3 flex flex-col flex-grow bg-white">
                         <div className="flex justify-between items-start">
                           <h3 className="font-black text-[#2003d4] text-[11px] uppercase truncate pr-1">{stall.name}</h3>
-                          <span className="text-[#2003d4]/40 font-bold text-[9px]">{stall.price}</span>
+                          <span className="text-[#2003d4]/60 font-bold text-[9px]">{stall.price}</span>
                         </div>
                         <div className="flex flex-wrap gap-1 mt-1.5">
                           {stall.tags.slice(0, 1).map(tag => (
@@ -231,7 +236,6 @@ export default function WhereToDine() {
         {selectedStall && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white rounded-[2rem] w-full max-w-md max-h-[90vh] overflow-y-auto relative shadow-2xl border border-gray-100">
-              {/* REPLACED PLAIN X WITH ANIMATED SVG X */}
               <button onClick={() => setSelectedStall(null)} className="absolute top-5 right-5 z-20 hover:rotate-90 transition-transform">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
@@ -271,7 +275,6 @@ export default function WhereToDine() {
                   </div>
                 </div>
 
-                {/* LINKED GO BUTTON TO /foodmap */}
                 <button 
                   onClick={() => router.push("/foodmap")}
                   className="w-full bg-[#003580] hover:bg-[#002a66] text-white py-4 rounded-2xl font-black mb-8 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-colors"
@@ -290,7 +293,7 @@ export default function WhereToDine() {
                     <h4 className="font-black text-lg">Reviews</h4>
                     <div className="flex items-center gap-1">
                         <span className="text-yellow-500 text-sm">★</span>
-                        <span className="font-black text-sm">{(selectedStall.rating / 20).toFixed(1)}</span>
+                        <span className="font-black text-sm">{selectedStall.rating.toFixed(1)}</span>
                     </div>
                   </div>
                   {selectedStall.reviews.length > 0 ? selectedStall.reviews.map((rev) => (
@@ -312,7 +315,6 @@ export default function WhereToDine() {
                     <p className="text-[10px] font-black text-[#003580] uppercase tracking-tighter">Review & Earn</p>
                     <p className="text-[11px] text-[#003580] font-medium leading-tight mt-1">Submit a photo to get a 10% voucher!</p>
                   </div>
-                  {/* TRIGGER REVIEW MODAL */}
                   <button 
                     onClick={() => setIsReviewModalOpen(true)}
                     className="bg-[#1a5fff] hover:bg-blue-600 text-white px-5 py-2.5 rounded-2xl font-black text-xs shadow-md shadow-blue-500/30 shrink-0 transition-colors"

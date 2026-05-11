@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation';
 // --- DATA CONFIG (Matched to your Filter Words) ---
 const CAMPUS_LOCATIONS = {
   regis: {
-    id: "Regis 1/F", // Exact match for your filters
+    id: "Regis", // Exact match for your filters
     name: "Regis Center",
     info: "The ultimate 'off-campus' sanctuary. From post-class Popeyes fixes to focused study sessions in milk tea shops, it's the bridge between campus life and Katipunan’s bustling food scene.",
     category: "Commercial / Off-Campus",
@@ -16,7 +16,7 @@ const CAMPUS_LOCATIONS = {
     images: ["/images/assets/regis-1.jpg", "/images/assets/regis-2.jpg"] // Placeholder paths
   },
   gonzaga: {
-    id: "Gonzaga 1/F", // Exact match for your filters
+    id: "Gonzaga", // Exact match for your filters
     name: "Gonzaga Hall",
     info: "The heart of student life. Home to the university bookstore and central cafeteria, it’s the hub for 'blue book' emergencies and classic budget-friendly campus meals.",
     category: "Academic / Dining",
@@ -38,7 +38,15 @@ const CAMPUS_LOCATIONS = {
     category: "Academic / Residential",
     top: "10%", left: "63.5%",
     images: ["/images/assets/iso-1.jpg"]
-  }
+  },
+    rizal: {
+    id: "Rizal Library",
+    name: "Rizal Library",
+    info: "A quiet sanctuary for study and reflection. With its modern facilities and serene atmosphere, it’s the perfect spot for focused work and research.",
+    category: "Academic / Study Spots",
+    top: "10%", left: "63.5%",
+    images: ["/images/assets/iso-1.jpg"]
+  },
 };
 
 function MapInner() {
