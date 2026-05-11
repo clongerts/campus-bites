@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // --- INTERFACES ---
 interface Menu { name: string; price: number; }
@@ -23,13 +24,15 @@ interface Stall {
 }
 
 export default function WhereToDine() {
+  const router = useRouter();
   const [activeMainTab, setActiveMainTab] = useState<"Within Ateneo" | "Outside Ateneo">("Within Ateneo");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
 
-  // --- ADDED FILTER STATE AT TOP LEVEL ---
+  // --- FILTER STATE ---
   const [filters, setFilters] = useState({
     budget: '',
     location: 'All',
@@ -38,7 +41,7 @@ export default function WhereToDine() {
 
   useEffect(() => { document.title = "Where To Dine"; }, []);
 
-  // --- FULL RESTORED DATA ---
+  // --- FULL DATA ---
   const stalls: Stall[] = [
     { id: 1, name: "Yatako", loc: "JSEC", mainLoc: "Within Ateneo", rating: 98, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Japanese"], image: "/images/JSEC/Yatako.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Tapa Bowl", price: 180 }, { name: "Chicken Teriyaki", price: 175 }, { name: "Salmon Aburi Bowl", price: 210 }, { name: "Extra Egg", price: 25 }], reviews: [{ id: "r1", user: "Anonymous Eagle", rating: 5, comment: "Actually looks like the photo! Beef is tender.", isAnonymous: true, date: "2026-04-12", realityPhoto: "/images/reality/yatako-tapa.jpg" }] },
     { id: 2, name: "The Breakfast Club", loc: "JSEC", mainLoc: "Within Ateneo", rating: 92, price: "₱₱", hours: "8:00 AM - 5:00 PM", tags: ["Inside Campus", "JSEC", "Breakfast"], image: "/images/JSEC/tbc.jpg", portionSize: "Regular", isBestValue: false, menu: [{ name: "Fluffy Pancakes", price: 150 }, { name: "Breakfast Burrito", price: 185 }, { name: "French Toast", price: 160 }, { name: "Cold Brew", price: 120 }], reviews: [] },
@@ -85,86 +88,74 @@ export default function WhereToDine() {
       {isSearchModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl">
-            
-            {/* Header */}
             <div className="p-6 flex justify-between items-center bg-white text-[#2003d4]">
               <h2 className="text-2xl font-black tracking-tight">Bite Filters</h2>
-              <button 
-                onClick={() => setIsSearchModalOpen(false)} 
-                className="hover:rotate-90 transition-transform p-1"
-              >
+              <button onClick={() => setIsSearchModalOpen(false)} className="hover:rotate-90 transition-transform p-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-
             <div className="px-6 pb-8 space-y-7">
-              
-              {/* Budget Section */}
               <div>
                 <p className="text-sm font-black text-[#2003d4] mb-3">Budget</p>
                 <div className="flex flex-wrap gap-2">
                   {["Under ₱50", "₱50-100", "₱100-150", "₱150-200", "₱200+"].map((b) => (
-                    <button
-                      key={b}
-                      onClick={() => setFilters({ ...filters, budget: b })}
-                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.budget === b ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
-                    >
-                      {b}
-                    </button>
+                    <button key={b} onClick={() => setFilters({ ...filters, budget: b })} className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.budget === b ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>{b}</button>
                   ))}
                 </div>
               </div>
-
-              {/* Location Section */}
               <div>
                 <p className="text-sm font-black text-[#2003d4] mb-3">Location</p>
                 <div className="flex flex-wrap gap-2">
                   {["All", "Regis 1/F", "Regis 2/F", "Regis 3/F", "Katipunan", "Near Ateneo"].map((loc) => (
-                    <button
-                      key={loc}
-                      onClick={() => setFilters({ ...filters, location: loc })}
-                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.location === loc ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
-                    >
-                      {loc}
-                    </button>
+                    <button key={loc} onClick={() => setFilters({ ...filters, location: loc })} className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.location === loc ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>{loc}</button>
                   ))}
                 </div>
               </div>
-
-              {/* Category Section */}
               <div>
                 <p className="text-sm font-black text-[#2003d4] mb-3">Category</p>
                 <div className="flex flex-wrap gap-2">
                   {["Budget", "Study Spots", "Date Spot", "Korean", "Japanese", "Filipino", "Breakfast", "Fast"].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilters({ ...filters, category: cat })}
-                      className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.category === cat ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
-                    >
-                      {cat}
-                    </button>
+                    <button key={cat} onClick={() => setFilters({ ...filters, category: cat })} className={`px-4 py-2 text-[11px] font-bold rounded-full transition-all ${filters.category === cat ? "bg-[#2003d4] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>{cat}</button>
                   ))}
                 </div>
               </div>
-
-              {/* Action Buttons */}
               <div className="flex gap-3 pt-2">
-                <button 
-                  onClick={() => setFilters({ budget: '', location: 'All', category: '' })}
-                  className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors"
-                >
-                  Clear All
-                </button>
-                <button 
-                  onClick={() => setIsSearchModalOpen(false)}
-                  className="flex-1 bg-[#2003d4] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-[0.98] transition-transform"
-                >
-                  Apply
-                </button>
+                <button onClick={() => setFilters({ budget: '', location: 'All', category: '' })} className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors">Clear All</button>
+                <button onClick={() => setIsSearchModalOpen(false)} className="flex-1 bg-[#2003d4] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-[0.98] transition-transform">Apply</button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- REVIEW MODAL --- */}
+      {isReviewModalOpen && selectedStall && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+          <div className="bg-white rounded-[2rem] w-full max-w-md p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+             <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-black text-[#2003d4]">New Review</h2>
+                <button onClick={() => setIsReviewModalOpen(false)} className="hover:rotate-90 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+             </div>
+             <p className="text-xs font-bold text-gray-400 uppercase mb-2">Reviewing: {selectedStall.name}</p>
+             <div className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-gray-500">Rating</label>
+                  <div className="flex gap-2 text-2xl mt-1">
+                    {[1,2,3,4,5].map(s => <button key={s} className="text-gray-200 hover:text-yellow-400">★</button>)}
+                  </div>
+                </div>
+                <textarea placeholder="Tell us about your meal..." className="w-full h-32 bg-gray-50 rounded-2xl p-4 text-sm focus:outline-none border-none focus:ring-2 focus:ring-blue-100 resize-none"></textarea>
+                <div className="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center">
+                   <p className="text-[10px] font-black text-blue-500">UPLOAD REALITY PHOTO</p>
+                </div>
+                <button className="w-full bg-[#2003d4] text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg shadow-blue-200">Post Review</button>
+             </div>
           </div>
         </div>
       )}
@@ -215,9 +206,7 @@ export default function WhereToDine() {
                     <button onClick={() => setSelectedStall(stall)} key={stall.id} className="text-left group flex flex-col bg-white rounded-xl shadow-lg overflow-hidden transition-all hover:-translate-y-1">
                       <div className="relative aspect-square overflow-hidden bg-gray-100">
                         <img src={stall.image} alt={stall.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute top-2 right-2 bg-[#2003d4] text-[#ffe500] px-2 py-0.5 rounded-full text-[10px] font-black">
-                          {stall.rating}%
-                        </div>
+                        <div className="absolute top-2 right-2 bg-[#2003d4] text-[#ffe500] px-2 py-0.5 rounded-full text-[10px] font-black">{stall.rating}%</div>
                       </div>
                       <div className="p-3 flex flex-col flex-grow bg-white">
                         <div className="flex justify-between items-start">
@@ -242,8 +231,11 @@ export default function WhereToDine() {
         {selectedStall && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white rounded-[2rem] w-full max-w-md max-h-[90vh] overflow-y-auto relative shadow-2xl border border-gray-100">
-              <button onClick={() => setSelectedStall(null)} className="absolute top-5 right-5 z-20 bg-white/90 rounded-full p-2 hover:bg-white shadow-sm text-gray-500">
-                ✕
+              {/* REPLACED PLAIN X WITH ANIMATED SVG X */}
+              <button onClick={() => setSelectedStall(null)} className="absolute top-5 right-5 z-20 hover:rotate-90 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
 
               <div className="p-7">
@@ -279,15 +271,17 @@ export default function WhereToDine() {
                   </div>
                 </div>
 
-                <button className="w-full bg-[#003580] hover:bg-[#002a66] text-white py-4 rounded-2xl font-black mb-8 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-colors">
+                {/* LINKED GO BUTTON TO /foodmap */}
+                <button 
+                  onClick={() => router.push("/foodmap")}
+                  className="w-full bg-[#003580] hover:bg-[#002a66] text-white py-4 rounded-2xl font-black mb-8 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-colors"
+                >
                   Go! 📍
                 </button>
 
                 <div className="flex gap-2 mb-10 flex-wrap">
                   {selectedStall.tags.map(tag => (
-                    <span key={tag} className="bg-gray-100 text-gray-500 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-tight">
-                      {tag}
-                    </span>
+                    <span key={tag} className="bg-gray-100 text-gray-500 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-tight">{tag}</span>
                   ))}
                 </div>
 
@@ -318,7 +312,11 @@ export default function WhereToDine() {
                     <p className="text-[10px] font-black text-[#003580] uppercase tracking-tighter">Review & Earn</p>
                     <p className="text-[11px] text-[#003580] font-medium leading-tight mt-1">Submit a photo to get a 10% voucher!</p>
                   </div>
-                  <button className="bg-[#1a5fff] hover:bg-blue-600 text-white px-5 py-2.5 rounded-2xl font-black text-xs shadow-md shadow-blue-500/30 shrink-0 transition-colors">
+                  {/* TRIGGER REVIEW MODAL */}
+                  <button 
+                    onClick={() => setIsReviewModalOpen(true)}
+                    className="bg-[#1a5fff] hover:bg-blue-600 text-white px-5 py-2.5 rounded-2xl font-black text-xs shadow-md shadow-blue-500/30 shrink-0 transition-colors"
+                  >
                     Review
                   </button>
                 </div>
