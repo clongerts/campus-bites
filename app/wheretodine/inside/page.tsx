@@ -49,6 +49,8 @@ export default function WhereToDine() {
     setIsReviewModalOpen(false);
   };
 
+  const [isZoomed, setIsZoomed] = useState(false);
+
   useEffect(() => { document.title = "Where To Dine"; }, []);
 
   // --- QUICK DECIDE LOGIC ---
@@ -136,8 +138,8 @@ export default function WhereToDine() {
                <p className="text-[#2003d4]/60 font-bold text-sm mb-6">{randomStall?.loc}</p>
             </div>
             <div className="flex gap-2">
-               <button onClick={handleQuickDecide} disabled={isSpinning} className="flex-1 bg-gray-100 text-[#2003d4] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all">Re-roll</button>
-               <button onClick={() => { setSelectedStall(randomStall); setIsQuickDecideOpen(false); }} className="flex-1 bg-[#2003d4] text-[#ffe500] py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200 active:scale-95 transition-all">Go There</button>
+               <button onClick={handleQuickDecide} disabled={isSpinning} className="flex-1 bg-gray-100 text-[#2003d4] py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 hover:scale-105 transition-all">Re-roll</button>
+               <button onClick={() => { setSelectedStall(randomStall); setIsQuickDecideOpen(false); }} className="flex-1 bg-[#2003d4] text-[#ffe500] py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200 hover:scale-105 active:scale-95 transition-all">Go There</button>
             </div>
           </div>
         </div>
@@ -354,19 +356,49 @@ export default function WhereToDine() {
                     )}
                   </div>
                 </div>
-                <div className="mb-8">
-                  <h4 className="font-black text-lg mb-4 flex items-center gap-2">📋 Full Menu</h4>
-                  <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 aspect-[4/3] relative group">
-                    {selectedStall.menuImage ? (
-                       <img src={selectedStall.menuImage} className="w-full h-full object-cover" alt="Menu" />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <span className="text-gray-400 text-[10px] italic">Menu photo coming soon</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+<div className="mb-8">
+    <h4 className="font-black text-lg mb-4 flex items-center gap-2">📋 Full Menu</h4>
+    
+    <div 
+      className={`rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 aspect-[4/3] relative group ${selectedStall.menuImage ? 'cursor-zoom-in' : ''}`}
+      onClick={() => selectedStall.menuImage && setIsZoomed(true)}
+    >
+      {selectedStall.menuImage ? (
+        <>
+          <img src={selectedStall.menuImage} className="w-full h-full object-cover" alt="Menu" />
+          {/* Subtle hover overlay to indicate it's clickable */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+             <span className="text-white opacity-0 group-hover:opacity-100 bg-black/50 px-3 py-1 rounded-full text-xs">Click to enlarge</span>
+          </div>
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-full">
+          <span className="text-gray-400 text-[10px] italic">Menu photo coming soon</span>
+        </div>
+      )}
+    </div>
 
+    {/* Fullscreen Modal */}
+    {isZoomed && (
+      <div 
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 md:p-10"
+        onClick={() => setIsZoomed(false)}
+      >
+        <button 
+          className="absolute top-5 right-5 text-white text-4xl hover:text-gray-300"
+          onClick={() => setIsZoomed(false)}
+        >
+          &times;
+        </button>
+        
+        <img 
+          src={selectedStall.menuImage} 
+          className="max-w-full max-h-full rounded-lg shadow-2xl object-contain animate-in fade-in zoom-in duration-200" 
+          alt="Menu Full View" 
+        />
+      </div>
+    )}
+</div>  
                 <button 
                   onClick={() => router.push("/foodmap")}
                   className="w-full bg-[#003580] hover:bg-[#002a66] text-white py-4 rounded-2xl font-black mb-8 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-colors"

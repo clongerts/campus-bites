@@ -18,13 +18,8 @@ const LandingPage = () => {
         
         <div className="flex gap-4 items-center">
 
-          <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
-            Map
-          </Link>
-          
-          <Link href="/login" className="bg-[#ffffff] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffe500] transition text-sm" style={{ textDecoration: "none" }}>
-            Login
-          </Link>
+         <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>Map</Link>
+          <Link href="/login" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm" style={{ textDecoration: "none" }}>Login</Link>
         </div>
       </nav>
 
