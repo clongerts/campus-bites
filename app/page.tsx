@@ -47,7 +47,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"></div>
 
         {/* Flex Container for side-by-side cards */}
-        <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-8 pb-4 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
           
           {/* Special Shoutouts (Floating Card) */}
           {/* Linked to /reviews - Wrapped internal content to maintain existing animations */}
@@ -106,7 +106,7 @@ export default function HomePage() {
         </div>
 
         {/* Copyright Footer */}
-        <footer className="mt-auto text-center py-8 text-white text-[10px] font-bold tracking-widest relative z-10">
+        <footer className="mt-auto text-center py-0 text-white text-[10px] font-bold tracking-widest relative z-10">
           © 2026 CAMPUS BITES
         </footer>
       </main>
