@@ -89,11 +89,11 @@ export default function HomePage() {
             <p className="text-[12px] text-gray-600 text-center mb-6 font-medium">
               Scan the QR code to take <br/> Campus Bites on the go!
             </p>
-            <div className="flex justify-center p-4 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+            <div className="flex justify-center items-center p-6 bg-gray-50 rounded-[2rem] border border-dashed border-gray-200 aspect-square w-64 mx-auto">
               <img 
                 src="/images/assets/qr.png" 
                 alt="QR Code" 
-                className="w-40 h-40 object-contain hover:scale-110 transition-transform duration-500" 
+                className="w-full h-full object-contain hover:scale-105 transition-transform duration-500" 
               />
             </div>
             <div className="mt-8 flex justify-center">
