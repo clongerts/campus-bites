@@ -34,9 +34,8 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* --- MAIN CONTENT AREA --- */}
-      <main
-        className="flex-grow relative"
+<main
+        className="flex-grow relative min-h-screen flex flex-col"
         style={{
           backgroundImage: "url('/images/assets/HomeBG.png')",
           backgroundSize: "cover",
@@ -44,12 +43,14 @@ export default function HomePage() {
           backgroundAttachment: "fixed"
         }}
       >
-        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"></div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 flex justify-center lg:justify-start">
+        {/* Flex Container for side-by-side cards */}
+        <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
+          
           {/* Special Shoutouts (Floating Card) */}
-          <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-left duration-500">
-            <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase">
+          <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-left duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-default">
+            <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase tracking-tighter">
               Special Shoutouts<br/>of the Week!
             </h3>
             
@@ -59,7 +60,7 @@ export default function HomePage() {
                 { img: "/images/assets/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
                 { img: "/images/assets/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
               ].map((review, i) => (
-                <div key={i} className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                <div key={i} className="flex items-center gap-4 bg-white/50 p-4 rounded-2xl border border-gray-100 hover:bg-white transition-colors">
                   <img src={review.img} className="w-14 h-14 rounded-full border-2 border-[#2003d4] object-cover shrink-0" />
                   <div>
                     <div className="flex text-[#ffe500] text-xs mb-1">★★★★★</div>
@@ -70,11 +71,33 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+
+          {/* Download App (Floating Card) */}
+          <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-bottom lg:slide-in-from-right duration-700 delay-100 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-default">
+            <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase tracking-tighter">
+              Download Our App!
+            </h3>
+            <p className="text-[12px] text-gray-600 text-center mb-6 font-medium">
+              Scan the QR code to take <br/> Campus Bites on the go!
+            </p>
+            <div className="flex justify-center p-4 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+              <img 
+                src="/images/assets/qr-code.png" 
+                alt="QR Code" 
+                className="w-40 h-40 object-contain hover:scale-110 transition-transform duration-500" 
+              />
+            </div>
+            <div className="mt-8 flex justify-center">
+                <span className="bg-[#2003d4] text-white text-[10px] px-6 py-2 rounded-full font-black tracking-widest animate-pulse">
+                    AVAILABLE NOW
+                </span>
+            </div>
+          </div>
         </div>
 
         {/* Copyright Footer */}
-        <footer className="text-center py-0 text-white text-[10px] font-bold tracking-widest relative z-10">
-          © 2026 Campus Bites
+        <footer className="mt-auto text-center py-8 text-white text-[10px] font-bold tracking-widest relative z-10">
+          © 2026 CAMPUS BITES
         </footer>
       </main>
     </div>
