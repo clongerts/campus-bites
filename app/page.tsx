@@ -34,9 +34,9 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* --- MAIN CONTENT AREA --- */}
+{/* --- MAIN CONTENT AREA --- */}
       <main
-        className="flex-grow relative min-h-screen flex flex-col"
+        className="flex-grow relative flex flex-col"
         style={{
           backgroundImage: "url('/images/assets/HomeBG.png')",
           backgroundSize: "cover",
@@ -46,18 +46,17 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"></div>
 
-        {/* Flex Container for side-by-side cards */}
-        <div className="relative z-10 max-w-7xl mx-auto px-8 pb-4 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
+        {/* Flex Container - Reduced pt-16 to pt-6 to lessen the gap shown in image_d28ad8.png */}
+        <div className="relative z-10 max-w-7xl mx-auto px-8 pt-6 pb-4 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
           
           {/* Special Shoutouts (Floating Card) */}
-          {/* Linked to /reviews - Wrapped internal content to maintain existing animations */}
           <Link href="/reviews" className="w-full max-w-sm block">
             <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 animate-in slide-in-from-left duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-pointer">
               <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase tracking-tighter">
                 Special Shoutouts<br/>of the Week!
               </h3>
               
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {[
                   { img: "/images/assets/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
                   { img: "/images/assets/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
@@ -92,7 +91,7 @@ export default function HomePage() {
             </p>
             <div className="flex justify-center p-4 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
               <img 
-                src="/images/assets/qr.png" 
+                src="/images/assets/qr-code.png" 
                 alt="QR Code" 
                 className="w-40 h-40 object-contain hover:scale-110 transition-transform duration-500" 
               />
@@ -106,10 +105,10 @@ export default function HomePage() {
         </div>
 
         {/* Copyright Footer */}
-        <footer className="mt-auto text-center py-0 text-white text-[10px] font-bold tracking-widest relative z-10">
+        <footer className="text-center py-4 text-white text-[10px] font-bold tracking-widest relative z-10">
           © 2026 CAMPUS BITES
         </footer>
       </main>
-    </div>
+     </div>
   );
 }
