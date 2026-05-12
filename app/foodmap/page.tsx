@@ -184,7 +184,7 @@ function MapInner() {
                   </div>
 
                   <Link 
-                    href={`/stalls?filter=${encodeURIComponent(selectedStall.id)}`}
+                    href={`/wheretodine/inside?filter=${encodeURIComponent(selectedStall.id)}`}
                     className="block w-full py-4 bg-[#ffe500] text-[#2003d4] rounded-2xl font-black text-center mb-4 hover:scale-[1.02] active:scale-95 transition-all shadow-lg no-underline"
                   >
                     VIEW DINING SPOTS AT {selectedStall.id.toUpperCase()}

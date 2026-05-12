@@ -56,7 +56,7 @@ const BiteDeals = () => {
       {/* --- NAVBAR --- */}
       <nav className="border-b border-[#ffffff]/10 py-4 px-8 flex justify-between items-center sticky top-0 bg-[#2003d4] backdrop-blur-md z-50">
         <Link href="/" className="flex items-center" style={{ textDecoration: "none" }}>
-          <img src="/images/1.png" alt="Campus Bites" className="h-8 object-contain" />
+          <img src="/images/assets/1.png" alt="Campus Bites" className="h-8 object-contain" />
         </Link>
         
         <div className="flex gap-4 items-center">
@@ -67,12 +67,8 @@ const BiteDeals = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Link href="/map" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>
-            Map
-          </Link>
-          <Link href="/login" className="bg-[#ffffff] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffe500] transition text-sm" style={{ textDecoration: "none" }}>
-            Login
-          </Link>
+         <Link href="/foodmap" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm shadow" style={{ textDecoration: "none" }}>Map</Link>
+          <Link href="/login" className="bg-[#ffe500] text-[#2003d4] px-5 py-2 rounded-full font-bold hover:bg-[#ffffff] transition text-sm" style={{ textDecoration: "none" }}>Login</Link>
         </div>
       </nav>
 
