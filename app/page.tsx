@@ -34,7 +34,8 @@ export default function HomePage() {
         </div>
       </nav>
 
-<main
+      {/* --- MAIN CONTENT AREA --- */}
+      <main
         className="flex-grow relative min-h-screen flex flex-col"
         style={{
           backgroundImage: "url('/images/assets/HomeBG.png')",
@@ -49,28 +50,37 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12">
           
           {/* Special Shoutouts (Floating Card) */}
-          <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-left duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-default">
-            <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase tracking-tighter">
-              Special Shoutouts<br/>of the Week!
-            </h3>
-            
-            <div className="space-y-6">
-              {[
-                { img: "/images/assets/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
-                { img: "/images/assets/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
-                { img: "/images/assets/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
-              ].map((review, i) => (
-                <div key={i} className="flex items-center gap-4 bg-white/50 p-4 rounded-2xl border border-gray-100 hover:bg-white transition-colors">
-                  <img src={review.img} className="w-14 h-14 rounded-full border-2 border-[#2003d4] object-cover shrink-0" />
-                  <div>
-                    <div className="flex text-[#ffe500] text-xs mb-1">★★★★★</div>
-                    <p className="text-[10px] italic font-medium text-gray-700 leading-tight">"{review.text}"</p>
-                    <p className="text-[9px] font-bold text-[#2003d4] mt-2 text-right">-{review.user}</p>
+          {/* Linked to /reviews - Wrapped internal content to maintain existing animations */}
+          <Link href="/reviews" className="w-full max-w-sm block">
+            <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 animate-in slide-in-from-left duration-700 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-pointer">
+              <h3 className="text-black font-black text-center text-xl leading-tight mb-8 uppercase tracking-tighter">
+                Special Shoutouts<br/>of the Week!
+              </h3>
+              
+              <div className="space-y-6">
+                {[
+                  { img: "/images/assets/rev1.png", text: "Great food and so affordable too!", user: "Anonymous, ISO" },
+                  { img: "/images/assets/rev2.png", text: "The food is so good! Will miss it next year :(", user: "Anonymous, Yatako" },
+                  { img: "/images/assets/rev3.png", text: "My favorite salad stall in ateneo!", user: "Anonymous, Simply" }
+                ].map((review, i) => (
+                  <div key={i} className="flex items-center gap-4 bg-white/50 p-4 rounded-2xl border border-gray-100 hover:bg-white transition-colors">
+                    <img src={review.img} className="w-14 h-14 rounded-full border-2 border-[#2003d4] object-cover shrink-0" />
+                    <div>
+                      <div className="flex text-[#ffe500] text-xs mb-1">★★★★★</div>
+                      <p className="text-[10px] italic font-medium text-gray-700 leading-tight">"{review.text}"</p>
+                      <p className="text-[9px] font-bold text-[#2003d4] mt-2 text-right">-{review.user}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              
+              <div className="mt-6 text-center">
+                <p className="text-[#2003d4] text-[9px] font-black tracking-widest uppercase animate-bounce">
+                  View All Reviews →
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Download App (Floating Card) */}
           <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] p-8 shadow-2xl border border-white/20 w-full max-w-sm animate-in slide-in-from-bottom lg:slide-in-from-right duration-700 delay-100 hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(32,3,212,0.3)] transition-all cursor-default">
@@ -82,7 +92,7 @@ export default function HomePage() {
             </p>
             <div className="flex justify-center p-4 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
               <img 
-                src="/images/assets/qr-code.png" 
+                src="/images/assets/qr.png" 
                 alt="QR Code" 
                 className="w-40 h-40 object-contain hover:scale-110 transition-transform duration-500" 
               />
