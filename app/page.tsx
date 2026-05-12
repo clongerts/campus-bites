@@ -91,7 +91,7 @@ export default function HomePage() {
             </p>
             <div className="flex justify-center p-4 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
               <img 
-                src="/images/assets/qr-code.png" 
+                src="/images/assets/qr.png" 
                 alt="QR Code" 
                 className="w-40 h-40 object-contain hover:scale-110 transition-transform duration-500" 
               />
