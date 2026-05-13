@@ -3,10 +3,21 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
+// 1. ADD THIS INTERFACE TO DEFINE THE SHAPE OF YOUR DATA
+interface Deal {
+  location: string;
+  name: string;
+  deal: string;
+  sponsored: boolean;
+}
+
 const BiteDeals = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // 2. TYPE THE STATE SO IT ACCEPTS THE INTERFACE OR NULL
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
-  const deals = [
+  const deals: Deal[] = [
     {
       location: "REGIS CENTER",
       name: "SUBWAY",
@@ -45,7 +56,6 @@ const BiteDeals = () => {
     },
   ];
 
-  // Filter deals based on search query
   const filteredDeals = deals.filter(deal => 
     deal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     deal.location.toLowerCase().includes(searchQuery.toLowerCase())
@@ -81,7 +91,8 @@ const BiteDeals = () => {
             {filteredDeals.map((item, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-xl p-8 shadow-xl flex flex-col min-h-[240px] relative transition-transform hover:scale-[1.02]"
+                onClick={() => setSelectedDeal(item)} // This resolves the error in image_7294ba.png
+                className="bg-white rounded-xl p-8 shadow-xl flex flex-col min-h-[240px] relative transition-transform hover:scale-[1.02] cursor-pointer"
               >
 
                 {item.sponsored && (
@@ -118,6 +129,38 @@ const BiteDeals = () => {
           </div>
         </div>
       </main>
+
+      {/* --- QR CODE MODAL --- */}
+      {selectedDeal && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+          onClick={() => setSelectedDeal(null)}
+        >
+          <div 
+            className="bg-white p-8 rounded-2xl max-w-sm w-full text-center shadow-2xl"
+            onClick={(e) => e.stopPropagation()} 
+          >
+            {/* These resolve the errors in image_72949c.png */}
+            <h3 className="text-[#2003d4] font-black text-xl mb-2 uppercase">{selectedDeal.name}</h3>
+            <p className="text-gray-600 text-sm mb-6">{selectedDeal.deal}</p>
+            
+            <div className="bg-gray-100 p-4 rounded-xl mb-6 flex items-center justify-center">
+                <img 
+                    src="/images/assets/qr.png" 
+                    alt="QR Code" 
+                    className="max-w-full h-auto block"
+                />
+            </div>
+
+            <button 
+              onClick={() => setSelectedDeal(null)}
+              className="w-full bg-[#2003d4] text-white font-bold py-3 rounded-full hover:opacity-90 transition"
+            >
+              CLOSE
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
